@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Prompt Maker 5000</title>
+<!-- 
+	Code: Copyright (c) 2023 by Brian Risinger
+	
+	Prompt-O-matic prompts (the block of JSON below or the .json file loaded) are public domain and are mostly from https://publicprompts.art/ or from https://www.reddit.com/r/StableDiffusion
+	Support them if you find those prompts useful
+-->	
+<script src="pm5000.js"></script>
+<script>
+function load(){
+
+	
+	setTimeout(pm5Load,100);
+}
+
+function showResults(text){
+	document.getElementById("resultstitle").innerText = "Result:";
+	document.getElementById("close").innerText = "Close";
+	document.getElementById("pm5load").style = "";
+	result.value = text;
+	results.classList.add("open");
+}
+
+function closeResults(){
+	var results = document.getElementById("results");
+	if(results != null){
+		results.classList.remove("open");
+	}
+}
+</script>
+<style>
+h1 {
+	margin-top: 0;
+}
+h3 {
+	margin: 0;
+}
+button {
+	font-weight: bold;
+}
+
+.spacer{
+	display: inline-block;
+	width: 2em;
+}
+.hidden {
+	display: none;
+}
+
+#pm5makeprompt, 
+.results{
+	display: none;
+	position: absolute;
+	background: #eee;
+	border: 2px solid #BDBDBD ; 
+	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+}
+.results{
+	top: 2em;
+	bottom: 2em;
+	left: 2em;
+	right: 2em;
+	padding: 3px;
+}
+#pm5makeprompt{
+	top: 25vh;
+	bottom: 25vh;
+	left: 25vw;
+	right: 25vw;
+	padding: 3px;
+}
+.open, #pm5makeprompt.open {
+	display: block;
+}
+.results textarea#result {
+	width: 95vw;
+	height: 85vh;
+}
+#pm5load{
+	display: none;
+}
+
+
+#pm5prompt{
+	max-width: 85vw;
+}
+#pm5basewl{
+	display:none;
+}
+#pm5wlcontainer{
+	position: relative;
+	height: calc(85vh - 14.5em);
+	width: 100%;
+	margin: 3px;
+	
+	display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(250px, 1fr));
+	gap: 3px;
+	overflow-y: scroll;
+	border: 1px solid grey;
+}
+#pm5wlwrapper h4{
+	margin-bottom: 3px;
+}
+.pm5wordlist {
+	position: relative;
+	height: 150px;
+	width: 250px;
+	border: 1px solid black;
+	background: #ddd;
+	
+	display: flex;
+	flex-direction: column;
+	
+	transition: width 1s, height 1s, top 1s, left 1s, bottom 1s, right 1s, all 1s;
+}
+
+.pm5wordlist.wlselected{
+	background: #ddf;
+}
+
+.pm5expander{
+	position: absolute;
+	top: 1px;
+	right: 3px;
+	font-weight:bold; 
+	font-weight: bolder;
+	cursor: pointer;
+    border: 1px solid grey;
+}
+.expanded{
+    position: absolute;
+    bottom: 15px;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    width: auto;
+    height: auto;
+    box-shadow: 10px 5px 5px grey;
+	z-index: 10;
+}
+.pm5wordlist>h4{
+	flex: initial;
+	margin: 0;
+	padding: 0;
+}
+.pm5wordlist>textarea {
+	flex: auto;
+	margin: 2px;
+}
+#pm5results{
+	height: 15vh;
+	width: 100%;
+}
+textarea#pm5result {
+	width: 93vw;
+	height: calc(15vh - 2em);
+	padding-top: 2px;
+}
+#pm5save{
+	display: inline;
+}
+
+#pm5showcounts {
+	margin-left: 40px;
+}
+
+.info {
+	cursor: zoom-in;/*pointer*/
+}
+
+#pm5imageholder{
+	position: fixed;
+	top: 1px;
+	right: 1px;
+	width: 200px;
+	height: 200px;
+
+	transition: width 1s, height 1s, top 1s, left 1s, bottom 1s, right 1s, all 1s;
+}
+#pm5imageholder.imgexpand{
+	z-index: 5;
+	width: 50vw;
+	height:75vh;
+}
+#pm5imageholder img{
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	object-position: right top;
+}
+
+#pm5makeprompt select,
+#pm5makeprompt input,
+#pm5makeprompt textarea {
+	width: 100%
+}
+
+#pm5generateall{
+	display: none;
+}
+</style>
+</head>
+<body onload="load();">
+
+<h1>Prompt Maker 5000</h1>
+<div id="pm5imageholder"><img id="pm5promptimage" /></div>
+<div>Prompt Type: <select id="pm5prompt"></select><br>
+ Number: <input id=pm5count type=number min=1 max=100 value=5> <span class="spacer"> </span>
+ <input type=checkbox id="pm5pickonce">Pick Once Per Prompt <span class="info" title="If checked, if a word list appears twice in a prompt, will use the same value both times.  If unchecked, will randomly pick a value from the wordlist each time it appears in the prompt.">❔</span> <span class="spacer"> </span>
+ Force Replacement <select id=pm5force></select> with <input id=pm5forcereplace size=25> <span class="info" title="Replace the selected word list reference with the specified text">❔</span> <span class="spacer"> </span>
+ Replace with all options <select id=pm5replaceall></select><input type=checkbox id="pm5replaceallseparate" checked>Separate Prompts<span class=hidden><input type=checkbox id="pm5replaceallrecursive">Recursive</span> <span class="info"  title="Replace the selected word list reference with all possible options (makes a separate prompt for each option when Separate Promots is selected). It is strongly recommended to only generate 1 prompt at a time with this setting on. When Separate Promots is not selected, it makes one prompt that is automatically expanded into many prompts by some AI Art software (CMDR2 / Easy Diffusion)), however this won't work correctly if the items in the word list contain commas, or expand into text that contains commas (flat lists of words recommended).">❔</span><br>
+ <button id="pm5generate" type="button">Make Prompts</button> <span id="pm5possibilities"></span> <button id="pm5generateall" type="button" title="DO NOT USE">Make All Prompts</button>  <span class="spacer"> </span>
+ <button id="pm5addeditprompt" type="button">Add / Edit Prompts</button>
+</div>
+<div id="pm5wlwrapper"><h4>Word Lists:</h4>
+ Add New Word List: <input id="pm5newwl" size=25><button type="button" id="pm5addwl">Add</button> <button type="button" id="pm5showcounts">Show Counts (hover titles)</button>
+<div id="pm5wlcontainer">
+	<div>
+	<div id="pm5wl-a" class="pm5wordlist">
+		<h4>Title a</h4>
+		<textarea id="pm5list-a"></textarea>
+	</div>
+	</div>
+	<div>
+	<div id="pm5wl-b" class="pm5wordlist">
+		<h4>Title b</h4>
+		<textarea id="pm5list-b"></textarea>
+	</div>
+	</div>
+	<div>
+	<div id="pm5wl-c" class="pm5wordlist">
+		<h4>Title c</h4>
+		<textarea id="pm5list-c"></textarea>
+	</div>
+	</div>
+	<div>
+	<div id="pm5wl-d" class="pm5wordlist">
+		<h4>Title d</h4>
+		<textarea id="pm5list-d"></textarea>
+	</div>
+	</div>
+</div>
+</div>
+
+<div id="pm5results">
+<textarea id="pm5result"></textarea><br>
+<button type="button" id="pm5save">Save Settings</button>
+<button type="button" id="pm5loadshow">Load Settings</button>
+</div>
+<div id="pm5basewl">
+	<div id="pm5wl-" class="pm5wordlist">
+		<div class="pm5expander">↔</div>
+		<h4>Title</h4>
+		<textarea id="pm5list-"></textarea>
+	</div>
+</div>
+
+<div id="pm5makeprompt">
+<h4>Add / Edit Prompt</h4>
+<table style="width:98%">
+<tr><td colspan=2>
+	<select id="pm5addeditselect"></select>
+</td></tr>
+<tr><td>
+	Title:</td><td><input id="pm5newprompttitle" size=50>
+</td></tr>
+<tr><td>
+	Prompt:</td><td><textarea id="pm5newprompt" cols=50 rows=3></textarea>
+</td></tr>
+<tr><td>
+	Negative Prompt:</td><td><textarea id="pm5newpromptneg" cols=50 rows=3></textarea>
+</td></tr>
+<tr><td>
+	Tips:</td><td><textarea id="pm5newprompttips" cols=50 rows=3></textarea>
+</td></tr>
+<tr><td>
+	Credit:</td><td><textarea id="pm5newpromptcredit" cols=50 rows=3></textarea>
+</td></tr>
+<tr><td>
+	Image:</td><td><input id="pm5newpromptimage" size=50>
+</td></tr>
+<tr><td>
+	<button type="button" id="pm5addpromptclose">Close</button>
+</td><td>
+	<button type="button" id="pm5addprompt">Add Prompt</button> 
+</td></tr>
+</table>
+</div>
+
+
+<div id="results" class="results">
+<span id=resultstitle>Result:</span>
+<textarea id="result"></textarea>
+<button type="button" id="close">Close</button>
+<button type="button" id="pm5load">Load</button>
+</div>
+
+<!--
+line drawing
+pencil drawing
+monochrome
+black and white
+greyscale
+(((line drawing)))
+(((pencil drawing)))
+(((monochrome)))
+(((black and white)))
+(((greyscale)))
+-->
+
+</body>
+</html>
