@@ -1,6 +1,9 @@
 # AI-Art-Promptmaker
 AI Art Promptmaker will help you generate random ai art prompts based off of prompt templates
 
+You can try it out here:
+https://troz.github.io/AI-Art-Promptmaker/pm5000.html
+or
 
 Download all the files and put them in a directory together.
 If this is on a web server, you should be able to open the pm5000.html file in a browser and it will automatically load the data file.
