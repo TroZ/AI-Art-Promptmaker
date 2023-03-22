@@ -32,6 +32,19 @@ function closeResults(){
 }
 </script>
 <style>
+html, body {
+	height: 100vh;
+	overflow: hidden;
+}
+
+#pm5everything {
+	/*this wraps all normally displayed items, and is the wrapper for the vertical flexbox*/
+	display: flex;
+	flex-direction: column;
+	height: 99vh;
+	overflow: hidden;
+}
+
 h1 {
 	margin-top: 0;
 }
@@ -65,6 +78,7 @@ button {
 	right: 2em;
 	padding: 3px;
 }
+
 #pm5makeprompt{
 	top: 25vh;
 	bottom: 25vh;
@@ -83,28 +97,43 @@ button {
 	display: none;
 }
 
+#pm5title {
+	flex: none;
+}
+
+#pm5promptarea {
+	padding-right: 200px;
+	flex: none;
+}
 
 #pm5prompt{
-	max-width: 85vw;
+	max-width: calc(85vw - 200px);
 }
 #pm5basewl{
 	display:none;
 }
+#pm5wlwrapper{
+	flex: none;
+}
+#pm5wlwrapper h4{
+	margin-bottom: 3px;
+}
 #pm5wlcontainer{
-	position: relative;
-	height: calc(85vh - 14.5em);
+	flex: auto;
+	
 	width: 100%;
-	margin: 3px;
+	margin: 3px 0;
 	
 	display: grid;
     grid-template-columns: repeat(auto-fill,minmax(250px, 1fr));
 	gap: 3px;
 	overflow-y: scroll;
 	border: 1px solid grey;
+	
+	position: relative;
 }
-#pm5wlwrapper h4{
-	margin-bottom: 3px;
-}
+
+
 .pm5wordlist {
 	position: relative;
 	height: 150px;
@@ -152,12 +181,13 @@ button {
 	margin: 2px;
 }
 #pm5results{
-	height: 15vh;
+flex: none;
+	height: 15em;
 	width: 100%;
 }
 textarea#pm5result {
 	width: 93vw;
-	height: calc(15vh - 2em);
+	height: 13em;
 	padding-top: 2px;
 }
 #pm5save{
@@ -202,22 +232,32 @@ textarea#pm5result {
 #pm5generateall{
 	display: none;
 }
+
+label, .nowrap {
+	white-space: nowrap;
+}
+
 </style>
 </head>
 <body onload="load();">
-
-<h1>Prompt Maker 5000</h1>
+<div id="pm5everything">
+<h1 id="pm5title">Prompt Maker 5000</h1>
 <div id="pm5imageholder"><img id="pm5promptimage" /></div>
-<div>Prompt Type: <select id="pm5prompt"></select><br>
- Number: <input id=pm5count type=number min=1 max=100 value=5> <span class="spacer"> </span>
- <input type=checkbox id="pm5pickonce">Pick Once Per Prompt <span class="info" title="If checked, if a word list appears twice in a prompt, will use the same value both times.  If unchecked, will randomly pick a value from the wordlist each time it appears in the prompt.">❔</span> <span class="spacer"> </span>
- Force Replacement <select id=pm5force></select> with <input id=pm5forcereplace size=25> <span class="info" title="Replace the selected word list reference with the specified text">❔</span> <span class="spacer"> </span>
- Replace with all options <select id=pm5replaceall></select><input type=checkbox id="pm5replaceallseparate" checked>Separate Prompts<span class=hidden><input type=checkbox id="pm5replaceallrecursive">Recursive</span> <span class="info"  title="Replace the selected word list reference with all possible options (makes a separate prompt for each option when Separate Promots is selected). It is strongly recommended to only generate 1 prompt at a time with this setting on. When Separate Promots is not selected, it makes one prompt that is automatically expanded into many prompts by some AI Art software (CMDR2 / Easy Diffusion)), however this won't work correctly if the items in the word list contain commas, or expand into text that contains commas (flat lists of words recommended).">❔</span><br>
- <button id="pm5generate" type="button">Make Prompts</button> <span id="pm5possibilities"></span> <button id="pm5generateall" type="button" title="DO NOT USE">Make All Prompts</button>  <span class="spacer"> </span>
+<div id="pm5promptarea">
+ <span class="nowrap"><label for="pm5prompt">Prompt Type: </label><select id="pm5prompt"></select></span><br>
+ <span class="nowrap"><label for="pm5count">Number:</label><input id=pm5count type=number min=1 max=100 value=5></span> <span class="spacer"> </span>
+ <span class="nowrap"><input type=checkbox id="pm5pickonce"><label for="pm5pickonce">Pick Once Per Prompt</label> <span class="info" title="If checked, if a word list appears twice in a prompt, will use the same value both times.  If unchecked, will randomly pick a value from the wordlist each time it appears in the prompt.">❔</span></span> <span class="spacer"> </span>
+ <span class="nowrap"><input type=checkbox id="pm5equalprobability"><label for="pm5equalprobability">Equal Probability</label> <span class="info" title="If checked, all items in the word list will be given equal probability. This includes the items in word lists referenced by this word list (but only for one level).">❔</span></span> <span class="spacer"> </span>
+ <span class="nowrap"><label for="pm5force">Force Replacement <select id=pm5force></select> <label for="pm5forcereplace">with</label> <input id=pm5forcereplace size=25> <span class="info" title="Replace the selected word list reference with the specified text">❔</span></span> <span class="spacer"> </span>
+ <span class="nowrap"><label for="pm5replaceall">Replace with all options:</label><select id=pm5replaceall></select> <input type=checkbox id="pm5replaceallseparate" checked><label for="pm5replaceallseparate">Separate Prompts</label> <span class=hidden><input type=checkbox id="pm5replaceallrecursive">Recursive</span> <span class="info"  title="Replace the selected word list reference with all possible options (makes a separate prompt for each option when Separate Promots is selected). It is strongly recommended to only generate 1 prompt at a time with this setting on. When Separate Promots is not selected, it makes one prompt that is automatically expanded into many prompts by some AI Art software (CMDR2 / Easy Diffusion)), however this won't work correctly if the items in the word list contain commas, or expand into text that contains commas (flat lists of words recommended).">❔</span></span><br>
+ <span class="nowrap"><button id="pm5generate" type="button">Make Prompts</button> <span id="pm5possibilities"></span></span> <button id="pm5generateall" type="button" title="DO NOT USE">Make All Prompts</button>  <span class="spacer"> </span>
  <button id="pm5addeditprompt" type="button">Add / Edit Prompts</button>
 </div>
 <div id="pm5wlwrapper"><h4>Word Lists:</h4>
- Add New Word List: <input id="pm5newwl" size=25><button type="button" id="pm5addwl">Add</button> <button type="button" id="pm5showcounts">Show Counts (hover titles)</button>
+ <span class="nowrap"><label for="pm5newwl">Add New Word List:</label><input id="pm5newwl" size=25><button type="button" id="pm5addwl">Add</button> 
+ <span class="info" title="Word Lists are lists of words or phrases separated by newlines that can be referenced in the prompts. The references are the word list name surrounded by angle brackets (<>). Word lists themselves can contain references to other word lists. A particular item in a word list can start with a number followed by a color (2:red), which will give a weight to that item. Normally, each item in a word list has an equal probability, but giving a weight will make that item more likely, as if it was in the list the number of times of it's weight (unless 'Equal Probability' is chosen).">❔</span></span> <span class="spacer"> </span>
+ <button type="button" id="pm5showcounts">Show Counts (hover titles)</button>
+</div>
 <div id="pm5wlcontainer">
 	<div>
 	<div id="pm5wl-a" class="pm5wordlist">
@@ -244,7 +284,7 @@ textarea#pm5result {
 	</div>
 	</div>
 </div>
-</div>
+
 
 <div id="pm5results">
 <textarea id="pm5result"></textarea><br>
@@ -257,6 +297,7 @@ textarea#pm5result {
 		<h4>Title</h4>
 		<textarea id="pm5list-"></textarea>
 	</div>
+</div>
 </div>
 
 <div id="pm5makeprompt">

@@ -44,7 +44,7 @@
             "name": "Pick Once Test",
             "value": "a portrait of a <animal>girl with <animal> ears.",
             "neg": null,
-            "tips": null,
+            "tips": "With pick once enabled, both <animal> references will be the same animal, giving a more consistant image.",
 			"credit": "TroZ",
 			"image": ""
         },
@@ -345,6 +345,14 @@
 			"image": "https://preview.redd.it/35nhs1m6wkna1.png?width=832&format=png&auto=webp&v=enabled&s=795817b8da96d007510fbfdf17bc44a320fdb688"
         },
         {
+            "name": "Escape (Pina Colada Song)",
+            "value": "<pina colada generator>",
+            "neg": "",
+            "tips": "",
+			"credit": "Rupert Holmes",
+			"image": ""
+        },
+        {
             "name": "Expermental Prompts",
             "value": "",
             "neg": "",
@@ -363,8 +371,8 @@
         {
             "name": "Amusement Park Rides",
             "value": "amusement park, a very beautiful highly detailed, (<amusement park ride type> at <amusement park>:1.3), by Ross Tran, rossdraws, fantasy concept art, fantasy art, epic fantasy card game art, full art illustration, trending on Artstation",
-            "neg": null,
-            "tips": null,
+            "neg": "poor quality resolution, incoherent, poorly drawn, low quality, bad resolution, deformed, disfigured, disjointed, out of frame, duplicate, watermark, signature, text, ugly, morbid, mutated, deformed, blurry",
+            "tips": "Steps: 25, Seed: 2876525869, Sampler: DDIM, CFG scale: 7.5, Model: NL 0.2",
 			"credit": "https://neural.love/ai-art-generator/1edb731f-022b-64d8-afea-3ddd7d6c11cb/disney-world",
 			"image": "https://neural.love/cdn/ai-photostock/1edb731f-022b-64d8-afea-3ddd7d6c11cb/1.jpg?Expires=1682899199&Signature=2CTJHbccAv63oR6y94thgF1Z35fXkAtabcwzb1TWXwPKJM7Wh~tH4JXITj8kQ8pUTksRmTVNYsR7pXCjtxy~5OvRxLFZqHMM8rb~ZKOZ2rmy7HjKCYuDXiVl68RrZgPFSUfYdtZy8k-v5b9qEyk-n5OHs195kZ~AUcSuTBcqmLj1345XVPkTFnqLpr8Gl0avsEcEZ41sKKyCw6iJ177d0bs2RpGZrIew-KQGfPgSWO5hBkS9jzXSmCkX7o5zRuO4Ge1cTPyB8p8PEGuSuUmj4SYgcDI~v7s98f1RT98ZhOqMG0UDugw1y1Bm3rSgv7SiOub3pq7aFk5M-B~XdBRjXA__&Key-Pair-Id=K2RFTOXRBNSROX"
         },
@@ -473,8 +481,8 @@
 			"image": ""
         },
         {
-            "name": "Sculptures of Papier-mâché",
-            "value": "4k highly detailed digital sculpture of a <papier mache age> <wmgender word>, hair disintegrating into <papier mache hair> made up entirely of multicolored Papier-mâché, 35mm 1.4f, light particles, haze, halation, bloom, dramatic atmosphere, centered, rule of thirds, dramatic pose",
+            "name": "Sculptures of Papier-mache",
+            "value": "4k highly detailed digital sculpture of a <papier mache age> <wmgender word>, hair disintegrating into <papier mache hair> made up entirely of multicolored Papier-mache, 35mm 1.4f, light particles, haze, halation, bloom, dramatic atmosphere, centered, rule of thirds, dramatic pose",
             "neg": "",
             "tips": "Steps: 20, Sampler: Heun, CFG scale: 7, Seed: 2986626892, Size: 768x1024, Model hash: 77e392958a, Model: realisticVisionV13_v13, ENSD: 31337",
 			"credit": "",
@@ -499,7 +507,7 @@
         {
             "name": "Cute Fluffy Things",
             "value": "<cute fluffy things generator>",
-            "neg": " simultaneous,bad anatomy, low-res, (watermarks:1.2), username, paintings, sketches, (worst quality:2), (low quality:2), (normal quality:2), monochrome, grayscale, (easynegative:1.3), ng_deepnegative_v1_75t bad anatomy, low-res, poorly drawn face, disfigured hands, poorly drawn eyebrows, bad body perspective, animal tail, anime, nipples, pussy, wrong anatomy, poorly drawn legs, wrong perspective legs, poorly drawn hands, (bad-hands-5:1.8), wrong hand, yellow light, canvas frame, cartoon, 3d, ((disfigured)), ((bad art)), ((deformed)),((extra limbs)),((close up)),((b&w)), wierd colors, blurry, (((duplicate))), ((morbid)), ((mutilated)), [out of frame], signature, watermarks",
+            "neg": " simultaneous,bad anatomy, low-res, (watermarks:1.2), username, paintings, sketches, (worst quality:2), (low quality:2), (normal quality:2), monochrome, grayscale, (easynegative:1.3), ng_deepnegative_v1_75t bad anatomy, low-res, poorly drawn face, disfigured hands, poorly drawn eyebrows, bad body perspective, animal tail, anime, nipples, pussy, wrong anatomy, poorly drawn legs, wrong perspective legs, poorly drawn hands, (bad-hands-5:1.8), wrong hand, yellow light, canvas frame, cartoon, 3d, ((disfigured)), ((bad art)), ((deformed)),((extra limbs)),((close up)),((b&w)), weird colors, blurry, (((duplicate))), ((morbid)), ((mutilated)), [out of frame], signature, watermarks",
             "tips": "ENSD: 31337, Size: 896x1344, Seed: 1024008030, Model: FaeTastic, Steps: 40, Sampler: DPM++ SDE Karras, CFG scale: 10, Mask blur: 4, Model hash: 46d105afa7, Denoising strength: 0.3 Model: https://civitai.com/models/14065/faetastic Embeddings Used: https://civitai.com/models/7523/style-sylva-magic, https://civitai.com/models/6339/style-nebula-magic",
 			"credit": "",
 			"image": ""
@@ -525,8 +533,8 @@
             "value": "highly detailed <statue prompt stone> and <statue prompt gem> sculpture of a <wmgender word> <fantasy job>, volumetric fog, Hyperrealism, breathtaking, ultra realistic, unreal engine, ultra detailed, <punk type> background, Hyperrealism, cinematic lighting, highly detailed, breathtaking, photography, stunning environment, wide-angle",
             "neg": " cgi, 3d, doll, octane, render, bad anatomy, blurry, fuzzy, extra arms, extra fingers, poorly drawn hands, disfigured, tiling, deformed, mutated",
             "tips": "Size: 512x768  seed: 356942945  steps: 50  sampler: k_euler_ancestral  Guidance scale: 12",
-			"credit": "",
-			"image": ""
+			"credit": "Rachey13x https://prompthero.com/prompt/11c7ef7c1e8",
+			"image": "https://prompthero.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWs1TXpobE16QmtPUzA0TVRNd0xUUm1aakF0WVRVMlpTMWpaR013WVdSbE9XSmtNV1VHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--b10dd112b07d1070434d8ab35eef7d2b0c7c9cf1/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9MWm05eWJXRjBPZ2wzWldKd09oUnlaWE5wZW1WZmRHOWZiR2x0YVhSYkIya0NBQVJwQWdBRU9ncHpZWFpsY25zSk9oTnpkV0p6WVcxd2JHVmZiVzlrWlVraUIyOXVCam9HUlZRNkNuTjBjbWx3VkRvT2FXNTBaWEpzWVdObFZEb01jWFZoYkdsMGVXbEIiLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--f753885922b37d6e6788eb7c04f7caf6e86de707/prompthero-prompt-11c7ef7c1e8.PNG"
         },
         {
             "name": "IWF Female Wrestlers",
@@ -658,8 +666,8 @@
         },
         {
             "name": "Fae Characters",
-            "value": "award winning character concept art of anime <fae character> <fae character location> art in the style of Style-NebMagic, 8k, happiness, laughing, sunlight, intricate detailed iridescent <wearing2> made by Style-SylvaMagic, close up, warm soft color grading, (4k resolution:1.1), hyper-realistic, (ultra-detailed:1.3), beautiful eyes, large eyes, <eye color> eyes, wet skin, full body",
-            "neg": "bad anatomy, low-res, (watermarks:1.2), username, paintings, sketches, (worst quality:2), (low quality:2), (normal quality:2), monochrome, grayscale, (easynegative:1.1), bad anatomy, low-res, poorly drawn face, disfigured hands, poorly drawn eyebrows, bad body perspective, animal tail, anime, nipples, pussy, wrong anatomy, poorly drawn legs, wrong perspective legs, poorly drawn hands, (bad-hands-5:1.8), wrong hand, yellow light, canvas frame, cartoon, 3d, ((disfigured)), ((bad art)), ((deformed)),((extra limbs)),((close up)),((b&w)), wierd colors, blurry, (((duplicate))), ((morbid)), ((mutilated)), [out of frame], signature, watermarks, ng_deepnegative_v1_75t",
+            "value": "award winning character concept art of anime <fae character> <fae character location>, art in the style of Style-NebMagic, 8k, happiness, laughing, sunlight, intricate detailed iridescent <wearing2> made by Style-SylvaMagic, close up, warm soft color grading, (4k resolution:1.1), hyper-realistic, (ultra-detailed:1.3), beautiful eyes, large eyes, <eye color> eyes, wet skin, full body",
+            "neg": "bad anatomy, low-res, (watermarks:1.2), username, paintings, sketches, (worst quality:2), (low quality:2), (normal quality:2), monochrome, grayscale, (easynegative:1.1), bad anatomy, low-res, poorly drawn face, disfigured hands, poorly drawn eyebrows, bad body perspective, animal tail, anime, nipples, pussy, wrong anatomy, poorly drawn legs, wrong perspective legs, poorly drawn hands, (bad-hands-5:1.8), wrong hand, yellow light, canvas frame, cartoon, 3d, ((disfigured)), ((bad art)), ((deformed)),((extra limbs)),((close up)),((b&w)), weird colors, blurry, (((duplicate))), ((morbid)), ((mutilated)), [out of frame], signature, watermarks, ng_deepnegative_v1_75t",
             "tips": "Model: https://civitai.com/models/14065/faetastic Use embeddings and LoRAs mentioned in description VAE: kl-f8-anime2  Sampler: DPM++ SDE Karras  CFG scale: 12  Steps: 40",
 			"credit": "vault_guy https://old.reddit.com/r/StableDiffusion/comments/11qegkn/some_disney_princesses_made_with_faetastic/",
 			"image": "https://preview.redd.it/jyois0hgajna1.png?width=320&crop=smart&auto=webp&v=enabled&s=e9c4444df7c276b2ed059327d3905384854a0820"
@@ -698,7 +706,7 @@
         },
         {
             "name": "Beautiful Woman Underwater",
-            "value": "beautful woman <beautiful woman underwater target> bathing in the luminous water, <woman swimsuit description> underwater, intricate, sensual features, dewy skin, reflective skin, <beautiful woman underwater background>, highly detailed, divine holy perfection, digital painting, artstation, concept art, smooth, sharp focus, warm lighting, illustration, art by artgerm and greg rutkowski and alphonse mucha",
+            "value": "beautiful woman <beautiful woman underwater target> bathing in the luminous water, <woman swimsuit description> underwater, intricate, sensual features, dewy skin, reflective skin, <beautiful woman underwater background>, highly detailed, divine holy perfection, digital painting, artstation, concept art, smooth, sharp focus, warm lighting, illustration, art by artgerm and greg rutkowski and alphonse mucha",
             "neg": "b&w, out of frame, disfigured, ugly, low-res, Deformed, blurry, bad anatomy, disfigured, poorly drawn face, mutated, extra limb, poorly drawn hands, missing limb, blurry, floating limbs, disconnected limbs, malformed hands, long neck, long body, disgusting, poorly drawn, childish, mangled, old, text",
             "tips": "Steps / CFG-strength: 27 / 7.5, Model: Deliberate_V2, HighRes-Strength: 0.7, Sampler: k_dpmpp_2",
 			"credit": "Easy1611 https://old.reddit.com/r/StableDiffusion/comments/11onmkc/beautiful_woman_underwater/",
@@ -813,16 +821,16 @@
             "value": "Screenshot from Video-game, retro <retro video game bits>, <video game character>, <retro video game system>, <retro video game game>, <retro video game game>",
             "neg": "bad art, strange colors, sketch, lacklustre, repetitive, cropped, lowres, old, deformed, childrish, ugly, duplicate, morbid, mutilated, out of frame, extra fingers, mutated hands, poorly drawn hands, poorly drawn face, mutation, deformed, blurry, bad anatomy, bad proportions, extra limbs, cloned face, disfigured, malformed limbs, missing arms, missing legs, extra arms, extra legs, mutated hands, long neck, bad composition, compressed, low quality, text, watermark, cropped, worst quality, jpeg artifacts, signature, asymmetrical eyes, split images",
             "tips": "Steps: 25, Sampler: DDIM, CFG scale: 7.5, Model: NL 0.2",
-			"credit": "",
-			"image": ""
+			"credit": "https://neural.love/ai-art-generator/1eda9a33-0bc2-696c-998f-6b703c424360/screenshot-from-video-game-retro-16-bits-sega-megadrive-snes-shinobi-ninja-gaiden",
+			"image": "https://neural.love/cdn/ai-photostock/1eda9a33-0bc2-696c-998f-6b703c424360/1.jpg?Expires=1682899199&Signature=DO4IE87Tcqzg-AMNi5z-Jb1j9R0HZlFsaFjby5X6mNMEK25qdnTzpPqXtwf96yVv5Zj9REejTby3YthV08ArclPKT6c3wDznDe3qGsRUFMJTA6nKZ4ZS05690QA2JhIaC8icHmegiY8Bg8ju2bfMntfBXs0J9aadYJ9DpX8NeJp3c-uM6-xknWwFIEZCyWCkv2LLN2xcff46SpPIHRaI7CXrkVpciMlHNgsmejkWJyMl1U-YY6w4ZFmyQITGhV6e7JCW0DXN8LjLhSf3hKfiwEaynbsmisG6gZZamLPfuT2ldOGthxEghXOlPbp32hnj7HK81Y5tuD-7q9~Ca5JJOw__&Key-Pair-Id=K2RFTOXRBNSROX"
         },
         {
             "name": "Crazy Creatures",
             "value": "A hasselblad photo of amazing (<animal> monster made of <crazy creatures material>:1.2), pastel, character, standing, soft smooth lighting, <color style>, character design, cute 3d character, 80s, <retro video game bits>, <color style>, by Justin Gerard, cosmic architecture, set pieces, many parts, <punk type> art, trending on Artstation, 80s outrun, 4k detail fantasy, cassette, cute detailed artwork, beeple and jeremiah ketner, 80s photo, <color> color palette, <feel>, <sprinkles>",
             "neg": "sketch, lacklustre, repetitive, cropped, lowres, old, deformed, childish, ugly, duplicate, morbid, mutilated, out of frame, extra fingers, mutated hands, poorly drawn hands, poorly drawn face, mutation, deformed, blurry, bad anatomy, bad proportions, extra limbs, cloned face, disfigured, malformed limbs, missing arms, missing legs, extra arms, extra legs, mutated hands, long neck, bad composition, compressed, low quality, text, watermark, cropped, worst quality, jpeg artifacts, signature, asymmetrical eyes, blender3d",
-            "tips": "Steps: 25, Sampler: DDIM, CFG scale: 7.5  https://neural.love/ai-art-generator/1edc2d44-f750-6fe6-9015-1fc59b20405b/snake-monster-made-of-gears",
-			"credit": "",
-			"image": ""
+            "tips": "Steps: 25, Sampler: DDIM, CFG scale: 7.5",
+			"credit": "https://neural.love/ai-art-generator/1edc2d44-f750-6fe6-9015-1fc59b20405b/snake-monster-made-of-gears",
+			"image": "https://neural.love/cdn/ai-photostock/1edc2d44-f750-6fe6-9015-1fc59b20405b/1.jpg?Expires=1682899199&Signature=D5gTKlY2PJbzLkJIRkTyy2JVXfRn0kn4h~hAn0D6D5aCuiji7afC8v3Uf89xQPVmv2YoxqAeduvye~zcP10tQdeogBzQJx1uxkbyAApYZf~bjT4r0-eiVIbrsad1J~kjPPwyi9OYUjNhW48DOKTkPNu-vuhV3tPrSGpZZ1Q5nwCNXX8BOz-dacRXc8u6VgrHm6xOlJjAHvXDc6Co5ihnjl2-yB34qGURezQMaMlmTsC9iuKLCL9eROzufj0s3GSmukOVwQK0ZkPD3BkyhipY6YP4c3Azg4lAwzkGhLiGBJRBy6y4xJALUyvUI-OV-vAet5rNtUSTEXVv10SnIeUqbA__&Key-Pair-Id=K2RFTOXRBNSROX"
         },
         {
             "name": "Frontlines of Mech WWII",
@@ -962,13 +970,165 @@
         },
 		{
             "name": "This is Too Delicious",
-            "value": "(best quality), (masterpiece), (high resolution), outdoors, detailed_background, bowl, greece, picnick, fresh <fruit>, <candy desert type>, pie, rainbow sprinkles, whipped cream, easter eggs, oddly satisfying, food, subsurface scattering, octane render 8k",
+            "value": "(best quality), (masterpiece), (high resolution), outdoors, detailed_background, bowl, greece, picnick, fresh <fruit type>, <candy desert type>, pie, rainbow sprinkles, whipped cream, easter eggs, oddly satisfying, food, subsurface scattering, octane render 8k",
             "neg": "asian, paintings, sketches, (worst quality:2), (low quality:2), (normal quality:2), lowres, ((monochrome)), ((grayscale)), (blurry), strabismus",
             "tips": "Steps: 20, Sampler: DPM++ 2M Karras, CFG scale: 6, Seed: 575719823, Size: 696x512, Model hash: 52b7098730,\nModel: 0.6(aBest_fantasticmix_v10) + 0.4(kotosmix_v10 + 1(noiseOffsetForTrue_v10 - SD-1-5)), ENSD: 31337\nModel is made with first add difference: kotosMix + noiseOffset - SD1.5 (1.0 multiplier)\nThen the resulting model, weighted sum: fantasticmix + kotosNoise (0.6 multiplier)\nhttps://civitai.com/models/20632/fantasticmix\nhttps://civitai.com/models/5245/kotosmix\nhttps://civitai.com/models/10391/noise-offset-for-true-darkness-in-sd\nBut I'm pretty sure you get similar results with fantasticMix on its own.",
 			"credit": "Jonfreakr https://old.reddit.com/r/StableDiffusion/comments/11uhpnw/this_is_too_delicious/",
 			"image": "https://preview.redd.it/j6u082o6cgoa1.png?width=696&auto=webp&v=enabled&s=a02f002944a9831ea527b09a7db80b71005ae3df"
         },
 		{
+            "name": "Vehicle (and other stuff) Infographic",
+            "value": "highly detailed infographic of <punk type> <vehicle infographic subject> found in popular mechanics magazine, vintage, intricate detail, digital art, digital painting, concept art, poster, award winning, max detail",
+            "neg": "",
+            "tips": "",
+			"credit": "JHawkk https://prompthero.com/prompt/5ebcfb71f95",
+			"image": "https://i.ibb.co/K0tZRJT/2022-09-24-23-09-10-1-692642893-scale8-00-k-euler-a-1.png"
+        },
+        {
+            "name": "Circuit City",
+            "value": "Dark <punk type>, circuit board, small city buildings as transistors, dark background, desktop wallpaper, 4k , 8k, unreal engine, octane render, <extra details>",
+            "neg": "nfixer, nrealfixer",
+            "tips": "Steps: 31, Sampler: Euler a, CFG scale: 7, Seed: 2219479755, Size: 1360x768, Model hash: cae1bee30e, Model: General_illuminatiDiffusionV1_v11",
+            "credit": "runew0lf https://old.reddit.com/r/StableDiffusion/comments/11vkejq/circuit_city/",
+            "image": "https://preview.redd.it/3snn4t5ayooa1.png?width=1024&auto=webp&v=enabled&s=10b1c4f26af6e7df586a085bb03c68d07cbfd087"
+        },
+        {
+            "name": "Pocket Dragons (and others) (used Pick Once)",
+            "value": "a photorealistic pocket monster with <pocket dragons item>, one head, single head, four paws, two wings, lovely eyes, cute eyes, big eyes, lovable, lovely, kawaii, cute, small, petite, petite <fantasy animal>, precious <fantasy animal>, highly detailed, tiny <fantasy animal>, classical <fantasy animal>, basic <fantasy animal>, sharp, uhd, high quality, concept art, beautiful <fantasy animal>, delicate shapes, soft, soft light, volumetric light, 70mm, photography lens, photographic quality, 8k, 4k, quhd, hyperrealism, realism, perfect symmetry, symmetric",
+            "neg": "extra limbs, deformed limbs, mangled, weird, bad quality, poor design, cluttered elements, bad design, incorrect style, inconsistent style, incorrect claws, incorrect wings, wrong wings, bad wings, bad claws, bad textures, low quality textures, multiple heads, more than one head, extra bodies, extra subjects, double subjects, multiple subjects",
+            "tips": "model RPG, Guidance Scale 7, Step Count 30, Sampler Euler Discrete",
+            "credit": "love1008 https://old.reddit.com/r/StableDiffusion/comments/11veioo/pocket_dragons/",
+            "image": "https://preview.redd.it/z5x4ud5pdnoa1.png?width=1024&auto=webp&v=enabled&s=24c305240a3683b771d481de6379046c4174f059"
+        },
+        {
+            "name": "Underwater Princess",
+            "value": "professional DLSR photo, poster of a gorgeous woman <fantasy job>, detailed gorgeous face, beautiful young woman, jellyfish armor details, coral armor details, <face description short>, (vibrant colors:1.3), revealing armor, intricate, elegant, Hyperrealism , under water ruins background, cinematic lighting, highly detailed, illustration, digital art, digital painting, masterpiece, breathtaking, raytracing, <lora:epiNoiseoffset_v2:1>",
+            "neg": "lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, artist name,EasyNegative, bad_quality, bad-image-v2-39000, bad-hands-5, vile_prompt3",
+            "tips": "Steps: 30, Sampler: DPM++ 2M Karras, CFG scale: 7, Model: theAllysMixIII_v10\n\nUsed embeddings: EasyNegative [119b], bad_quality [5733], bad-image-v2-39000 [b03e], bad-hands-5 [10ca], vile_prompt3 [3190]",
+            "credit": "Spaceronz https://old.reddit.com/r/StableDiffusion/comments/11vi6x2/underwater_princess/",
+            "image": "https://b.thumbs.redditmedia.com/DYtTXsm7fVdOmFhVA27igf3AJU_YMtCbNY-ebW-vXSc.jpg"
+        },
+        {
+            "name": "Fatima",
+            "value": "Feature a soft, lustrous, full-bodied <nationality> woman in a <punk type> setting, highly detailed, intricate features, cyborg, curves, perfect face, golden ratio, wearing gloves, decadent, elegant aesthetic, Ottoman architecture, Octane Render, high-quality digital rendering, ArtStation, concept art, smooth, sharp focus, by Artgerm, Loish, Wlop, Ilya Kuvshinov, Greg Rutkowski, and Alphonse Mucha, thicc thighs",
+            "neg": "blur haze, ((((ugly)))), (((duplicate))), ((morbid)), ((mutilated)), [out of frame], extra fingers, mutated hands, ((poorly drawn hands)), ((poorly drawn face)), (((mutation))), (((deformed))), ((ugly)), blurry, ((bad anatomy)), (((bad proportions))), ((extra limbs)), cloned face, (((disfigured))). out of frame, ugly, extra limbs, (bad anatomy), gross proportions, (malformed limbs), ((missing arms)), ((missing legs)), (((extra arms))), (((extra legs))), mutated hands, (fused fingers), (too many fingers), (((long neck)))",
+            "tips": "Steps: 80, Sampler: DPM++ SDE Karras, CFG scale: 7, Seed: 401808092, Size: 768x1024, Model: fruitFusion_ver1OFR2",
+            "credit": "__fknuts__ https://old.reddit.com/r/StableDiffusion/comments/11vwl7f/fatima/",
+            "image": "https://i.redd.it/w3dgxqla9roa1.png"
+        },
+		{
+            "name": "Abstract Wallpapers",
+            "value": "<abstract wallpaper generator>",
+            "neg": "Negative prompt: bad, ugly, monstrous, repulsive, grotesque, poorly, deformed, boring, sketch, b&w, blurry, blur, morbid, mutilated, mutation, malformed, mutated, photomanipulation, video game, poorly drawn, cross-eye, plain, signature, scribble",
+            "tips": "Steps: 24, Sampler: DPM++ 2M Karras, CFG scale: 11, Seed: 3023656658, Size: 800x1200, Model hash: c464e27568, Model: model, Denoising strength: 0.89, Mask blur: 4",
+			"credit": "Asleep-Land-3914 https://www.reddit.com/r/StableDiffusion/comments/11fix85/made_some_abstract_wallpapers_for_you_with/",
+			"image": "https://preview.redd.it/2033pm6i47la1.png?width=320&crop=smart&auto=webp&v=enabled&s=98360af6b033ab3f08ab956706cee3199b97093b"
+        },
+		{
+            "name": "Butterflies and Mushrooms",
+            "value": "(too many butterflies:1.5), (huge butterflies, glowing mushroom, super mushroom, glowing butterfly, <butterfly color> butterfly, no humans:1.5), best quality, masterpiece, highly detailed, RAW, analog style, sharp focus, volumetric fog, 8k uhd, dslr, film grain, <butterfly background> background, <hypernet:2nvinkpunk:1.0>, (dreamlikeart:0.3), (modelshoot style:0.3), fantasy art by studio ghibli, Shinkai Makoto, Artstation, High contrast!, <extra details>",
+            "neg": "(nsfw:1.0),(tatoo, freckles,things on face :1.2),(bad-artist, bad_bad04, bad_prompt_version2, :0.8), (frame:1.2),(nsfw:1.0),(tatoo, freckles,things on face :1.2),(bad-artist, bad_bad04, bad_prompt_version2, :0.8),(txt:1.2),Scribbles,Low quality,Low rated,Mediocre,3D rendering,Screenshot,Software,UI,watermark,signature",
+            "tips": "Steps: 20, Sampler: DPM++ 2M Karras, CFG scale: 7, Denoising strength: 0.6, ENSD: 31337, Hires upscale: 2, Hires steps: 10, Hires upscaler: Latent, Model: https://civitai.com/models/1540/unstableinkdream V7.0  and add noise offset https://civitai.com/models/10391/noise-offset-for-true-darkness-in-sd",
+			"credit": "mayasoo2020 https://old.reddit.com/r/StableDiffusion/comments/11ummmr/butterflies_and_mushrooms/",
+			"image": "https://preview.redd.it/6hp77t0jmhoa1.png?width=960&crop=smart&auto=webp&v=enabled&s=d53804af48d96609259598b447b9fd89cb35c61b"
+        },
+		{
+            "name": "Rainy night in the city",
+            "value": "photo of beautiful nude <hair color> hair woman walking on a downtown street, <color> dress, <interesting decade>s <city name>, lightning strike, cloudy night, film noir, thomas kinkade",
+            "neg": "(worst quality, low quality:1.4), (lip, nose, tooth, rouge, lipstick, eyeshadow:1.4), ( jpeg artifacts:1.4), (depth of field, bokeh, blurry, film grain, chromatic aberration, lens flare:1.0), (1boy, abs, muscular, rib:1.0), greyscale, monochrome, dusty sunbeams, trembling, motion lines, motion blur, emphasis lines, text, title, logo, signature",
+            "tips": "Steps: 20, Sampler: Euler a, CFG scale: 6, Seed: 840741945, Size: 512x768, Model hash: f427dd7a4f, Model: theAllysMixIII_v10, Denoising strength: 0.5, Hires upscale: 2, Hires upscaler: None\nOriginal negative prompt started with umbrella, but I think umbrellas go well with these images.",
+			"credit": "uncomfortableapology https://old.reddit.com/r/StableDiffusion/comments/11w2fr1/rainy_night_in_the_city/",
+			"image": "https://preview.redd.it/q0zy117xcsoa1.png?width=512&auto=webp&v=enabled&s=f226e34ecbb3d35bed497f6648bd3a244c409f85"
+        },
+		{
+            "name": "Futuristic Fashion Photoshoot",
+            "value": "fashion photoshoot, futuristic, beautiful face, female posing, chrome outfit, surreal landscape, photo in 90's fashion style, <face description short>, medium format, iso 400, surrealistic, 8k, Ultra hd Realistic, (1girl)",
+            "neg": "(monochrome:1.3), (oversaturated:1.3), bad hands, lowers, 3d render, cartoon, long body, wide hips, narrow waist, disfigured, ugly, cross eyed, squinting, grain, Deformed, blurry, bad anatomy, poorly drawn face, mutation, mutated, extra limb, ugly, poorly drawn hands, missing limb, floating limbs, disconnected limbs, malformed hands, blur, out of focus, long neck, disgusting, poorly drawn, mutilated, , mangled, old, surreal, ((text)), more than 1 man, many people",
+            "tips": "Steps: 20, Sampler: DPM++ 2S a Karras, CFG scale: 7, Seed: 2256562398, Size: 896x512, Model hash: a64810e2e1, Model: clarity_19, Denoising strength: 0.7, Hires upscale: 2, Hires upscaler: Latent",
+			"credit": "Beneficial_Form8563 https://old.reddit.com/r/StableDiffusion/comments/11wfp8f/fashion_photoshoot_futuristic/",
+			"image": "https://preview.redd.it/503qkoe2mvoa1.png?width=1024&auto=webp&v=enabled&s=ad317b492cc9bb1f49b741f97881301449b5a590"
+        },
+		{
+            "name": "Portals",
+            "value": "transcendent, evocative vision of (a time-traveling portal:1.2), (illuminated by swirling energies:1.1), transporting the viewer to (<portals time phrase>:1.2), (lustrous, vibrant, historical, sharp focus, 8k), (art by Salvador Dalí and H. G. Wells), (a glimpse of the past or future:1.1) emerging through the gateway, (temporal forces:1.1) spiraling around the entrance, (cryptic chronal symbols:1.1) inscribed on the edges, <color1> and <color2> palette, digital painting, concept art, artstation, (high sharpness), masterpiece, best quality",
+            "neg": "black and white, watermark",
+            "tips": "Steps: 100, Sampler: DPM++ SDE Karras, CFG scale: 8, Size: 768x768 Denoising strength: 0.35, Hires upscale: 2, Hires steps: 75, Hires upscaler: 4x-UltraSharp",
+			"credit": "Chipmunk_Loud https://old.reddit.com/r/StableDiffusion/comments/11wi4ev/portals/",
+			"image": "https://preview.redd.it/9jyzv4375woa1.png?width=640&crop=smart&auto=webp&v=enabled&s=16ac09b7c4e24f8a81633db0d26b4acb8e5e3dc2"
+        },
+		{
+            "name": "Realistic Cartoon Characters Got Jobs",
+            "value": "masterpiece, best quality, photorealistic, pixar style, <cartoon character> is a <blue collar jobs>, overalls, torn/damaged clothes, dirty, greasy, tattoos, smile, sleeveless, slightly muscular, beautiful, realistic lighting, dim/dark lighting, cinematic, extremely detailed face, extremely detailed skin, intricately detailed hair, intricately detailed environment, intricately detailed clutter, intricately detailed hands",
+            "neg": "(((bad art))), ((stock image)), ((lazy art)), ((low quality)), (low effort), wrinkles, cartoon, (incomplete), outlines, (low detail), (((out of frame))), ((watermark)), ((signature)), username, words, twisted, fused fingers, ((overexposed)), (high contrast), ((high saturation)), (ugly eyes), (deformed iris), (deformed pupils), (fused lips and teeth), bad teeth, close up, zoomed in, low res, doll, grayscale, blurry, ((ugly)), ((bad composition)), ((bad proportions)), (((bad anatomy))), ((mangled)), ((distorted)), (duplicate), ((mutated)), (third eye), deformed arm, deformed leg, (amputated), (amputee), disfigured, heavy makeup, lipstick, morbid, ((imperfect face)), (blurry face), missing face features, long body, (poorly drawn face), ((disfigured face)), clone, (long neck), cross-eyed, acne, no hands, no feet, ((extra arm)), ((extra leg)), missing fingers, ((five fingers)), (mutated body part), (mutated fingers), (asymmetric ears), (asymmetric eyes), clipping, no thumb",
+            "tips": "Seed: 7915186, Sampler: dpmpp_2m, Inference Steps: 55, Guidance Scale: 10, Model: merged_1.4, VAE: vae-ft-mse-840000-ema-pruned, Upscale: RealESRGAN_x4plus (4x)",
+			"credit": "ImNotTenArtist https://old.reddit.com/r/StableDiffusion/comments/11w1scq/rapunzel_had_a_slight_career_change/",
+			"image": "https://preview.redd.it/xh0o9gxe8soa1.jpg?width=1024&auto=webp&v=enabled&s=ea1077dd2d6f76b1af1ba76f0a4a46a73247a32b"
+        },
+		{
+            "name": "Table of Foods",
+            "value": "a painting of a table full of <table of foods food> foods <table of foods location>, concept art by taro yamamoto, pixiv contest winner, auto - destructive art, official art, concept art, pixiv ",
+            "neg": "",
+            "tips": "",
+			"credit": "",
+			"image": ""
+        },
+		{
+            "name": "Space girls HR Giger style",
+            "value": "<space girls giger start> style photo, masterpiece, best quality, cinematic lighting, 1girl, <space girls giger space movie> cosplayer <space girls giger idol> idol posing for a fashion photo, full body portrait, legs, heels, tall, skinny with (gigantic breasts:1.3), curvy, full body, gloves, armor, armlet, decoration, intricate detail, latex bodysuit, cape, solo, looking at viewer, navel, background is sci-fi otherworldly landscape, art by <space girls giger artist> and <space girls giger artist>, trending on artstation",
+            "neg": "bad-picture-chill-75v,easynegative, extra fingers, unequal eyes, paintings, sketches, (worst quality:2), (low quality:2), blurry, (normal quality:2), lowres, normal quality, ((monochrome)), ((grayscale)), skin spots, eyeline, acnes, skin blemishes, age spot, porcelain doll, glans, fewer fingers, strange fingers, bad hand, ((nsfw)) , extra foots, (mask), glasses",
+            "tips": "",
+			"credit": "Impressive_Alfalfa_6 https://old.reddit.com/r/StableDiffusion/comments/11wv1xe/space_girls_hr_giger_style/",
+			"image": "https://preview.redd.it/q0d5c8e6gyoa1.png?width=640&crop=smart&auto=webp&v=enabled&s=3cb298079b09d854daa01fbfed41ff379b61a724"
+        },
+        {
+            "name": "ChatGPT Inspiration",
+            "value": "<chatgpt shot> of a <chatgpt style> <chatgpt structure> <chatgpt secondary structure>, <chatgpt mood>, <chatgpt lighting>, <chatgpt influence>, neat and tidy, magical, natural light, fantasy, sharp focus, by <artist> and <artist>",
+            "neg": "",
+            "tips": "essentially just generated w/ sde karras @ 40steps 800x1000 until i love something, then sent to img2img and kept the same prompt @ 0.5 denoising and iterated until i liked final result, then upscaled",
+			"credit": "idea creds to https://twitter.com/nickfloats/status/1636811271923458048  also PittEnglishDept https://old.reddit.com/r/StableDiffusion/comments/11x7k07/great_way_to_get_inspiration_swipe_for_great/",
+			"image": "https://preview.redd.it/haopqrpxz0pa1.png?width=320&crop=smart&auto=webp&v=enabled&s=323d94b196764d1a9ced5fa93a179b9f5befb88e"
+        },
+        {
+            "name": "Multicolor Desert",
+            "value": "<punk type>, watercolor, high contrast colors, line art, cross hatching, camera focused on subject, thin build, <wmgender word>, art by Jean Giraud:1.3, futuristic, flat landscape, mountains, desert traveler, desert clothes, desert hat, backpack, walking stick, goggles, multicolored clothing, <color1> and <color2>, closeup, looking at camera, gradient colors",
+            "neg": "washed out colors, visible face, eyes, skin, human skin, showing skin, beard ",
+            "tips": "Steps: 30, Sampler: UniPC, CFG scale: 7, Seed: 3202324049, Size: 512x768, Model hash: 9aba26abdf, Model: deliberate_v2, ENSD: 31337, Model is Deliberate.",
+			"credit": "gdcsag https://old.reddit.com/r/StableDiffusion/comments/11wwqxw/multicolor_desert/",
+			"image": "https://preview.redd.it/6sixk0a8qyoa1.png?width=512&auto=webp&v=enabled&s=33bbe389d2d2b5c0db91445dc41605ebc18a849f"
+        },
+        {
+            "name": "Anime Fashion",
+            "value": "Stylish <anime fashion style> fashion outfit worn by model in the style of 90's vintage anime, surrealism, <anime style> anime. detailed line art. fine details. <anime fashion location>",
+            "neg": "",
+            "tips": "",
+			"credit": "https://lexica.art/prompt/48c6b1da-c4fa-4082-88a4-d7322658bd0c",
+			"image": "https://image.lexica.art/full_jpg/839aaa5f-4d7d-44ea-91e7-e4a289a906d1"
+        },
+        {
+            "name": "Giant Dragons",
+            "value": "A Realistic illustration of a giant <giant dragon type> dragon <giant dragon type> with <giant dragon eye color> eyes in a burning <punk type> city background, night time with a crescent moon, cinematic composition. 8K render, 4K HDR, hyper realistic",
+            "neg": "",
+            "tips": "",
+			"credit": "LiguerZero https://prompthero.com/prompt/752e5bf968c",
+			"image": "https://prompthero.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWswWVdReFlqazROeTFtTUdRd0xUUTBaVEF0T1RkaFlTMWxaREl6TnpKaE4yTTNZV0VHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--8ad765e431ac9f0b1163ad182269f8b9d0d16a6c/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9MWm05eWJXRjBPZ2wzWldKd09oUnlaWE5wZW1WZmRHOWZiR2x0YVhSYkIya0NBQVJwQWdBRU9ncHpZWFpsY25zSk9oTnpkV0p6WVcxd2JHVmZiVzlrWlVraUIyOXVCam9HUlZRNkNuTjBjbWx3VkRvT2FXNTBaWEpzWVdObFZEb01jWFZoYkdsMGVXbEIiLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--f753885922b37d6e6788eb7c04f7caf6e86de707/prompthero-prompt-752e5bf968c.jpg"
+        },
+        {
+            "name": "Easter Bunny Girls",
+            "value": "Beautiful <female gender word> <face description short> wearing a white sundress and bunny ears, (easter eggs:1. 1), (perfect photorealistic face:1. 2), skindentation:1. 2, floral nature scene, <flower type>, masterpiece",
+            "neg": "((nsfw)), ((big breasts)), bad-hands-5, (worst quality:1.4), (low quality:1.4), bad_prompt_version2, painting by bad-artist, ((disfigured)), ((bad art))",
+            "tips": "Size: 512x768, Seed: 2097602350, Steps: 50, Sampler: dpm++_2m_karras, Upscaler: ESRGAN 4x, Model hash: 135bb58293, Model: SD 1.5, Guidance Scale: 3, Denoise Strenget: 0.4",
+			"credit": "seiryu https://prompthero.com/prompt/ff22c84e4de",
+			"image": "https://prompthero.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWxrWlRNeFlUTXlOQzFtWlRFekxUUXdPV1F0WVdKbE1pMDNZbVE1WVdRNE1EZzNPRFlHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--76aceca1c98812239a5c0f6742b415314a2149e3/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9MWm05eWJXRjBPZ2wzWldKd09oUnlaWE5wZW1WZmRHOWZiR2x0YVhSYkIya0NBQVJwQWdBRU9ncHpZWFpsY25zSk9oTnpkV0p6WVcxd2JHVmZiVzlrWlVraUIyOXVCam9HUlZRNkNuTjBjbWx3VkRvT2FXNTBaWEpzWVdObFZEb01jWFZoYkdsMGVXbGYiLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--1fafc8db9a1358f9efb37963b805ae2bc50fd1af/prompthero-prompt-ff22c84e4de.png"
+        },
+        {
+            "name": "Evil Witches",
+            "value": "Hyper Detailed Motion Capture Оf a Witch Casting <evil witch spell type> Spell of Large Scale Coven, Witchcraft, <evil witch spell background> in Background, <evil witch spell extra>, shot on Hasselblad H4D 200MS Digital Camera, Mitakon Speedmaster 300mm f/5. 6 XCD, Dark Aesthetic, Ember Light, Intricate, Light Pollution, <decay colors> hues, Epic Light",
+            "neg": "",
+            "tips": "Model: DreamShaper 3.3, Seed: 378524908, Steps: 150, Sampler: dpm++_2m_karras, Guidance Scale: 7",
+			"credit": "zeddmp4 https://prompthero.com/prompt/616932c9600",
+			"image": "https://prompthero.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWxrWVRZMFlqazNOaTAxWWpJMExUUmlNell0T0RsbE9DMDFZamRoTWpVNU9XRTRZaklHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--f7075fd8b30c11bc17bf46930e76f77e50057aa2/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9MWm05eWJXRjBPZ2wzWldKd09oUnlaWE5wZW1WZmRHOWZiR2x0YVhSYkIya0NBQVJwQWdBRU9ncHpZWFpsY25zSk9oTnpkV0p6WVcxd2JHVmZiVzlrWlVraUIyOXVCam9HUlZRNkNuTjBjbWx3VkRvT2FXNTBaWEpzWVdObFZEb01jWFZoYkdsMGVXbEIiLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--f753885922b37d6e6788eb7c04f7caf6e86de707/prompthero-prompt-616932c9600.png"
+        },
+        {
             "name": "",
             "value": "",
             "neg": "",
@@ -976,7 +1136,7 @@
 			"credit": "",
 			"image": ""
         },
-		{
+        {
             "name": "",
             "value": "",
             "neg": "",
@@ -984,7 +1144,7 @@
 			"credit": "",
 			"image": ""
         },
-		{
+        {
             "name": "",
             "value": "",
             "neg": "",
@@ -992,7 +1152,7 @@
 			"credit": "",
 			"image": ""
         },
-		{
+        {
             "name": "",
             "value": "",
             "neg": "",
@@ -1000,7 +1160,7 @@
 			"credit": "",
 			"image": ""
         },
-		{
+        {
             "name": "",
             "value": "",
             "neg": "",
@@ -1008,7 +1168,7 @@
 			"credit": "",
 			"image": ""
         },
-		{
+        {
             "name": "",
             "value": "",
             "neg": "",
@@ -1016,23 +1176,7 @@
 			"credit": "",
 			"image": ""
         },
-		{
-            "name": "",
-            "value": "",
-            "neg": "",
-            "tips": "",
-			"credit": "",
-			"image": ""
-        },
-		{
-            "name": "",
-            "value": "",
-            "neg": "",
-            "tips": "",
-			"credit": "",
-			"image": ""
-        },
-		{
+        {
             "name": "",
             "value": "",
             "neg": "",
@@ -1050,18 +1194,13 @@
         }
     ],
     "wordlists": {
-		"dnd classes": "barbarian berserker\nbarbarian totem warrior\nbard of lore\nbard of valor\ncleric of knowledge\ncleric of life\ncleric of light\ncleric of nature\ncleric of tempest\ncleric of trickery\ncleric of war\ndruid of the land\ndruid of the moon\nchampion fighter\nbattle master fighter\nmonk of the open hand\nmonk of the shadow\nmonk of the four elements\npaladin of devotion\npaladin of the ancients\npaladin of vengeance\nranger hunter\nranger beast master\nrogue thief\nrouge assassin\nrogue arcane trickster\ndraconic bloodline sorcerer\nwild magic sorcerer\narchfey warlock\nfiend warlock\ngreat old one warlock\nwizard of abjuration\nwizard of conjuration\nwizard of divination\nwizard of enchantment\nwizard of evocation\nwizard of illusion\nwizard of necromancy\nwizard of transmutation\nbarbarian battleranger\ncleric of arcana\npurple dragon knight fighter\nmonk of the long death\nmonk of the sun soul\npaladin of the crown\nrogue mastermind\nrogue swashbuckler\nstorm sorcery sorcerer\nundying warlock\nwizard of bladsinging\npyromancy sorcerer\ncleric of solidarity\ncleric of strength\ncleric of ambition\ncleric of zeal\nbarbarian ancestral guardion\nbarbarian storm herald\nbarbarian zealot\nbard of glamour\nbard of swords\nbard of whispers\ncleric of forge\ncleric of grave\ndruid of dreams\ndurid of the shephard\narcane archer fighter\nsamurai fighter\nmonk of the drunken master\nmonk of the kensei\npaladin of conquest\npaladin of redemption\nranger gloom stalker\nranger horizon walker\nranger monster slayer\nrogue inquisitive\nrogue scout\ndivine soul sorcerer\ncelestial warlock\nhexblade warlock\nwizard of war magic\ncleric of order\ndruid of spores\nartificer alchemist\nartificer artillerist\nartificer battle smith\necho knight fighter\nwizard of chronurgy\nwizard of graviturgy\nbard of eloquence\npaladin of glory\nartificer armor\nbarbarian of the beast\nbarbarian of wild magic\nbard of creation\ncleric of peace\ncleric of twilight\ndruid of stars\ndurid of wildfire\npsi warrior fighter\nrune knight fighter\nmonk of mercy\nmonk of the astral self\npaladin of the watchers\nranger fey wanderer\nranger swarmkeeper\nrogue phantom\nrogue soulknife\naberant mind sorcerer\nclockwork soul sorcerer\nfathomless warlock\ngene warlock\nwizard of scribes",
-		"dnd armor type": "padded\nleather\nstudded leather\nhide\nchain shirt\nscale mail\nspiked\nbreastplate\nhalfplate\nring mail\nchain mail\nsplint\nplate",
-		"dnd background": "asian temple\nmedieval town\nmedieval tavern\nmedieval inn\nmedieval castle\nwizard's tower\ncastle\nvillage\nwalled town\nwalled city\ndungeon entrance\ncave entrance\ndesert temple\njungle temple\nmountain pass\n<specific fantasy location2>",
-		"ripple type": "<statue prompt gem>\n<sfl adjective2>\nfrost\ncrystals\nlight\nblood\nflowers\n<flower type>\nleaves\ngrass\nfireflies\nbutterflies\nmoths\ninsects\nbugs\nstatic\nglitches\nflames\nfire\nglass\nbutterfly wings\nmutlicolored smoke\nmutlicolored dust\nmutlicolored particles\nheart\nchrome\neerie\nchalk\nmoon\nsun\nplanet\ngalaxy\nice",
-		"decay colors": "brown\ngray\nblack\ndark green\nolive\ntan\ndark grey\ndark purple\ndark violet\nkelly green\nslate grey\ndim grey\nindigo\nmidnight blue\ndark teal\nsaddle brown",
-		"g&tb style": "anime\nphoto\nphotograph\npainting\noil painting\nwatercolor painting\npainterly\nimpressionist painting",
+		
         "person like subject": "man\nwoman\n<gender word> kitsune\nanthropomorphic <animal> <wmgender word>\nkemonomimi <animal>-<wmgender word>\n<gender word> ninja\n<gender word> samurai\n<gender word> spy\n<gender word> soldier\n<gender word> superhero",
-        "person action": "standing in the middle of the street\nsitting in their living room\nhaving a picnic in a forest\nshopping in a connivence store\nreading a book in a library\npracticing fighting\nusing <household items>",
+        "person action": "standing in the middle of the street\nsitting in their living room\nhaving a picnic in a forest\nshopping in a convenience store\nreading a book in a library\npracticing fighting\nusing <household items>",
         "animal": "dog\ncat\nrabbit\nbunny\ndeer\nracoon\nsquirl\nfrog\nfox\nkitsune\npanda\nsloth\nbadger\nlion\ntiger\nox\ncow\nchicken\ngoose\nduck\npig\nsheep\nllama\nparrot\npenguin\nseal\nlynx\nboar\nhippo\nelephant\nzebra\ngiraffe\nbear\npanther\nkangaroo\nkoala\nmouse\nrat\nlizard\nturtle\ntortoise\ncrocodile\nalligator\nmonkey\ngorilla\nape",
         "gender word": "male\nfemale",
-        "wmgender word": "man\nman\nwoman\nwoman\ngirl\nboy",
-		"female gender word": "woman\nwoman\nyoung woman\nfemale\ngirl",
+        "wmgender word": "2:man\n2:woman\ngirl\nboy",
+		"female gender word": "2:woman\nyoung woman\nfemale\ngirl",
         "color": "Red\nOrange\nYellow\nGreen\nBlue\nPurple\nPink\nBrown\nWhite\nBlack\nGray\nBeige\nTurquoise\nLavender\nMaroon\nFuchsia\nOlive\nIndigo\nCrimson\nMagenta\nNavy Blue\nCharcoal\nIvory\nTan\nTeal\nCoral\nSalmon\nSky blue\nKhaki\nRust\nPeacock blue\nPeach\nBrick\nSlate\nRose\nGold\nSilver\nBronze\nMint green\nMustard\nApricot\nEmerald\nPlum\nLilac\nMahogany\nCinnamon\nBurgundy\nAqua\nOrchid\nTurmeric\nLime Green",
 		"seasons": "winter\nspring\nsummer\nautumn",
         "household items": "couch\ntelevision\ncomputer\ntable\nchair\nplate\ndrinking glass\nbed",
@@ -1076,7 +1215,7 @@
         "wearing other": "gloves\na tie\na bowtie\nsneakers\ndress shoes\npenny loafers\nsandals\ncrocks\nroller skates\nrollerblades",
         "face description": "with <skin tone> skin, <eye description> eyes, <mouth description> and <hair curve> <hair color> <hair style> hair\nwith <skin tone> skin, <eye description> eyes, <mouth description> and <hair curve> <hair color> <hair style> hair\nwith <skin tone> skin, <eye description> eyes, <mouth description> and <hair curve> <hair color> <hair style> hair\nwith <skin tone> skin, <eye description> eyes and <hair curve> <hair color> <hair style> hair\nwith <eye description> eyes and <hair curve> <hair color> <hair style> hair\nwith <skin tone> skin, <eye description> eyes, <mouth description> and <hair curve> <hair color> hair\nwith <skin tone> skin, <eye description> eyes, <mouth description> and <hair curve> <hair color> hair\nwith <skin tone> skin, <eye description> eyes, <mouth description> and <hair curve> <hair color> hair",
         "face description short": "with <skin tone> skin, <eye description> eyes, <hair color> <hair style> hair\nwith <skin tone> skin, <eye description> eyes, <hair color> <hair style> hair\nwith <skin tone> skin, <mouth description>, <hair color> <hair style> hair\nwith <skin tone> skin, <eye description> eyes, <hair color> <hair style> hair\nwith <eye description> eyes, <nose type>, <hair color> <hair style> hair\nwith <skin tone> skin, <eye description> eyes, <nose type> and <hair color> hair",
-        "skin tone": "pale\nlight\nmedium\ndark\ntan\nbrown\nlightly dark\nfreckled",
+        "skin tone": "pale\nlight\nmedium\ndark\ntan\nbrown\nlightly dark\nolive\nfreckled",
         "eye description": "<eye color>\n<eye adjective> <eye color>\n<eye adjective> <eye color>\n<eye adjective> <eye adjective> <eye color>",
         "eye color": "amber\nblue\nbrown\ngray\ngreen\nhazel\nblack\ndark brown\nlight brown\ndark gray\nlight gray\ndark blue\nlight blue\nturquoise\nviolet\nred\npink\ngold\nsilver\nyellow",
         "eye adjective": "bright\nsparkling\nsmiling\nluminous\nglittering\nshimmering\nradiant\nexpressive\npiercing\nintense\nmysterious\nenchanting\nalluring\ncaptivating\nmesmerizing\nhypnotic\nbewitching\ndreamy\nsoulful\nmelancholic\nplayful\njoyful",
@@ -1089,7 +1228,7 @@
         "hair color": "black\nbrown\nblonde\nred\nauburn\nchestnut\nginger\nhoney\nstrawberry blonde\nplatinum blonde\nsilver\ngray\nblue\npurple\npink\ngreen\nburgundy\nmahogany\nespresso\nombre",
         "hair style": "straight hair\nlong straight hair\nshort straight hair\npixie cut\nbob\nlob\nlayered cut\nshag\nbangs\nupdo\nponytail\nbraid\nfrench braid\ndutch braid\nfishtail braid\nbun\nchignon\ntop knot\ncornrows\nafro\ncurls\nwaves",
         "person actions": "standing\nposing <pose type>\nposing <pose type>\nposing <pose type>\nsitting <sit type>\ngoing on an adventure\nexploring\nhiking\nlooking at <object to look at>\nlooking at <object to look at>\nlooking at <object to look at>\npeering at <object to look at>\npeering at <object to look at>\nholding <object to hold>\nholding <object to hold>\nswinging <object to swing>\nswinging <object to swing>\nriding <object to ride>\nexercising\nrunning\njogging\njuggling balls\nsaluting",
-        "pose type": "with arms folded\nwith their hands clasped\nwith their arms raised\nwith a hand on their chin\nwith hands on hips\nwith hands in their pockets\nwith on hand on their head and the other in their hip\nin a sexy way\nwith their head looking over their shoulder\nwith their back to the viewer\nleaning forward with their butt extended\nwalking\nsitting",
+        "pose type": "with arms folded\nwith their hands clasped\nwith their arms raised\nwith a hand on their chin\nwith hands on hips\nwith hands in their pockets\nwith on hand on their head and the other on their hip\nin a sexy way\nwith their head looking over their shoulder\nwith their back to the viewer\nleaning forward with their butt extended\nwalking\nsitting",
         "sit type": "on a chair\non a couch\non a folding chair\non their bed\nat a desk\nat a table\neating a meal\non a tree stump\non a log",
         "object to look at": "a house\na building\na car\nan airplane\ntheir lover\ntheir friend\nan explosion\na crowd\nan aquarium\na baseball game\na football game\na hockey game\na sporting event",
         "object to hold": "<object to swing>\n<object to swing>\n<object to swing>\na laptop\nan apple\nan orange\na book\na newspaper\na magic wand\na pet <animal>\na sword and shield\na gun\na riffle",
@@ -1135,7 +1274,7 @@
         "city type": "modern\nturn of the century\nfuturistic\nfantasy\nmedieval\nold west\nsteampunk\ndeiselpunk\ncyberpunk\njet-age\nretro futuristic\nvirtual reality\ngangster run\nneon lit",
         "fantasy person subject": "<person like fantasy creature> <face description>, <fantasy wearing>\n<person like fantasy creature> as a <fantasy job> <face description>, <fantasy wearing>\n<person like fantasy creature> as a <fantasy job>, <fantasy wearing>\n<celebrity> as a <person like fantasy creature>, <fantasy wearing>\n<celebrity> as a <person like fantasy creature> <fantasy job>\n<celebrity> as a <fantasy job>\n<person adjective> <gender word> anthropomorphic <animal>, as a <fantasy job>, <face description>, <fantasy wearing>\n<person adjective> <gender word> kemonomimi <animal>, as a <fantasy job>, <face description>, <fantasy wearing>\n<person adjective> <animal>-<wmgender word>, as a <fantasy job>, <face description>, <fantasy wearing>\n<person like fantasy creature> <face description>, <fantasy wearing>, with a <fantasy animal> familiar\n<person like fantasy creature> as a <fantasy job> <face description>, <fantasy wearing>, with a <fantasy animal> familiar\n<person like fantasy creature> as a <fantasy job>, <fantasy wearing>, with a <fantasy animal> familiar\n<celebrity> as a <person like fantasy creature>, <fantasy wearing>, with a <fantasy animal> familiar\n<celebrity> as a <person like fantasy creature> <fantasy job>, with a <fantasy animal> familiar\n<celebrity> as a <fantasy job>, with a <fantasy animal> familiar",
         "fantasy person subject shorter": "<person like fantasy creature> <face description short>\n<person like fantasy creature>, <fantasy wearing>\n<person like fantasy creature> as a <fantasy job>\n<person like fantasy creature> <face description short> as a <fantasy job>\n<celebrity> as a <person like fantasy creature>\n<celebrity> as a <fantasy job>\n<gender word> anthropomorphic <animal> as a <fantasy job>\n<gender word> anthropomorphic <animal>, <fantasy wearing>, as a <fantasy job>\n<gender word> kemonomimi <animal>, as a <fantasy job>, <fantasy wearing>\n<gender word> kemonomimi <animal>, as a <fantasy job>\n<animal>-<wmgender word>, as a <fantasy job>, <fantasy wearing>\n<animal>-<wmgender word>, as a <fantasy job>\n<person like fantasy creature>, <fantasy wearing>, with a <fantasy animal> familiar\n<person like fantasy creature> as a <fantasy job>, with a <fantasy animal> familiar\n<person like fantasy creature>, with a <fantasy animal> familiar\n<celebrity>, with a <fantasy animal> familiar\n<person like fantasy creature> <face description short>, with a <fantasy animal> familiar\n<celebrity> as a <person like fantasy creature>, with a <fantasy animal> familiar\n<celebrity> as a <fantasy job>, with a <fantasy animal> familiar\n<gender word> anthropomorphic <animal> as a <fantasy job>, with a <fantasy animal> familiar\n<gender word> anthropomorphic <animal>, <fantasy wearing>, as a <fantasy job>, with a <fantasy animal> familiar\n<gender word> anthropomorphic <animal>, with a <fantasy animal> familiar\n<gender word> kemonomimi <animal>, with a <fantasy animal> familiar\n<gender word> kemonomimi <animal>, as a <fantasy job>, <fantasy wearing>, with a <fantasy animal> familiar\n<gender word> kemonomimi <animal>, as a <fantasy job>, with a <fantasy animal> familiar\n<animal>-<wmgender word>, as a <fantasy job>, <fantasy wearing>, with a <fantasy animal> familiar\n<animal>-<wmgender word>, as a <fantasy job>, with a <fantasy animal> familiar\n<animal>-<wmgender word>, with a <fantasy animal> familiar",
-        "fantasy job": "wizard\nwarrior\nknight\nsquire\nroyal\nbaron\nadventurer\nmage\nmagician\nlord\nfighter\nthief\nranger\nhunter\nhero\npriest\nmonk\npaladin\nalchemist\nhealer\nbard\nshop keeper\ntrader\nmerchant\ncaptain\ngeneral\nsoldier\nnecromancer",
+        "fantasy job": "wizard\nwarrior\nknight\nsquire\nroyal\nbaron\nadventurer\nmage\nmagician\nlord\nfighter\nthief\nranger\nhunter\nhero\npriest\nmonk\npaladin\nalchemist\nhealer\nbard\nshop keeper\ntrader\nmerchant\ncaptain\ngeneral\nsoldier\nnecromancer\nshaman",
         "fantasy wearing": "<wearing>\n<wearing>\n<wearing>\n<wearing> with a backpack and quiver\nwearing a suit of iron armor\nwearing a suit of copper armor\nwearing a suit of bronze armor\nwearing a suit of steel armor\nwearing a suit of leather armor\nwearing a robe and wizard cap\nwearing a disguise\nwearing royal garb\nwearing adventuring clothes\nwearing worn out clothes\nwearing tattered clothing\nwearing inconspicuous clothes\nwearing glittering robes\nwearing clothes of a noble\nwearing clothes of a commoner",
         "fantasy scenes": "<scene>\n<fantasy scene>\n<fantasy scene>\n<fantasy scene>",
         "fantasy scene": "in a castle\nin a castle courtyard\nin a castle throne room\nin a great hall\non a battlefield\nat a wizard's tower\nin a wizard's tower\nin a magic library\nin a <forest adj> forest\nin the <forest adj> forest of <fantasy races>\nin the forest of <sfl adjective2>\nin the forest of <fantasy races>\nat a <forest adj> forest\nin a <forest adj> meadow\nat a <forest adj> meadow\non a <forest adj> hill\non a <forest adj> mountain\nin the <forest adj> caves\nin the caves of <sfl adjective2>\nat floating islands\nin the land of the <fantasy races>\nat the land of <sfl adjective2>\nin the country of the <fantasy races>\nin the city of the <fantasy races>\nin the <city type> city of the <fantasy races>\nin the town of the <fantasy races>\nin the <city type> town of the <fantasy races>\nin the village of the <fantasy races>\nin the <city type> village of the <fantasy races>\nin the islands of the <fantasy races>\nat the forbidden city\nin the forbidden city\nin a dungeon\nin a trap filled dungeon\nat a monastery\nin a monistary\nat a palace\nat the palace of the <fantasy races>\nin the palace of the <fantasy races>\nin the valley of the <fantasy races>\nin the land of ice and snow\nin the labyrinth of <fantasy races>\nin the ocean of dreams\nin the <forest adj> ocean\nin the celestial realm\nin the <fantasy races> realm\nin the kingdom of the dead\nat ruins of an ancient civilization\nin the land of magic\nin the maze of mirrors\nin the palace of the moon queen\nin the valley of the lost\n<specific fantasy location>\n<specific fantasy location>\n<specific fantasy location>\n<specific fantasy location>\naboard a sailing ship\naboard a cargo ship\naboard a pirate ship\naboard a clipper ship\naboard a junk\naboard a rowboat\naboard an airship\naboard a zeppelin\nat a cottage overgrown with ancient trees\nat a house with a <shelled animal>-shell for a roof",
@@ -1262,10 +1401,11 @@
         "pepsi drink": "<drink size> <pepsi drink1>",
         "pepsi drink1": "pepsi\ndiet pepsi\nmountain dew\nsierra mist\nfruit punch\nlipton iced tea",
         "decorative items": "a vase of <flower type>\na stack of books\nseveral newspapers\na few magazines\na bowl of <fruit type>\nseveral vases\nseveral wine bottles\na kettle and tea cups\nan easel and several paint brushes\nseveral squash and a pumpkin\na fancy place setting on a table\ncontainers of flower, baking soda and oil with several bowls in a kitchen",
-        "flower type": "flowers\nflowers\nflowers\nflowers\nroses\ntulips\nhydrangeas\nlavenders\npeonys\ndaisies\norchids\nlillies\nchrysanthemums\ndahlias\ndaffodills\nirises\nperiwinkles\nazaleas\ncarnations\nmarigolds\nviolets\nbegonias\ngardenias\nhyacinths\namaranthus\ngeraniums\ngladious\npetunias\nzinnias\nranunculus\nanemines\nasters\nblack-eyed susans\nbuttercups\npansies\nsnapdragons\ndelphiniums\nalliums\nastilbes\ncornflowers\ncrocus\nphlox\npoppies",
-        "fruit type": "fruit\nfruit\nmixed fruit\napples\noranges\nbananas\npears\ngrapes\ncherries",
+        "flower type": "4:flowers\nroses\ntulips\nhydrangeas\nlavenders\npeonys\ndaisies\norchids\nlillies\nchrysanthemums\ndahlias\ndaffodills\nirises\nperiwinkles\nazaleas\ncarnations\nmarigolds\nviolets\nbegonias\ngardenias\nhyacinths\namaranthus\ngeraniums\ngladious\npetunias\nzinnias\nranunculus\nanemines\nasters\nblack-eyed susans\nbuttercups\npansies\nsnapdragons\ndelphiniums\nalliums\nastilbes\ncornflowers\ncrocus\nphlox\npoppies",
+        "fruit type": "2:fruit\nmixed fruit\napples\noranges\nbananas\npears\ngrapes\ncherries\nstrawberries\nblueberries\nraspberries\nblackberries\ncranberries\nhuckleberries\ngrapefruits\nmandarins\ntangerines\nclementines\nlemons\nlimes\nmangos\nguavas\nkiwis\npassionfruits\nwatermellons\nhoneydew melons\ncantalopes\npineapples\nfigs\npeaches\nplums\npapayas\njackfruits\ndragon fruits\npomegranates\nprickly pears\ndates",
+		"fruit": "apple\norange\nbanana\npear\ngrape\ncherry\nstrawberry\nblueberry\nraspberry\nblackberry\ncranberry\nhuckleberry\ngrapefruit\nmandarin\ntangerine\nclementine\nlemon\nlime\nmango\nguava\nkiwi\npassionfruit\nwatermellon\nhoneydew\ncantalope\npineapple\nfig\npeache\nplum\npapaya\njackfruit\ndragon fruit\npomegranate\nprickly pear\ndate",
         "city name": "New York City\nBoston\nChicago\nDallas\nSan Francisco\nSan Diego\nLas Angeles\nSeattle\nMiami\nQuebec City\nToronto\nVancouver\nLondon\nEdinburgh\nDublin\nGlasgow\nParis\nRome\nOslo\nStockholm\nHelsinki\nCairo\nTokyo\nKyoto\nOsaka\nSeoul\nBusan\nTaipei\nShanghai\nHong Kong\nMumbai\nNew Delhi\nSydney\nRio de Janerio\nMoscow\nKyiv\nMunich\nBerlin\nBarcelona\nCape Town\nJohannesburg\nMexico City",
-        "styleized city name": "<city name>\n<city name>\n<city name>\n<city type> <city name>",
+        "styleized city name": "3:<city name>\n<city type> <city name>",
         "interesting scenes": "<interesting scene style>, <interesting scene>, with <interesting scenes subject> <person actions>, <interesting scenes details>, <mood phrase>, <color style>, <lighting>, <feel>, <rendering>, <sprinkles>, <sprinkles>",
         "interesting scene": "chaotic arcade at night\ncrowded nightclub with colored light strobes\nin an outdoor market with stalls selling food and spices and homemade crafts\nneon lit city street\ndark allyway in a city\ncluttered starship interior, crew inside a starship\nlanding platform on a futuristic space station\nlarge open common area of a space station with a planet seen through windows in the background\ninterior of a futuristic mall\ndowntown tokyo\nakihabara tokyo\nshibuya scramble crossing tokyo\nred square moscow\nforbidden city china\nbeach at Rio de Janeiro with Christ the Redeemer statue in background\nsydney australia with the sydney opera house in the background\ncentral park in new york city with the empire state building in the background\nfisherman's wharf in san francisco with the golden gate bridge in the background\nmission hill in san francisco with the golden gate bridge in the background\nlondon england with big ben in the background\nlondon england with the millennium wheel in the background\non the deck of a large cruise ship in the middle of the ocean\non the deck of a large cruise ship docked at an island paradise\nin a futuristic aztec city that is a combination of nature and technology\na street with several modern houses\nlarge temple deep underwater with fish swimming around\nlarge temple deep underwater in a glass dome\na city underwater in a glass dome\na city hovering in the sky with large fans and balloons\nrooftop bar with a scenic view of <styleized city name>\nan art gallery with classical paintings and statues\ninside a virtual reality game\nat the <styleized city name> zoo\nat the <styleized city name> aquarium\nat a outdoor music festival\nat a <styleized city name> music festival\nin a cozy bookstore\nin a large underground subway station\nin a crowd at a sports stadium\nin a plaza with street performers\nin a natural history meseum\nin a science museum\non stage at a karaoke bar",
         "interesting scene style": "vintage 90's anime style environmental wide shot\nclassic 80's anime intro style\nretro futuristic science fiction sci-fi style\nfusion between cell-shading and alcohol ink, in the style of jojos bizarre adventure and yuko shimizu\n16-bit pixel art minecraft style\nillustrated by hergé, style of tin tin comics, pen and ink pixel art\nJunji ito x keith haring collaboration art\nfuturistic neon lit cyberpunk style\nvictorian era steampunk style\npropaganda poster art style\nhajime sorayama gynoid art sytle\nin the style of a Ukiyo-e print\nin the style of a medieval illustrated manuscript\nin the style of a medieval tapestry\nin the style of nihonga by Katsushika Hokusai\nin the artstyle of finnian macmanus, john park and greg rutkowski\n1800s old wild west style\npost-apocalyptic science fiction style",
@@ -1311,7 +1451,7 @@
         "dog breed": "Australian Shepherd\nBasset Hound\nBeagle\nBernese Mountain Dog\nBoston Terrier\nBoxer\nBulldog\nCavalier King Charles Spaniel\nChihuahua\nCocker Spaniel\nDachshund\nDoberman Pinscher\nEnglish Springer Spaniel\nFrench Bulldog\nGerman Shepherd\nGolden Retriever\nGreat Dane\nGreyhound\nLabrador Retriever\nMaltese\nMiniature Pinscher\nMiniature Schnauzer\nNewfoundland\nOld English Sheepdog\nPapillon\nPekingese\nPomeranian\nPoodle\nPug\nRottweiler\nSaint Bernard\nShetland Sheepdog\nSiberian Husky\nStaffordshire Bull Terrier\nStandard Schnauzer\nShih Tzu\nWelsh Corgi\nWeimaraner\nWest Highland White Terrier\nYorkshire Terrier",
         "unlikely vegetable locations": "commercial office building\nfactory\npower plant\noil rig\ncollege lecture hall\nhigh school classroom\nprison\nprision cell\ncourtroom\npolice station\nafire station\nmilitary baracks",
         "vegetables": "Artichoke\nArugula\nAsparagus\nBeetroot\nBell pepper\nBitter gourd\nBroccoli\nBrussels sprouts\nButternut squash\nCabbage\nCarrot\nCauliflower\nCeleriac\nCeleryChard\nChili pepper\nChinese cabbage\nCollard greens\nCorn\nCucumber\nDaikon radish\nEggplant\nEndive\nFava beans\nFennel\nGarlic\nGinger\nGreen beans\nGreen onion\nHorseradish\nJicama\nKale\nKohlrabi\nLeek\nLentils\nLettuce\nLima beans\nMung beans\nMushrooms\nMustard greens\nNapa cabbage\nOkra\nOnion\nParsnip\nPeas\nPotato\nPumpkin\nRadicchio\nRadish\nRapini\nRed cabbage\nRhubarb\nRutabaga\nScallion\nShallot\nSnow peas\nSorrel\nSoybeans\nSpinach\nSquash\nSweet corn\nSweet potato\nSwiss chard\nTaro\nTatsoi\nTomatillo\nTomato\nTurnip\nWatercress\nWater chestnut\nWax gourd\nWhite radish\nWinged bean\nWinter melon\nYams\nYellow squash\nZucchini\nAcorn squash\nAmaranth\nArrowroot\nAvocado\nBamboo shoots\nBean sprouts\nBok choy\nBreadfruit\nBroccolini\nBrussels sprouts\nButter lettuce\nCactus\nCardoon\nCassava\nChayote\nChicory\nChinese broccoli\nChinese okra\nChives\nDandelion greens\nHearts of palm\nJackfruit\nJerusalem artichoke",
-        "mixed vegetables": "<vegetables>\n<vegetables>\n<vegetables>\n<vegetables> and <vegetables>\n<vegetables> and <vegetables>\n<vegetables> and <vegetables>\n<vegetables> and <vegetables>\n<vegetables> <vegetables> and <vegetables>\n<vegetables> <vegetables> and <vegetables>\n<vegetables> <vegetables> <vegetables> and <vegetables>",
+        "mixed vegetables": "4:<vegetables>\n4:<vegetables> and <vegetables>\n2:<vegetables> <vegetables> and <vegetables>\n<vegetables> <vegetables> <vegetables> and <vegetables>",
         "specific animal feature": "eagle wings\nbat wings\nturtle shell\nsnail shell\nclam shell\ncrab claws\nlobster tail\nvulture wings\ndragon wings\nporcupine quills\nrabbit ears\neagle claws\noctopus tentacles\nsquid tentacles\ndolphin tail\nwhale tail\ngiraffe neck\nelephant trunk\nsheep horns\ndeer antlers\nmoose antlers\nbutterfly wings",
         "emoji": "😀\n😃\n😄\n😁\n😆\n😅\n😂\n🤣\n🥲\n🥹\n☺️\n😊\n😇\n🙂\n🙃\n😉\n😌\n😍\n🥰\n😘\n😗\n😙\n😚\n😋\n😛\n😝\n😜\n🤪\n🤨\n🧐\n🤓\n😎\n🥸\n🤩\n🥳\n😏\n😒\n😞\n😔\n😟\n😕\n🙁\n☹️\n😣\n😖\n😫\n😩\n🥺\n😢\n😭\n😮‍💨\n😤\n😠\n😡\n🤬\n🤯\n😳\n🥵\n🥶\n😱\n😨\n😰\n😥\n😓\n🫣\n🤗\n🫡\n🤔\n🫢\n🤭\n🤫\n🤥\n😶\n😶‍🌫️\n😐\n😑\n😬\n🫠\n🙄\n😯\n😦\n😧\n😮\n😲\n🥱\n😴\n🤤\n😪\n😵\n😵‍💫\n🫥\n🤐\n🥴\n🤢\n🤮\n🤧\n😷\n🤒\n🤕\n🤑\n🤠\n😈\n👿\n👹\n👺\n🤡\n💩\n👻\n💀\n☠️\n👽\n👾\n🤖\n🎃\n😺\n😸\n😹\n😻\n😼\n😽\n🙀\n😿\n😾",
         "emoji people": "👶\n👧\n🧒\n👦\n👩\n🧑\n👨\n👩‍🦱\n🧑‍🦱\n👨‍🦱\n👩‍🦰\n🧑‍🦰\n👨‍🦰\n👱‍♀️\n👱\n👱‍♂️\n👩‍🦳\n🧑‍🦳\n👨‍🦳\n👩‍🦲\n🧑‍🦲\n👨‍🦲\n🧔‍♀️\n🧔\n🧔‍♂️\n👵\n🧓\n👴\n👲\n👳‍♀️\n👳\n👳‍♂️\n🧕\n👮‍♀️\n👮\n👮‍♂️\n👷‍♀️\n👷\n👷‍♂️\n💂‍♀️\n💂\n💂‍♂️\n🕵️‍♀️\n🕵️\n🕵️‍♂️\n👩‍⚕️\n🧑‍⚕️\n👨‍⚕️\n👩‍🌾\n🧑‍🌾\n👨‍🌾\n👩‍🍳\n🧑‍🍳\n👨‍🍳\n👩‍🎓\n🧑‍🎓\n👨‍🎓\n👩‍🎤\n🧑‍🎤\n👨‍🎤\n👩‍🏫\n🧑‍🏫\n👨‍🏫\n👩‍🏭\n🧑‍🏭\n👨‍🏭\n👩‍💻\n🧑‍💻\n👨‍💻\n👩‍💼\n🧑‍💼\n👨‍💼\n👩‍🔧\n🧑‍🔧\n👨‍🔧\n👩‍🔬\n🧑‍🔬\n👨‍🔬\n👩‍🎨\n🧑‍🎨\n👨‍🎨\n👩‍🚒\n🧑‍🚒\n👨‍🚒\n👩‍✈️\n🧑‍✈️\n👨‍✈️\n👩‍🚀\n🧑‍🚀\n👨‍🚀\n👩‍⚖️\n🧑‍⚖️\n👨‍⚖️\n👰‍♀️\n👰\n👰‍♂️\n🤵‍♀️\n🤵\n🤵‍♂️\n👸\n🫅\n🤴\n🥷\n🦸‍♀️\n🦸\n🦸‍♂️\n🦹‍♀️\n🦹\n🦹‍♂️\n🤶\n🧑‍🎄\n🎅\n🧙‍♀️\n🧙\n🧙‍♂️\n🧝‍♀️\n🧝\n🧝‍♂️\n🧛‍♀️\n🧛\n🧛‍♂️\n🧟‍♀️\n🧟\n🧟‍♂️\n🧞‍♀️\n🧞\n🧞‍♂️\n🧜‍♀️\n🧜\n🧜‍♂️\n🧚‍♀️\n🧚\n🧚‍♂️\n🧌\n👼\n🤰\n🫄\n🫃\n🤱\n👩‍🍼\n🧑‍🍼\n👨‍🍼\n🙇‍♀️\n🙇\n🙇‍♂️\n💁‍♀️\n💁\n💁‍♂️\n🙅‍♀️\n🙅\n🙅‍♂️\n🙆‍♀️\n🙆\n🙆‍♂️\n🙋‍♀️\n🙋\n🙋‍♂️\n🧏‍♀️\n🧏\n🧏‍♂️\n🤦‍♀️\n🤦\n🤦‍♂️\n🤷‍♀️\n🤷\n🤷‍♂️\n🙎‍♀️\n🙎\n🙎‍♂️\n🙍‍♀️\n🙍\n🙍‍♂️\n💇‍♀️\n💇\n💇‍♂️\n💆‍♀️\n💆\n💆‍♂️\n🧖‍♀️\n🧖\n🧖‍♂️\n💅\n🤳\n💃\n🕺\n👯‍♀️\n👯\n👯‍♂️\n🕴\n👩‍🦽\n🧑‍🦽\n👨‍🦽\n👩‍🦼\n🧑‍🦼\n👨‍🦼\n🚶‍♀️\n🚶\n🚶‍♂️\n👩‍🦯\n🧑‍🦯\n👨‍🦯\n🧎‍♀️\n🧎\n🧎‍♂️\n🏃‍♀️\n🏃\n🏃‍♂️\n🧍‍♀️\n🧍\n🧍‍♂️\n👭\n🧑‍🤝‍🧑\n👬\n👫\n👩‍❤️‍👩\n💑\n👨‍❤️‍👨\n👩‍❤️‍👨\n👩‍❤️‍💋‍👩\n💏\n👨‍❤️‍💋‍👨\n👩‍❤️‍💋‍👨\n👪\n👨‍👩‍👦\n👨‍👩‍👧\n👨‍👩‍👧‍👦\n👨‍👩‍👦‍👦\n👨‍👩‍👧‍👧\n👨‍👨‍👦\n👨‍👨‍👧\n👨‍👨‍👧‍👦\n👨‍👨‍👦‍👦\n👨‍👨‍👧‍👧\n👩‍👩‍👦\n👩‍👩‍👧\n👩‍👩‍👧‍👦\n👩‍👩‍👦‍👦\n👩‍👩‍👧‍👧\n👨‍👦\n👨‍👦‍👦\n👨‍👧\n👨‍👧‍👦\n👨‍👧‍👧\n👩‍👦\n👩‍👦‍👦\n👩‍👧\n👩‍👧‍👦\n👩‍👧‍👧\n🗣\n👤\n👥\n🫂\n⛷\n🏂\n🪂\n🏋️‍♀️\n🏋️\n🏋️‍♂️\n🤼‍♀️\n🤼\n🤼‍♂️\n🤸‍♀️\n🤸\n🤸‍♂️\n⛹️‍♀️\n⛹️\n⛹️‍♂️\n🤺\n🤾‍♀️\n🤾\n🤾‍♂️\n🏌️‍♀️\n🏌️\n🏌️‍♂️\n🏇\n🧘‍♀️\n🧘\n🧘‍♂️\n🏄‍♀️\n🏄\n🏄‍♂️\n🏊‍♀️\n🏊\n🏊‍♂️\n🤽‍♀️\n🤽\n🤽‍♂️\n🚣‍♀️\n🚣\n🚣‍♂️\n🧗‍♀️\n🧗\n🧗‍♂️\n🚵‍♀️\n🚵\n🚵‍♂️\n🚴‍♀️\n🚴\n🚴‍♂️\n🤹\n🤹‍♂️\n🤹‍♀️",
@@ -1421,12 +1561,12 @@
         "mixed drink": "Martini\nMargarita\nOld Fashioned\nManhattan\nMojito\nDaiquiri\nCosmopolitan\nNegroni\nBloody Mary\nMoscow Mule\nGin and Tonic\nLong Island Iced Tea\nMai Tai\nWhiskey Sour\nPina Colada\nSex on the Beach\nBlue Hawaiian\nHurricane\nKamikaze\nTom Collins\nSidecar\nRusty Nail\nWhite Russian\nIrish Coffee\nMargarita on the rocks\nAppletini\nBellini\nBlack Russian\nBrandy Alexander\nCaesar\nChampagne Cocktail\nChocolate Martini\nFrench 75\nFuzzy Navel\nGodfather\nGreyhound\nHarvey Wallbanger\nLemon Drop\nMimosa\nPaloma\nPeach Bellini\nPink Lady\nSazerac\nScrewdriver\nSea Breeze\nSingapore Sling\nTequila Sunrise\nVodka Collins\nWhiskey Smash\nZombie",
         "japanese foods": "Sushi\nRamen\nTempura\nUdon\nYakitori\nOkonomiyaki\nSoba\nMiso soup\nTonkatsu\nTakoyaki\nGyudon\nChawanmushi\nShabu-shabu\nSukiyaki\nOnigiri\nKatsu curry\nGyoza\nNikujaga\nYakisoba\nSashimi\nYakiniku\nAnpan\nDorayaki\nOden\nZaru soba\nOyakodon\nMonjayaki\nMochi\nMatcha\nDango\nKakiage\nTonjiru\nKarage\nNabe\nKatsudon\nOchazuke\nTaiyaki\nMitarashi dango\nKorokke\nWarabimochi",
 		"pink anime portrati subject": "<female scifi characters>\n<female fantasy characters>\n<female video game characters>\n<vocaloid>\n<vtuber>",
-        "workout routine": "deadlifts\ncurls\nleg presses\ntredmill\nstairmaster\nstationary bicycle\nrowing machine\njumping jacks\njump rope\nstretches",
+        "workout routine": "deadlifts\ncurls\nleg presses\ntredmill\nstairmaster\nstationary bicycle\nrowing machine\njumping jacks\njump rope\nstretches\nyoga",
         "anime style": "studio ghibli style\nakira style\nvampire hunder d style\nSatoshi Kon style\nMakoto Shinkai style\nShinichirō Watanabe style\nFullmetal Alchemist style\nOne Piece style\nMob Psycho 100 style\nHunter x Hunter style\nNeon Genesis Evangelion style\nPokemon style\nPixar style\nDisney style\nWarner Brothers style",
         "anime faction": "sky pirates\nreligious knights\npsychic hackers\ntelekenic schoolchildren\nspace yakuza\nanthropomorphic nazis\nandroid treasure hunters",
         "candy desert type": "cotton candy\nstrawberry shortcake\nblueberry muffins\nlemon meringue pie\nraspberry torte\nplum pudding\ncherry jam\nhuckleberry pie\nsweet and sour\napple pie\nvanilla ice-cream\nchocolate ice-cream\nstrawberry ice-cream\nflan\nchocolate chip cookies\nsugar cookies\noatmeal raisin cookies\ngingerbread cookies\nsnickerdoodle cookies\ndouble chocolate chip cookies\nshortbread cookies\nblack and white cookies\nfig newton cookies\noreo cookies\nvanilla cupcake\nchocolate cupcake\nstrawberry cupcake\nbrownie\ns'mores\ncheesecake\nfudge\ncarrot cake\nmilkshakes\nchocolate bars\njelly beans\npeppermint sticks\nlollipops\ngummy bears\ncotton candy\ntaffy\nbubble gum\nrock candy\ncandy corn\ncandy canes\nbon bons\nsprinkles\ncaramels\npop rocks\ngumballs\nlicorice\nmarshmallows\nmalt balls\nnonpareils\nribbon candy\ntoffee\nnougat\nchocolate ganache\njordan almonds\njawbreakers\nm&ms\nreese's pieces\nskittles\ntwizzlers\nmilk duds\njunior mints\nsweedish fish\nsno-caps\nraisinets\ngoobers\nstarburst\nmike and ike\nsour patch kids\nred vines",
         "desert shop": "bakery\nice-cream shoppe\ncandy shoppe",
-        "retro video game bits": "8-bit\n8-bit\n8-bit\n8-bit\n16-bit\n16-bit\n16-bit\n32-bit",
+        "retro video game bits": "4:8-bit\n3:16-bit\n32-bit",
         "retro video game system": "atari 2600\natari 5200\natari 7800\nnintendo entertainment system nes\nsuper nintendo snes\nsega genesis\nsega master system\namiga\nsony playstation\nnintendo game boy\ngame boy advance\natari lynx\natari jaguar\nsega game gear",
         "retro video game game": "Super Mario Bros.\nThe Legend of Zelda\nDonkey Kong\nPac-Man\nSpace Invaders\nTetris\nSonic the Hedgehog\nMega Man\nCastlevania\nContra\nFinal Fantasy\nDragon Quest\nStreet Fighter II\nMortal Kombat\nKirby's Dream Land\nMetroid\nDuck Hunt\nBomberman\nEarthBound\nChrono Trigger\nSuper Mario World\nSuper Metroid\nSuper Mario Kart\nF-Zero\nStar Fox\nSuper Mario Bros. 3\nKirby Super Star\nPokémon Yellow\nGoldenEye 007\nMario Party\nBanjo-Kazooie\nSonic the Hedgehog 2\nCastlevania: Symphony of the Night\nMetal Gear Solid\nResident Evil\nDoom\nWolfenstein 3D\nDuke Nukem 3D\nSimCity\nCivilization\nOregon Trail\nThe Sims\nMyst\nMystical Ninja Starring Goemon\nTetris Attack\nSuper Puzzle Fighter II Turbo\nPuzzle Bobble\nColumns\nColumns III: Revenge of Columns\nDr. Robotnik's Mean Bean Machine\nBubble Bobble\nMr. Do!\nAdventure Island\nWonder Boy III: The Dragon's Trap\nNinja Gaiden\nDouble Dragon\nBattletoads\nTMNT: Turtles in Time\nSuper Street Fighter II\nMortal Kombat II\nDonkey Kong Country\nDonkey Kong Country 2: Diddy's Kong Quest\nSuper Castlevania IV\nCastlevania: Bloodlines\nR-Type\nGradius III\nThunder Force IV\nShadowrun\nPhantasy Star IV\nShining Force II\nEarthworm Jim\nAladdin\nLion King\nSpider-Man and Venom: Maximum Carnage\nX-Men\nMega Man X\nMetal Slug\nPitfall 2\nFinal Fight\nStreets of Rage\nShinobi III\nNinja Gaiden II: The Dark Sword of Chaos\nMetroid II: Return of Samus\nNinja Turtles II: The Arcade Game\nGunstar Heroes\nZombies Ate My Neighbors\nEarthworm Jim 2\nSuper Bomberman\nExcitebike\nOutrun\nCruis'n' USA\nSonic the Hedgehog 3\nSonic & Knuckles\nMortal Kombat 3\nStar Wars: Knights of the Old Republic\nDiablo II\nHalf-Life\nCounter-Strike\nQuake\nUnreal Tournament",
         "crazy creatures material": "gears\ncubes\nspheres\npistons\nmachines\ntiny robots\nhair\ndust\nparticles\nlight\nwater\ngoo\nslime\nimagination\nwires\nelectricty\ncircuit boards\nstone\nmud\nfear\nblood and bone",
@@ -1453,7 +1593,60 @@
 		"paintings of a girl artist": "Agnes Cecile\nAlice Pasquini",
 		"paintings of a girl expression": "neutral\nsad\ndour\nfrowning\ncontempt\ndisgust\nfear\ndoubt\npain",
 		"ancient robots cover": "moss\nplants\nruins\ndust and debris\ntrees and bushes",
-		"fruit": "Apple\nBanana\nOrange\nGrapefruit\nLemon\nLime\nPineapple\nMango\nPeach\nPlum\nApricot\nKiwi\nStrawberry\nRaspberry\nBlueberry\nBlackberry\nCranberry\nCherry\nGrape\nWatermelon\nCantaloupe\nHoneydew\nPapaya\nPomegranate\nGuava\nPassionfruit\nStarfruit\nDragonfruit\nAvocado\nPear\nQuince\nPersimmon\nFig\nOlive\nCoconut\nDate\nPrickly pear\nTangerine\nClementine\nGrapefruit",
+		"vehicle infographic subject": "car\ntruck\nbus\ntrain\nplane\njet\nelevator\nescalator\nbicycle\nboat\ncruise ship\nsubway\n<cutaway building blueprints>",
+		"dnd classes": "barbarian berserker\nbarbarian totem warrior\nbard of lore\nbard of valor\ncleric of knowledge\ncleric of life\ncleric of light\ncleric of nature\ncleric of tempest\ncleric of trickery\ncleric of war\ndruid of the land\ndruid of the moon\nchampion fighter\nbattle master fighter\nmonk of the open hand\nmonk of the shadow\nmonk of the four elements\npaladin of devotion\npaladin of the ancients\npaladin of vengeance\nranger hunter\nranger beast master\nrogue thief\nrouge assassin\nrogue arcane trickster\ndraconic bloodline sorcerer\nwild magic sorcerer\narchfey warlock\nfiend warlock\ngreat old one warlock\nwizard of abjuration\nwizard of conjuration\nwizard of divination\nwizard of enchantment\nwizard of evocation\nwizard of illusion\nwizard of necromancy\nwizard of transmutation\nbarbarian battleranger\ncleric of arcana\npurple dragon knight fighter\nmonk of the long death\nmonk of the sun soul\npaladin of the crown\nrogue mastermind\nrogue swashbuckler\nstorm sorcery sorcerer\nundying warlock\nwizard of bladsinging\npyromancy sorcerer\ncleric of solidarity\ncleric of strength\ncleric of ambition\ncleric of zeal\nbarbarian ancestral guardion\nbarbarian storm herald\nbarbarian zealot\nbard of glamour\nbard of swords\nbard of whispers\ncleric of forge\ncleric of grave\ndruid of dreams\ndurid of the shephard\narcane archer fighter\nsamurai fighter\nmonk of the drunken master\nmonk of the kensei\npaladin of conquest\npaladin of redemption\nranger gloom stalker\nranger horizon walker\nranger monster slayer\nrogue inquisitive\nrogue scout\ndivine soul sorcerer\ncelestial warlock\nhexblade warlock\nwizard of war magic\ncleric of order\ndruid of spores\nartificer alchemist\nartificer artillerist\nartificer battle smith\necho knight fighter\nwizard of chronurgy\nwizard of graviturgy\nbard of eloquence\npaladin of glory\nartificer armor\nbarbarian of the beast\nbarbarian of wild magic\nbard of creation\ncleric of peace\ncleric of twilight\ndruid of stars\ndurid of wildfire\npsi warrior fighter\nrune knight fighter\nmonk of mercy\nmonk of the astral self\npaladin of the watchers\nranger fey wanderer\nranger swarmkeeper\nrogue phantom\nrogue soulknife\naberant mind sorcerer\nclockwork soul sorcerer\nfathomless warlock\ngene warlock\nwizard of scribes",
+		"dnd armor type": "padded\nleather\nstudded leather\nhide\nchain shirt\nscale mail\nspiked\nbreastplate\nhalfplate\nring mail\nchain mail\nsplint\nplate",
+		"dnd background": "asian temple\nmedieval town\nmedieval tavern\nmedieval inn\nmedieval castle\nwizard's tower\ncastle\nvillage\nwalled town\nwalled city\ndungeon entrance\ncave entrance\ndesert temple\njungle temple\nmountain pass\n<specific fantasy location2>",
+		"ripple type": "<statue prompt gem>\n<sfl adjective2>\nfrost\ncrystals\nlight\nblood\nflowers\n<flower type>\nleaves\ngrass\nfireflies\nbutterflies\nmoths\ninsects\nbugs\nstatic\nglitches\nflames\nfire\nglass\nbutterfly wings\nmutlicolored smoke\nmutlicolored dust\nmutlicolored particles\nheart\nchrome\neerie\nchalk\nmoon\nsun\nplanet\ngalaxy\nice",
+		"decay colors": "brown\ngray\nblack\ndark green\nolive\ntan\ndark grey\ndark purple\ndark violet\nkelly green\nslate grey\ndim grey\nindigo\nmidnight blue\ndark teal\nsaddle brown",
+		"g&tb style": "anime\nphoto\nphotograph\npainting\noil painting\nwatercolor painting\npainterly\nimpressionist painting",
+		"pocket dragons item": "flower\n10:<flower type>\nfeathers\nwand\ngift\ngold coin\ntreasure chest",
+		"abstract wallpaper generator": "an abstract phone background wallpaper with labyrinth top view, <color1> and <color2> palette, volumetric, spheres, <abstract wallpaper extra>, digital painting, 8k 4k hq\nan abstract phone background wallpaper with multiple forms, <color1> and <color2> palette, volumetric, spheres, <abstract wallpaper extra>, digital painting, 8k 4k hq\nan abstract phone background wallpaper with multiple forms, gradient, <color1> and <color2> palette, volumetric, spheres, <abstract wallpaper extra>, digital painting, 8k 4k hq\nan abstract phone background wallpaper warp with galaxy, <color1> and <color2> palette, volumetric, <abstract wallpaper extra>, digital painting, 8k 4k hq\nan abstract phone background wallpaper, <color1> and <color2> palette, volumetric, shapes, <abstract wallpaper extra>, digital painting, 8k 4k hq\nan abstract phone background wallpaper, <color1> and <color2> palette, volumetric, shapes, <abstract wallpaper extra>, <abstract wallpaper extra>, <abstract wallpaper extra>, digital painting, 8k 4k hq\nan abstract phone background wallpaper of space warp jump, <color1> and <color2> palette, volumetric, shapes, <abstract wallpaper extra>, <abstract wallpaper extra>, digital painting, 8k 4k hq\nan abstract phone background wallpaper with labyrinth top view, <abstract wallpaper palette>, volumetric, spheres, <abstract wallpaper extra>, digital painting, 8k 4k hq\nan abstract phone background wallpaper with multiple forms, <abstract wallpaper palette>, volumetric, spheres, <abstract wallpaper extra>, digital painting, 8k 4k hq\nan abstract phone background wallpaper with multiple forms, gradient, <abstract wallpaper palette>, volumetric, spheres, <abstract wallpaper extra>, digital painting, 8k 4k hq\nan abstract phone background wallpaper warp with galaxy, <abstract wallpaper palette>, volumetric, <abstract wallpaper extra>, digital painting, 8k 4k hq\nan abstract phone background wallpaper, <abstract wallpaper palette>, volumetric, shapes, <abstract wallpaper extra>, digital painting, 8k 4k hq\nan abstract phone background wallpaper, <abstract wallpaper palette>, volumetric, shapes, <abstract wallpaper extra>, <abstract wallpaper extra>, <abstract wallpaper extra>, digital painting, 8k 4k hq\nan abstract phone background wallpaper of space warp jump, <abstract wallpaper palette>, volumetric, shapes, <abstract wallpaper extra>, <abstract wallpaper extra>, digital painting, 8k 4k hq",
+		"color1": "<color>",
+		"color2": "<color>",
+		"abstract wallpaper palette": "space palette\nwarm palette\ncool palette\n<punk type> palette\nwarm and <color> palette\ncool and <color> palette\nblack and <color> palette\nwhite and <color> palette\nnice palette\nhappy palette\ncheerful palette\nrainbow color palette",
+		"abstract wallpaper extra": "bubbles\nvobles\nconfetti\nstreamers\nspirals\nspheres\ncubes\ndiamonds\ntriangles\nstar shapes\ngalaxies\nwormholes\ncomets\nplanets with rings\nshadows\nrainbows\nwaves\nmultiple shapes\nshapes\nrandom shapes\nmaze\ntunnels",
+		"butterfly color": "blue\nyellow\norange\npurple",
+		"butterfly background": "black\nsunlight\ndaytime\nnighttime",
+		"interesting decade": "1900\n1920\n1940\n1960\n1980",
+		"portals time phrase": "another era\nthe distant past\nthe far future\nanother world\nanother dimension\nanother dimension\nsome other time\nan unknown time\na time before time",
+		"blue collar jobs": "train conductor\nderrick worker\npolice officer\nfire fighter\npostal worker\nmailman\nelectrician\nplumber\nboilermaker\naircraft mechanic\ncar mechanic\nconstruction worker\ngeneral contractor\nbulldozer driver\nbackhoe operator\nexcavator operator\ngarbage man\nwelder\nwell driller",
+		"table of foods food": "breakfast\nlunch\ndinner\nsnack\n10:<nationality>",
+		"table of foods location": "on a kitchen table\nin a sit down restaurant\nin a fancy restaurant\non a picnic table\nat a picnic on a blanket in the park\nat a picnic at the beach",
+		"pina colada generator": "10:<pina colada 1>\n5:<pina colada 2>\n5:<pina colada 3>\n👈👍🍹∧🌧☔, 🚫🧘∧½🧠, 👈👍💏🕛🏖️, ∴👨💘👀📝👨∧⎋",
+		"pina colada 1": "If you like <mixed drink>s and getting caught in the <pina colada weather>, if you're not into <pina colada exercise>, if you have half a <pina colada body part>, if you like making love at <pina colada time of day> in the <pina colada location>, then I'm the <pina colada person> that you've looked for, <pina colada action> to me and escape",
+		"pina colada 2": "Yes I like <mixed drink>s and getting caught in the <pina colada weather>, I'm not much into <pina colada not into>, I am into <pina colada am into>, I've got to meet you by <pina colada time of day> and cut through all this <pina colada cut through>, at a <pina colada location> where we'll <pina colada action> our escape",
+		"pina colada 3": "I never knew that you like <mixed drink>s and getting caught in the <pina colada weather>, and the feel of the <pina colada feel>, and the taste of <pina colada am into>, if you like making love at <pina colada time of day> in the <pina colada location>, you're the <pina colada person> that I've looked for, <pina colada action> with me and escape",
+		"pina colada weather": "rain\nsnow\nstorm\nthunder\ntornado\nhurricane",
+		"pina colada exercise": "<workout routine>",
+		"pina colada body part": "brain\nheart\nhead\nbody\nface",
+		"pina colada time of day": "midnight\nnoon\ndawn\ndusk\nmorning\nafternoon\ntomorrow noon",
+		"pina colada location": "dunes on the cape\nbar called O'Malley's\nfavorite local diner\nmotel down the road",
+		"pina colada action": "write\ncome\ntalk\ndance\nrun\nplan",
+		"pina colada not into": "health food\nexercise\nastrology\nworking on weekends",
+		"pina colada am into": "champagne\nwine\nlegos\nbeer",
+		"pina colada cut through": "red tape\nmisunderstanding\nmeet\nbureaucratic procedure",
+		"pina colada feel": "ocean\nfluffy blankets\nstuffed animals\ncorduroy pants\nlatex bodysuits",
+		"pina colada person": "love\nsomeone special\nman\nwoman",
+		"space girls giger start": "colorful epic space opera\ndark epic space opera\ncolorful lovcraftian space horror\n<punk type> space epic\ncolorful <punk type> space opera\ndark <punk type> space opera\ncolorful <punk type> space western\ndark <punk type> space western\ncolorful <punk type> space horror\ndark <punk type> space horror",
+		"space girls giger space movie": "star wars\nstar trek\naliens movie\ngalaxy quest\nbarbarella\nevent horizon\ndead space aftermath\nprometheus\ndistrict 9\nflash gordon\nlifeforce\nkiller klowns from outer space\npandorum",
+		"space girls giger idol": "kpop\njpop\njapanese\namerican\neuropean",
+		"space girls giger artist": "Thierry Mugler\ngreg rutkowski\nhr giger\nFrancis Bacon\nJoel Peter-Witkin\nDavid Cronenberg",
+		"chatgpt shot": "worm's eye view\nmedium shot\nlow angle shot\noverhead shot\nclose-up shot\ndistance shot\nwide angle shot",
+		"chatgpt style": "faerie\ncosmic horror\nsteampunk\nviking\nbyzantine\ncyberpunk\nold wild west\nancient greek\negyptian",
+		"chatgpt structure": "ancient ruin\nalien temple\nclockwork tower\nlongship dock\nornate chapel\nroyal throne room\nsailing ship\nbullet train\nwizards laboratory",
+		"chatgpt secondary structure": "above the canopy\nwithin a crater\namongst the roots\nbeneath a waterfall\ninside a hollow tree\ninside a crystal filled cave\nfloating on the clouds",
+		"chatgpt mood": "mysterious\notherworldly\nindustrial\nmagestic\ndivine\ncreepy\ndelapidated",
+		"chatgpt lighting": "dappled sunlight\neerie glow\ndimly lit\ngolden hour\ncandelight\ncinematic lighting\nmoonlight",
+		"chatgpt influence": "celtic\nlovcraftian\nvictorian\nnorse\nyzantine\ngreek\negyptian\nchinese\njapanese",
+		"anime fashion style": "haute couture\nvintage style\nsporty style\nbohemian style\nstreet style\ngrunge style\npunk style\ngothic style\nelegant chic",
+		"anime fashion location": "inside a space ship\nposing with a mech\ninside a grand cathedral\ninside a royal throne room\non a stage at a fashion show\ninside a business board room meeting\non the deck of a cruise ship\nin the middle of a battle field",
+		"giant dragon type": "black\nbrown\nblue\ngreen\nfire\nice\nelectric\npurple",
+		"giant dragon modifier": "5:\nrobot\nandroid\ncyborg\nmachine",
+		"giant dragon eye color": "<color>\nneon <color>\nglowing <color>\nsparkling <color>\nflaming <color>",
+		"evil witch spell type": "Massive\nevil\ndeadly\nhypnotic\nlove\nfire\nposion",
+		"evil witch spell background": "Blocksberg\n<forest adj> forest\n<ripple type>\n<forest adj> cave",
+		"evil witch spell extra": "sparks\nflames\ndark clouds\nmist\nfog\nlightning\ncat familiar\nowl familiar",
         "everyone": "<celebrity>\n<celebrity2>\n<male adult actor>\n<female adult actress>\n<crossover image dest>\n<vocaloid>\n<vtuber>\n<vtuber>\n<female anime character>\n<male anime character>\n<female asian idols>"
     }
 }
