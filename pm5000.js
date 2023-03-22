@@ -6,6 +6,8 @@ const pm5regexlh = /^([^<]*(?:<(?=lora:|hypernet:)[^<]+)*)<(?!lora:|hypernet:)([
 const pm5regex = /^([^<]*)<([^>]*)>(.*)$/;
 // old, not actually correct (only works if lora / hypernet is at the end  /^([^<]*)<(?!lora:|hypernet:)([^>]*)>(.*)$/;
 
+const pm5weightregex = /^(\d+):(.*)$/;
+
 function pm5Open(){
 	var pm5 = document.getElementById("promptmaker");
 	if(pm5 != null){
@@ -384,11 +386,7 @@ function pm5MakePrompt(data,prompt){
 	while(match !=null){
 		var listname = match[2];
 		//find list
-		var list = data.wordlists[listname];
-		if(list == null){
-			throw new Error(listname);
-		}
-		list = list.split("\n");
+		var list = pm5GetWordListWords(data,listname);
 		
 		if(data.Force != null && data.Force == listname && data.ForceReplace != null){
 			//replace this list with item specified by user
@@ -476,6 +474,79 @@ function pm5MakePrompt(data,prompt){
 	return prompt;
 }
 
+function pm5GetWordListWords(data, listname){
+	
+	var list = data.wordlists[listname];
+	if(list == null){
+		throw new Error(listname);
+	}
+	list = list.split("\n");
+	
+	//process weight, if any
+	var outlist = [...list];
+	for(var i=0;i<list.length;i++){
+		var item = list[i];
+		var match = item.match(pm5weightregex);
+		if(match!=null){
+			item = match[2];
+			outlist[i] = item;
+			if(data.EqualProbability == false){
+				//only make duplicates if not equal probability
+				var count = parseInt( match[1] );
+				if(count > 0 && count < 999){
+					for(var j=0;j<count-1;j++){
+						outlist.push(item);
+					}
+				}
+			}
+		}
+	}
+	
+	
+	//do equal probability
+	if(data.EqualProbability){
+		var set = new Set(outlist);
+		var outset = new Set();
+		outlist.length = 0;
+		
+		for(var item of set){
+			if(item.indexOf("<") > -1){
+				//expand replacement, but only one level
+				var toadd = [""];
+				var toadd2 = [];
+				var match = pm5GetMatch(item);
+				while(match !=null){
+					var sublistname = match[2];
+					var sublist = data.wordlists[sublistname].split("\n");
+					for(var i = 0; i< toadd.length; i++){
+						for(var j = 0; j< sublist.length; j++){
+							toadd2.push(toadd[i] + match[1] + sublist[j]);
+						}
+					}
+					toadd = toadd2;
+					toadd2 = [];
+					item = match[3];
+					match = pm5GetMatch(item);
+				}
+				//add all options to outset
+				for(var i = 0; i< toadd.length; i++){
+					outset.add(toadd[i] + item); //here item will be the last non angle bracket part of prompt, or the enire promot if the angle brackets were for a lora or something like that
+				}
+			}else{
+				outset.add(item);
+			}
+		}
+		
+		//convert outset back to array
+		for(const item of outset){
+			outlist.push(item);
+		}
+		
+	}
+	
+	return outlist
+}
+
 //do not use
 function pm5GenerateAll(){
 	var pm5Data = pm5GetData();
@@ -507,12 +578,8 @@ function pm5MakePromptAll(data,prompt){
 	if(match !=null){
 		var listname = match[2];
 		//find list
-		var list = data.wordlists[listname];
-		if(list == null){
-			throw new Error("No such  word list: "+listname);
-		}
-		list = list.split("\n");
-		
+		var list = pm5GetWordListWords(data,listname);
+				
 		for(var i = 0;i < list.length;i++){
 			//replace this item with item from list
 			prompt = match[1] + list[i] + match[3];
@@ -584,12 +651,10 @@ function pm5MakePromptAll2(data,prompt,choices){
 		}
 				
 		//find list
-		var list = data.wordlists[listname];
-		if(list == null){
-			throw new Error("No such  word list: "+listname);
-		}
-		//using a set to remove duplicates. duplicates are useful for getting some option more than others, but if we are making all, we just want all unique items.
-		var set = new Set(list.split("\n"));
+		var list = pm5GetWordListWords(data,listname);
+
+		//using a set to remove duplicates. duplicates are useful for getting some options more than others, but if we are making all, we just want all unique items.
+		var set = new Set(list);
 		
 		//handle pick once option
 		if(data.PickOnce == true){
@@ -650,13 +715,10 @@ function pm5CountAll2(data,prompt){
 		
 			var listname = match[2];
 			//find list
-			var list = data.wordlists[listname];
-			if(list == null){
-				throw new Error("No such  word list: "+listname);
-			}
-			
-			//using a set to remove duplicates. duplicates are useful for getting some option more than others, but if we are making all, we just want all unique items.
-			var set = new Set(list.split("\n"));
+			var list = pm5GetWordListWords(data,listname);
+
+			//using a set to remove duplicates. duplicates are useful for getting some options more than others, but if we are making all, we just want all unique items.
+			var set = new Set(list);
 			
 			for(const item of set){
 				//replace next list
@@ -710,6 +772,7 @@ function pm5Save(){
 	delete pm5Data.ReplaceAll;
 	delete pm5Data.ReplaceAllSeparate;
 	delete pm5Data.ReplaceAllRecursive;
+	delete pm5Data.EqualProbability;
 	
 	
 	showResults(JSON.stringify(pm5Data,null,4));
@@ -872,7 +935,6 @@ function pm5PromptChange(){
 	var tips = select.options[select.selectedIndex].getAttribute("tips");
 	var credit = select.options[select.selectedIndex].getAttribute("credit");
 	if( (neg!=null && neg.length>0) || (tips!=null && tips.length>0) || (credit!=null && credit.length>0)){
-		prompts = "Prompts:\n"+prompts;
 		if(neg!=null && neg.length>0){
 			prompts = "Negative Prompt: "+neg+"\n\n"+prompts;
 		}
@@ -904,13 +966,10 @@ function pm5GetWordLists(data, prompt, wordlists){
 			wordlists.add(listname);
 			
 			//find list
-			var list = data.wordlists[listname];
-			if(list == null){
-				throw new Error("No such  word list: "+listname);
-			}
+			var list = pm5GetWordListWords(data,listname);
 			
-			//using a set to remove duplicates. duplicates are useful for getting some option more than others, but if we are making all, we just want all unique items.
-			var set = new Set(list.split("\n"));
+			//using a set to remove duplicates. duplicates are useful for getting some options more than others, but if we are making all, we just want all unique items.
+			var set = new Set(list);
 			
 			for(const item of set){
 				//replace next list
@@ -972,6 +1031,7 @@ function pm5GetData(){
 	var pm5ReplaceAllSeparate = document.getElementById("pm5replaceallseparate");
 	var pm5ReplaceAllRecursive = document.getElementById("pm5replaceallrecursive");
 	var pm5PickOnce = document.getElementById("pm5pickonce");
+	var pm5EqualProbability = document.getElementById("pm5equalprobability");
 	
 	if(pm5Force != null && pm5ForceReplace != null && pm5Force.selectedIndex > 0){
 		pm5Data.Force = pm5Force.value;
@@ -986,6 +1046,10 @@ function pm5GetData(){
 	
 	if(pm5PickOnce != null){
 		pm5Data.PickOnce = pm5PickOnce.checked;
+	}
+	
+	if(pm5EqualProbability != null){
+		pm5Data.EqualProbability = pm5EqualProbability.checked;
 	}
 	
 	return pm5Data;
@@ -1003,8 +1067,8 @@ var PromptMakerLibraryBackup = `
 		"value":"small cute fluffy <gender word> <animal>"
 	}],
 	"wordlists": {
-		"person like subject": "a man\\na woman\\na <gender word> kitsune\\nan anthropomorphic <animal> <wmgender word>\\na kemonomimi <animal>-<wmgender word>\\na <gender word> ninja\\na <gender word> samurai",
-		"person action": "standing in the middle of the street\\nsitting in their living room\\nhaving a picnic in a forest\\nshopping in a connivence store\\nreading a book in a library\\npracticing fighting",
+		"person like subject": "5:a man\\n5:a woman\\na <gender word> kitsune\\nan anthropomorphic <animal> <wmgender word>\\na kemonomimi <animal>-<wmgender word>\\na <gender word> ninja\\na <gender word> samurai",
+		"person action": "standing in the middle of the street\\nsitting in their living room\\nhaving a picnic in a forest\\nshopping in a convenience store\\nreading a book in a library\\npracticing fighting\\npetting a <animal>",
 		"animal": "dog\\ncat\\nrabbit\\nbunny\\ndeer\\nracoon\\nsquirl\\nfrog\\nfox\\nkitsune\\npanda\\nsloth\\nbadger\\nlion\\ntiger\\nox\\ncow\\nchicken\\ngoose\\nduck\\npig\\nsheep\\nllama\\nparrot\\npenguin\\nseal\\nbadger\\nlynx\\nboar\\nhippo\\nelephant\\nzebra\\nbear\\npanther\\ndragon",
 		"gender word": "male\\nfemale\\ngirl\\nboy",
 		"wmgender word": "man\\nwoman\\ngirl\\nboy"
