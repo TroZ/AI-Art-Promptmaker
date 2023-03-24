@@ -37,6 +37,11 @@ html, body {
 	overflow: hidden;
 }
 
+body.darkmode {
+	background: #101010;
+	color: white;
+}
+
 #pm5everything {
 	/*this wraps all normally displayed items, and is the wrapper for the vertical flexbox*/
 	display: flex;
@@ -70,6 +75,10 @@ button {
 	background: #eee;
 	border: 2px solid #BDBDBD ; 
 	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+}
+body.darkmode #pm5makeprompt, 
+body.darkmode .results{
+	background: #444;
 }
 .results{
 	top: 2em;
@@ -138,7 +147,7 @@ button {
 	position: relative;
 	height: 150px;
 	width: 250px;
-	border: 1px solid black;
+	border: 1px solid darkgrey;
 	background: #ddd;
 	
 	display: flex;
@@ -146,9 +155,16 @@ button {
 	
 	transition: width 1s, height 1s, top 1s, left 1s, bottom 1s, right 1s, all 1s;
 }
+body.darkmode .pm5wordlist{
+	background: #444;
+}
 
 .pm5wordlist.wlselected{
 	background: #ddf;
+}
+
+body.darkmode .pm5wordlist.wlselected{
+	background: #448;
 }
 
 .pm5expander{
@@ -159,6 +175,9 @@ button {
 	font-weight: bolder;
 	cursor: pointer;
     border: 1px solid grey;
+}
+.pm5expander:hover{
+	font-weight: bold;
 }
 .expanded{
     position: absolute;
@@ -223,10 +242,39 @@ textarea#pm5result {
 	object-position: right top;
 }
 
+#pm5darkmodediv{
+	position: fixed;
+	top: 1px;
+	right: 210px;
+}
+
 #pm5makeprompt select,
 #pm5makeprompt input,
 #pm5makeprompt textarea {
 	width: 100%
+}
+
+#pm5generate {
+	border: 3px outset #808080;
+	border-radius: 5px;
+	margin: 2px;
+	background: #efe;
+}
+#pm5generate:hover {
+	background: #cfc;
+}
+#pm5generate:active{
+	border: 3px inset #808080;
+}
+body.darkmode #pm5generate {
+	background: #242;
+}
+body.darkmode #pm5generate:hover {
+	background: #282;
+}
+
+#pm5promptlabel, #pm5prompt {
+	font-weight: bolder;
 }
 
 #pm5generateall{
@@ -237,20 +285,41 @@ label, .nowrap {
 	white-space: nowrap;
 }
 
+body.darkmode textarea,
+body.darkmode input,
+body.darkmode select,
+body.darkmode button {
+	background: #222;
+	color: white;
+}
+body.darkmode input:hover,
+body.darkmode select:hover,
+body.darkmode button:hover {
+	background: #444;
+}
+
 </style>
 </head>
 <body onload="load();">
 <div id="pm5everything">
 <h1 id="pm5title">Prompt Maker 5000</h1>
 <div id="pm5imageholder"><img id="pm5promptimage" /></div>
+<div id="pm5darkmodediv"><input type=checkbox id="pm5darkmode"><label for="pm5darkmode">Dark Mode</label>
+<script>
+if(window.localStorage.getItem("darkmode")=="true"){
+	document.getElementById("pm5darkmode"),checked = true;
+	document.body.classList.add("darkmode");
+}
+</script>
+</div>
 <div id="pm5promptarea">
- <span class="nowrap"><label for="pm5prompt">Prompt Type: </label><select id="pm5prompt"></select></span><br>
- <span class="nowrap"><label for="pm5count">Number:</label><input id=pm5count type=number min=1 max=100 value=5></span> <span class="spacer"> </span>
- <span class="nowrap"><input type=checkbox id="pm5pickonce"><label for="pm5pickonce">Pick Once Per Prompt</label> <span class="info" title="If checked, if a word list appears twice in a prompt, will use the same value both times.  If unchecked, will randomly pick a value from the wordlist each time it appears in the prompt.">❔</span></span> <span class="spacer"> </span>
+ <span class="nowrap"><label id="pm5promptlabel" for="pm5prompt">Prompt Type: </label><select id="pm5prompt"></select></span><br>
+ <span class="nowrap"><label for="pm5count">Number:</label><input id=pm5count type=number min=1 max=100 value=5 size=4></span> <span class="spacer"> </span>
+ <span class="nowrap"><input type="checkbox" id="pm5pickonce"><label for="pm5pickonce">Pick Once Per Prompt</label> <span class="info" title="If checked, if a word list appears twice in a prompt, will use the same value both times.  If unchecked, will randomly pick a value from the wordlist each time it appears in the prompt.">❔</span></span>  <span class="spacer"> </span> 
  <span class="nowrap"><input type=checkbox id="pm5equalprobability"><label for="pm5equalprobability">Equal Probability</label> <span class="info" title="If checked, all items in the word list will be given equal probability. This includes the items in word lists referenced by this word list (but only for one level).">❔</span></span> <span class="spacer"> </span>
  <span class="nowrap"><label for="pm5force">Force Replacement <select id=pm5force></select> <label for="pm5forcereplace">with</label> <input id=pm5forcereplace size=25> <span class="info" title="Replace the selected word list reference with the specified text">❔</span></span> <span class="spacer"> </span>
  <span class="nowrap"><label for="pm5replaceall">Replace with all options:</label><select id=pm5replaceall></select> <input type=checkbox id="pm5replaceallseparate" checked><label for="pm5replaceallseparate">Separate Prompts</label> <span class=hidden><input type=checkbox id="pm5replaceallrecursive">Recursive</span> <span class="info"  title="Replace the selected word list reference with all possible options (makes a separate prompt for each option when Separate Promots is selected). It is strongly recommended to only generate 1 prompt at a time with this setting on. When Separate Promots is not selected, it makes one prompt that is automatically expanded into many prompts by some AI Art software (CMDR2 / Easy Diffusion)), however this won't work correctly if the items in the word list contain commas, or expand into text that contains commas (flat lists of words recommended).">❔</span></span><br>
- <span class="nowrap"><button id="pm5generate" type="button">Make Prompts</button> <span id="pm5possibilities"></span></span> <button id="pm5generateall" type="button" title="DO NOT USE">Make All Prompts</button>  <span class="spacer"> </span>
+ <span class="nowrap"><button id="pm5generate" type="button">Make Prompts</button> <span id="pm5possibilities"></span></span> <button id="pm5generateall" type="button" title="DO NOT USE">Make All Prompts</button>  <span class="spacer"> </span>  <span class="spacer"> </span>  <span class="spacer"> </span> 
  <button id="pm5addeditprompt" type="button">Add / Edit Prompts</button>
 </div>
 <div id="pm5wlwrapper"><h4>Word Lists:</h4>

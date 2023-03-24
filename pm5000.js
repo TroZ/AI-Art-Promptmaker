@@ -40,6 +40,7 @@ function pm5Load(){
 	document.getElementById("pm5addeditprompt").addEventListener("click",pm5AddEditPrompt);
 	document.getElementById("pm5addpromptclose").addEventListener("click",pm5AddEditPromptClose);
 	document.getElementById("pm5addeditselect").addEventListener("change",pm5AddEditPromptChange);
+	document.getElementById("pm5darkmode").addEventListener("change",pm5DarkMode);
 	
 	
 	
@@ -49,6 +50,20 @@ function pm5Load(){
 	req.open("GET", "./pm5000library.json");
 	req.send();
 
+}
+
+function pm5DarkMode(){
+	var ele = document.getElementById("pm5darkmode");
+	if(ele!=null){
+		var val = ele.checked;
+		window.localStorage.setItem("darkmode",val);
+		
+		if(val){
+			document.body.classList.add("darkmode");
+		}else{
+			document.body.classList.remove("darkmode");
+		}
+	}
 }
 
 function pm5ImageExpand(e){
@@ -744,6 +759,7 @@ function pm5WordListExpand(e){
 		var tgt = e.target.parentElement;
 		if(tgt.classList.contains("expanded")){
 			tgt.classList.remove("expanded");
+			tgt.scrollIntoView();
 		}else{
 			tgt.classList.add("expanded");
 			var ele = document.getElementById("pm5wlcontainer");
