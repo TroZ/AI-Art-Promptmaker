@@ -353,6 +353,14 @@
 			"image": ""
         },
         {
+            "name": "Yellow Submarine?",
+            "value": "We all live in a <color> <vehicle> by The Beatles by <artist>",
+            "neg": "",
+            "tips": "Steps: 15, Sampler: DPM++ 2M Karras, CFG scale: 4.5, Seed: 10493540374, Face restoration: CodeFormer, Size: 1024x768, Model hash: cae1bee30e",
+			"credit": "Apprehensive_Sky892 https://old.reddit.com/r/StableDiffusion/comments/11zuyuw/fun_prompt_we_all_live_in_a_yellow_submarine_by/",
+			"image": "https://preview.redd.it/x8w19bhwjjpa1.png?width=960&crop=smart&auto=webp&v=enabled&s=a858d13855c9104d0003c0e0a2e3fe8c1dd9c49e"
+        },
+        {
             "name": "Expermental Prompts",
             "value": "",
             "neg": "",
@@ -634,7 +642,7 @@
         },
 		{
             "name": "Members of Star Patrol, the 1990s reboot (use Pick Once)",
-            "value": "<members of the star patroll generator>",
+            "value": "<members of the star patrol generator>",
             "neg": "photograph, photography, bare legs, nude, naked, nudity, airbrushed, glossy, photoshop, sad, angry, mad, dour",
             "tips": "Model: rpg_V4, ddim, 25 steps, hires fix enabled",
 			"credit": "newsock99 https://www.reddit.com/r/StableDiffusion/comments/11u7af1/the_members_of_star_patrol_the_1990s_reboot/",
@@ -1106,7 +1114,7 @@
         },
         {
             "name": "Giant Dragons",
-            "value": "A Realistic illustration of a giant <giant dragon type> dragon <giant dragon type> with <giant dragon eye color> eyes in a burning <punk type> city background, night time with a crescent moon, cinematic composition. 8K render, 4K HDR, hyper realistic",
+            "value": "A Realistic illustration of a giant <giant dragon type> dragon <giant dragon modifier> with <giant dragon eye color> eyes in a burning <punk type> city background, night time with a crescent moon, cinematic composition. 8K render, 4K HDR, hyper realistic",
             "neg": "",
             "tips": "",
 			"credit": "LiguerZero https://prompthero.com/prompt/752e5bf968c",
@@ -1114,9 +1122,9 @@
         },
         {
             "name": "Easter Bunny Girls",
-            "value": "Beautiful <female gender word> <face description short> wearing a white sundress and bunny ears, (easter eggs:1. 1), (perfect photorealistic face:1. 2), skindentation:1. 2, floral nature scene, <flower type>, masterpiece",
+            "value": "Beautiful <female gender word> <face description short> wearing a white sundress and (bunny ears), easter eggs, perfect photorealistic face, floral nature scene, <flower type>, masterpiece",
             "neg": "((nsfw)), ((big breasts)), bad-hands-5, (worst quality:1.4), (low quality:1.4), bad_prompt_version2, painting by bad-artist, ((disfigured)), ((bad art))",
-            "tips": "Size: 512x768, Seed: 2097602350, Steps: 50, Sampler: dpm++_2m_karras, Upscaler: ESRGAN 4x, Model hash: 135bb58293, Model: SD 1.5, Guidance Scale: 3, Denoise Strenget: 0.4",
+            "tips": "Size: 512x768, Seed: 2097602350, Steps: 50, Sampler: dpm++_2m_karras, Upscaler: ESRGAN 4x, Model hash: 135bb58293, Model: SD 1.5, Guidance Scale: 3, Denoise Strenget: 0.4\nOriginal prompt closer to: Beautiful <female gender word> <face description short> wearing a white sundress and bunny ears, (easter eggs:1. 1), (perfect photorealistic face:1. 2), skindentation:1. 2, floral nature scene, <flower type>, masterpiece",
 			"credit": "seiryu https://prompthero.com/prompt/ff22c84e4de",
 			"image": "https://prompthero.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWxrWlRNeFlUTXlOQzFtWlRFekxUUXdPV1F0WVdKbE1pMDNZbVE1WVdRNE1EZzNPRFlHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--76aceca1c98812239a5c0f6742b415314a2149e3/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9MWm05eWJXRjBPZ2wzWldKd09oUnlaWE5wZW1WZmRHOWZiR2x0YVhSYkIya0NBQVJwQWdBRU9ncHpZWFpsY25zSk9oTnpkV0p6WVcxd2JHVmZiVzlrWlVraUIyOXVCam9HUlZRNkNuTjBjbWx3VkRvT2FXNTBaWEpzWVdObFZEb01jWFZoYkdsMGVXbGYiLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--1fafc8db9a1358f9efb37963b805ae2bc50fd1af/prompthero-prompt-ff22c84e4de.png"
         },
@@ -1129,11 +1137,107 @@
 			"image": "https://prompthero.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWxrWVRZMFlqazNOaTAxWWpJMExUUmlNell0T0RsbE9DMDFZamRoTWpVNU9XRTRZaklHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--f7075fd8b30c11bc17bf46930e76f77e50057aa2/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9MWm05eWJXRjBPZ2wzWldKd09oUnlaWE5wZW1WZmRHOWZiR2x0YVhSYkIya0NBQVJwQWdBRU9ncHpZWFpsY25zSk9oTnpkV0p6WVcxd2JHVmZiVzlrWlVraUIyOXVCam9HUlZRNkNuTjBjbWx3VkRvT2FXNTBaWEpzWVdObFZEb01jWFZoYkdsMGVXbEIiLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--f753885922b37d6e6788eb7c04f7caf6e86de707/prompthero-prompt-616932c9600.png"
         },
         {
-            "name": "",
-            "value": "",
+            "name": "Fruit Monsters",
+            "value": "3d render creature fruit very big eyes monster (<fruit type>, scary), elemental flush of force nature micro world fluo fishscale, design by pixar and Giuseppe Arcimboldo, unreal 5, daz, hyperrealistic, octane render, cosplay, rpg portrait, <lighting>, intricate detail, harvest fall vibrancy, <sprinkles>",
+            "neg": " (bad quality, worst quality, low quality:1.2), nfixer, nrealfixer",
+            "tips": "Steps: 20, Sampler: DPM++ 2M Karras, CFG scale: 11, Seed: 157902866, Size: 1024x768, Model hash: b513c6287d, Model: realismEngine_v10",
+			"credit": "gharmonica https://old.reddit.com/r/StableDiffusion/comments/11yljyt/_/",
+			"image": "https://external-preview.redd.it/MgROuMgUEszyaxwIZ8oLRiU-eerqXUPumU1i6xOhGX8.jpg?width=1024&auto=webp&v=enabled&s=0faf0895535b7ee3ebb7e67f32aae05c982f04b8"
+        },
+        {
+            "name": "Space Animals",
+            "value": "beautiful detailed <animal> wearing a space suit with helmet in space, <space background>, extremely detailed eyes and face, beautiful detailed eyes, light on face, glaring, star sky, detailed sky, night, detailed fur, depth of field, best quality, masterpiece, illustration, extremely detailed, 8k wallpaper",
+            "neg": "sketches, (worst quality:2), (low quality:2), (normal quality:2), chromatic aberration, lowres, normal quality, ((monochrome)), ((grayscale)), skin spots, acnes, skin blemishes, bad anatomy, (long hair:1.4), DeepNegative, (fat:1.2), facing away, tilted head, {Multiple people}, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worstquality, low quality, normal quality, jpegartifacts, signature, watermark, username, blurry, bad feet, cropped, poorly drawn hands, poorly drawn face, mutation, deformed, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, extra fingers, fewer digits, extra limbs, extra arms,extra legs, malformed limbs, fused fingers, too many fingers, long neck, cross-eyed,mutated hands, polar lowres, bad body, bad proportions, gross proportions, text,error, missing fingers,missing arms, missing legs, extra digit, extra arms, extra leg, extra foot, EasyNegative, (earrings:1.6)",
+            "tips": "Steps: 25, Sampler: DPM++ SDE Karras, CFG scale: 9, Seed: 952983656, Size: 512x768, Model hash: 6320ecf58a Model: RCNZ Gorilla With A Brick - https://civitai.com/models/22747/rcnz-gorilla-with-a-brick\noriginal prompt (which didn't seem to work as well for me): best quality ,masterpiece, illustration, an extremely delicate and beautiful, extremely detailed ,CG ,unity ,8k wallpaper, Amazing, finely detail, masterpiece, best quality, official art, extremely detailed CG unity 8k wallpaper, ultra-detailed, highres, extremely detailed, ((beautiful detailed cat)), wearing a space suit, extremely detailed eyes and face, beautiful detailed eyes, light on face, glaring, (galaxy:1.2), star \\(sky\\), outdoors, (upper body:1.4), detailed sky, night, detailed fur, depth of field",
+			"credit": "residentchiefnz https://old.reddit.com/r/StableDiffusion/comments/11y9qut/space_captain_meow_profile_pic/",
+			"image": "https://preview.redd.it/2ud0zkhu1apa1.jpg?width=512&auto=webp&v=enabled&s=4d046389263aa6a199f7a9c9cd60f66774478f1c"
+        },
+        {
+            "name": "In war, people are just toys",
+            "value": "raw photo of toy soldier <toy soldier type>, <toy soldier location>, plastic, ultra detailed, sharp focus, hd, hdr, 8k, reflection, rtx, photorealsic, raw, low light, <artist or style>",
+            "neg": "lowres, bad anatomy, duplicate, inaccurate limb and hand and finger and long fingernails, error in captioning, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry",
+            "tips": "Steps: 25, Sampler: DPM++ 2M Karras, CFG scale: 5, Seed: 3874225730, Size: 768x768, Model hash: d0b3c20a0c, Model: neurogen_v10_fp16, Denoising strength: 0.4, Clip skip: 2, Hires upscale: 2, Hires upscaler: R-ESRGAN 4x+",
+			"credit": "JohnHrpr https://old.reddit.com/r/StableDiffusion/comments/11ya7rb/in_war_people_are_just_toys/",
+			"image": "https://preview.redd.it/e62ube8zn8pa1.jpg?width=768&auto=webp&v=enabled&s=3e787407dab421d2c226b2f69791aa5e0a4047ca"
+        },
+        {
+            "name": "Into the Middle Earth Mines",
+            "value": "<chatgpt shot> of the expansive (Dwarven style:1.15) (<middle earth mines location>:1.25) deep within the (cavernous realm of the middle earth:1.15), <architectural styles> style, unsettling, torchlight, (lanterns:0.9), (dimly lit:1.1), neat and tidy, magical, natural light, fantasy, verticality, sharp focus, concept art, by greg rutkowski and craig mullins, cozy atmosphere and <lighting>, trending on artstation",
+            "neg": "(people, characters, persons, beings:1.1), sun, sky, outside, cartoon, 3d, painting, drawing, extra fingers, disfigured, bad art, deformed, poorly drawn, extra limbs, close up, strange colours, blurry, boring, sketch, lackluster, face portrait, self-portrait, signature, letters, watermark, grayscale",
+            "tips": "model: dreamlike photoreal 2.0 combined w/ https://civitai.com/models/10391/noise-offset-for-true-darkness-in-sd @ 50/50\nessentially just generated w/ sde karras @ 40steps 800x1000 until i love something, then sent to img2img and kept the same prompt @ 0.5 denoising @ 1200x1500 and iterated until i liked final result, then upscaled",
+			"credit": "PittEnglishDept https://old.reddit.com/r/StableDiffusion/comments/11y7udo/into_the_middle_earth_mines/",
+			"image": "https://preview.redd.it/qwbz1nof48pa1.png?width=320&crop=smart&auto=webp&v=enabled&s=08d0af8433e647d801390303a2b558da404f362f"
+        },
+        {
+            "name": "New Fashion Trends",
+            "value": "(extremely detailed anime full-body drawing of a young <gender word> model on a runway walking in a hyper futuristic clothing designed by a <new fashion trends designer> clothing designer in <new fashion trends year>), intricately drawn hand, model shoot lighting, trending on ArtStation, trending on CGSociety, Intricate, High Detail, Sharp focus, art by midjourney and greg rutkowski",
+            "neg": "deformed eyes, ((disfigured)), ((bad art)), ((deformed)), ((extra limbs)), (((duplicate))), ((morbid)), ((mutilated)), out of frame, extra fingers, mutated hands, poorly drawn eyes, ((poorly drawn hands)), ((poorly drawn face)), (((mutation))), ((ugly)), ((bad anatomy)), (((bad proportions))), cloned face, body out of frame, out of frame, gross proportions, (malformed limbs), ((missing arms)), ((missing legs)), (((extra arms))), (((extra legs))), (fused fingers), (too many fingers), (((long neck))), tiling, poorly drawn, mutated, cross-eye, canvas frame, frame, cartoon, 3d, weird colors, blurry, signature, artists name, monochrome, grayscale",
+            "tips": "Steps: 20, Sampler: Euler a, CFG scale: 7, Seed: 1205593182, Size: 512x512, Model hash: df3c506e51, Model: kl-f8-anime2, Denoising strength: 0.7, Hires upscale: 2.5, Hires upscaler: R-ESRGAN 4x+ Anime6B  A bit of inpainting on the face afterwards",
+			"credit": "danielbr93 https://old.reddit.com/r/StableDiffusion/comments/11zesee/sd_may_be_an_easy_way_to_design_new_clothes/",
+			"image": "https://preview.redd.it/jm7x83o2igpa1.png?width=640&crop=smart&auto=webp&v=enabled&s=0ef3672385386acf5fdb79efc6774901f24a5c6c"
+        },
+        {
+            "name": "Fantasy Monsters",
+            "value": "a portrait of a <fantasy monsters> <dnd classes> screaming at us, angry face, vicious bite, furious, terrifying nightmare, horrific nightmare, bad dream, horror, <chatgpt shot>, <dnd background> background",
+            "neg": "asian, chinese, lowres, text, error, cropped, worst quality, low quality, jpeg artifacts, ugly, duplicate, morbid, mutilated, out of frame, extra fingers, mutated hands, poorly drawn hands, poorly drawn face, mutation, deformed, blurry, dehydrated, bad anatomy, bad proportions, extra limbs, cloned face, disfigured, gross proportions, malformed limbs, missing arms, missing legs, extra arms, extra legs, fused fingers, too many fingers, long neck, username, watermark, signature",
+            "tips": "Steps: 150, Sampler: Euler a, CFG scale: 7, Seed: 2770030799, Size: 768x768, Model hash: 0cf30d3a91, Model: epi_hyperphotogodess_epiHyperphotogodess_v1CLIPFix",
+			"credit": "harrytanoe https://old.reddit.com/r/StableDiffusion/comments/11z1pg4/cinematic_high_angle_shot_from_above/",
+			"image": "https://preview.redd.it/glrbsk6jpdpa1.png?width=768&auto=webp&v=enabled&s=f6a069a4bcd596162f054fe5a12f9af6012b0fea"
+        },
+        {
+            "name": "Come with me, and you'll be, in a world of latent imagery",
+            "value": "surreal, <flower type>, <flower type>, <flower type>, dandelionwanderer, <statue prompt gem> geodes, man in <color> suit and tophat, by <artist> and Dr. Seuss, WLOP, dandelionseer, <lora:flowervirus_lora_2800steps:1.15> flowervirus",
+            "neg": "face, mouth, nose, eyes, draft, tiled, book, books",
+            "tips": "Steps: 150, Sampler: Euler a, CFG scale: 10, Seed: 2451052836, Size: 768x512, Model hash: f9c1a851e7, Model: alfamix_V1, Denoising strength: 0.35,  Hires upscale: 2, Hires steps: 15, Hires upscaler: ESRGAN_4x\ncontrol net was used for example image but can get good results without it.\nnot sure if use lora is available, but again, can get good (but different looking) results without it",
+			"credit": "weresl0th https://old.reddit.com/r/StableDiffusion/comments/11zvnpz/come_with_me_and_youll_be_in_a_world_of_latent/",
+			"image": "https://preview.redd.it/6o6ll0a6pjpa1.png?width=1014&auto=webp&v=enabled&s=cf9fe0614c6e9206f29381c594ed2382dd787f06"
+        },
+        {
+            "name": "Balcony Fashion",
+            "value": "A vibrant dream of a beautiful girl wearing <fashion brands> from behind on a balcony looking out over a fancy street in <city type> <city name>, lush plants, <flower type>, galaxy, glowing paper lanterns, high fashion, magic details, by moebius, edward hopper, james gilleard, and james jean, <artist or style>, hd, 8 k, trending on artstation, uhd",
             "neg": "",
-            "tips": "",
-			"credit": "",
+            "tips": "Model: Stable Diffusion 1.5, Seed: 2851990364, Guidance scale: 7, Dimensions: 896 × 512",
+			"credit": "https://lexica.art/prompt/3bc46c6f-9e05-4e6c-b210-9aa445f5a0ec",
+			"image": "https://image.lexica.art/md/ccdc22f8-6fe0-463e-af3b-e05fa2f42596"
+        },
+        {
+            "name": "Female Sci-fi Armor",
+            "value": "female dressed in <sci-fi armor type> armor, lingerie, <star patrol location> background, (((full body visible))), looking at viewer, portrait, photography, detailed skin, realistic, <camera>, 8k, highly detailed, full length frame, High detail RAW color art, piercing, diffused soft lighting, shallow depth of field, sharp focus, hyperrealism, cinematic lighting",
+            "neg": "lowres, text, error, cropped, worst quality, low quality, jpeg artifacts, ugly, duplicate, morbid, mutilated, out of frame, extra fingers, mutated hands, poorly drawn hands, poorly drawn face, mutation, deformed, blurry, dehydrated, bad anatomy, bad proportions, extra limbs, cloned face, disfigured, gross proportions, malformed limbs, missing arms, missing legs, extra arms, extra legs, fused fingers, too many fingers, long neck, username, watermark, signature",
+            "tips": "Model: Realistic Vision V1.3, Size: 512x768, Seed: 3057424752, Steps: 50, Sampler: k_euler_ancestral, Upscaler: ESRGAN 4x, Model Hash: 77e392958a, Guidance Scale: 7",
+			"credit": "zansei https://prompthero.com/prompt/368a8f271ed",
+			"image": "https://prompthero.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaWt5T0dZNFpqaGxNUzFtTXpobUxUUXpNRGd0WWpoak15MHpZMk5tT1dZME9USmlPV1lHT2daRlZBPT0iLCJleHAiOm51bGwsInB1ciI6ImJsb2JfaWQifX0=--9a05a8dd521edd14988aa08fec929a6a2bbfa9d6/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9MWm05eWJXRjBPZ2wzWldKd09oUnlaWE5wZW1WZmRHOWZiR2x0YVhSYkIya0NBQVJwQWdBRU9ncHpZWFpsY25zSk9oTnpkV0p6WVcxd2JHVmZiVzlrWlVraUIyOXVCam9HUlZRNkNuTjBjbWx3VkRvT2FXNTBaWEpzWVdObFZEb01jWFZoYkdsMGVXbEIiLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--f753885922b37d6e6788eb7c04f7caf6e86de707/prompthero-prompt-368a8f271ed.png"
+        },
+        {
+            "name": "Fantasy Genie",
+            "value": "A genie with phenomenal cosmic power, casting a <evil witch spell type> spell, <gem explosion result>, by dan mumford, yusuke murata, makoto shinkai, ross tran, cosmic, terrifying, demon rays, intricate detail, cinematic, 8 k, <art style>, featured on artstation, pixiv",
+            "neg": "",
+            "tips": "Model Stable Diffusion 1.5, Seed 1803208867, Guidance scale 7, Dimensions 512 × 512",
+			"credit": "https://lexica.art/prompt/d53d7fe5-0867-4dd4-9f1f-aea092ec8ac8",
+			"image": "https://image.lexica.art/md/fad2890f-b244-4769-8deb-cf78cba7f345"
+        },
+        {
+            "name": "Insectoid Princess",
+            "value": "beautiful and sweet girl princess, insectoid parts on her head, obsidian <wrestling suit material> night dress, tight waist, <insectoid princess insect> insects around, <flower type>, <statue prompt gem> and <statue prompt gem> ornaments, mercury rain, background storm, xenomorph, large breasts, detailed face, <face description short>, provocative smile, necklace with diamonds, volumetric lighting, occlusion, Unreal Engine 5 128K UHD Octane, fractal, pi, fBm",
+            "neg": "deformed, ugly, mutilated, disfigured, text, extra limbs, face cut, head cut, extra fingers, extra arms, poorly drawn face, mutation, bad proportions, cropped head, malformed limbs, mutated hands, fused fingers, long neck",
+            "tips": "Model: DreamShaper, Width: 512, Height: 683, Scale: 7, Steps: 25, Sampler: DDIM, Seed: 594191082",
+			"credit": "Max Stage @triceratops https://openart.ai/community/VTaKOKEXJg0dkvmaSbUO",
+			"image": "https://cdn.openart.ai/uploads/image_e6zpF86w_1679617236742_512.webp"
+        },
+        {
+            "name": "Anime Magical Girl Generator (use Choose Once)",
+            "value": "<anime magical girl art style> of seductive feminine ethereal woman with ((long <hair color> <hair style> hair)) and ((<eye adjective> <eye color> eyes)) and soft round face and <lip color> lips, ((<anime skin tone> skin)), <color> magical <anime magical girl power source> aura, ((white and <color> <anime magical girl power source> goddess mesh outfit)) with deep cleavage, kneehighs, ((cute shy <mouth shape> mouth)), looking at camera, ethereal goddess aura, bokeh <anime magical girl power source> background, intricately detailed, epic fantasy, beauty, sensual feminine romance, <lighting>, front view, ((huge breast)), ((sexy))",
+            "neg": "((clothes)), ((bra)), ((panty)), ((pants)), illustration, painting, drawing, art, sketch, deformed, ugly, mutilated, disfigured, text, extra limbs, face cut, head cut, extra fingers, extra arms, poorly drawn face, mutation, bad proportions, cropped head, malformed limbs, mutated hands, fused fingers, long neck, strange colors, sketch, lacklustre, repetitive, cropped, lowres, old, deformed, childish, childrish, ugly, duplicate, morbid, out of frame, mutated hands, poorly drawn hands, mutation, blurry, bad anatomy, bad proportions, malformed limbs, missing arms, missing legs, mutated hands, bad composition, compressed, low quality, watermark, cropped, worst quality, jpeg artifacts, signature, asymmetrical eyes, split images",
+            "tips": "Model: Realistic Vision V1.3, Width: 512, Height: 512, Scale: 6, Steps: 25, Sampler: Euler A, Seed: 1648500475",
+			"credit": "Clifford @wolverine_courageous_70 https://openart.ai/community/x36XquMGfjt5eSWPZ9yt",
+			"image": "https://cdn.openart.ai/uploads/image_ET4bj2Lu_1679615220388_512.webp"
+        },
+        {
+            "name": "Showdown",
+            "value": "two people, <crossover image dest> in a battle with <crossover image dest> with <showdown weapons> <showdown location>, <artist or style>, <extra details>",
+            "neg": "deformed, ugly, disfigured, blurry, pixelated, hideous, indistinct, old, twisted, contorted, malformed, extra hands, extra arms, joined misshapen, collage, grainy, low, poor, monochrome, huge, watermark",
+            "tips": "Model ChilloutMix, Steps 40, Guidance Scale: 7, Upscale: 4x RealESRGAN_4xplus",
+			"credit": "TroZ",
 			"image": ""
         },
         {
@@ -1151,53 +1255,13 @@
             "tips": "",
 			"credit": "",
 			"image": ""
-        },
-        {
-            "name": "",
-            "value": "",
-            "neg": "",
-            "tips": "",
-			"credit": "",
-			"image": ""
-        },
-        {
-            "name": "",
-            "value": "",
-            "neg": "",
-            "tips": "",
-			"credit": "",
-			"image": ""
-        },
-        {
-            "name": "",
-            "value": "",
-            "neg": "",
-            "tips": "",
-			"credit": "",
-			"image": ""
-        },
-        {
-            "name": "",
-            "value": "",
-            "neg": "",
-            "tips": "",
-			"credit": "",
-			"image": ""
-        },
-        {
-            "name": "",
-            "value": "",
-            "neg": "",
-            "tips": "",
-			"credit": "",
-			"image": ""
-        }
+        }		
     ],
     "wordlists": {
 		
         "person like subject": "man\nwoman\n<gender word> kitsune\nanthropomorphic <animal> <wmgender word>\nkemonomimi <animal>-<wmgender word>\n<gender word> ninja\n<gender word> samurai\n<gender word> spy\n<gender word> soldier\n<gender word> superhero",
         "person action": "standing in the middle of the street\nsitting in their living room\nhaving a picnic in a forest\nshopping in a convenience store\nreading a book in a library\npracticing fighting\nusing <household items>",
-        "animal": "dog\ncat\nrabbit\nbunny\ndeer\nracoon\nsquirl\nfrog\nfox\nkitsune\npanda\nsloth\nbadger\nlion\ntiger\nox\ncow\nchicken\ngoose\nduck\npig\nsheep\nllama\nparrot\npenguin\nseal\nlynx\nboar\nhippo\nelephant\nzebra\ngiraffe\nbear\npanther\nkangaroo\nkoala\nmouse\nrat\nlizard\nturtle\ntortoise\ncrocodile\nalligator\nmonkey\ngorilla\nape",
+        "animal": "dog\ncat\nrabbit\nbunny\ndeer\nracoon\nsquirrel\nfrog\nfox\nkitsune\npanda\nsloth\nbadger\nlion\ntiger\nox\ncow\nchicken\ngoose\nduck\npig\nsheep\nllama\nparrot\npenguin\nseal\nlynx\nboar\nhippo\nelephant\nzebra\ngiraffe\nbear\npanther\nkangaroo\nkoala\nmouse\nrat\nlizard\nturtle\ntortoise\ncrocodile\nalligator\nmonkey\ngorilla\nape",
         "gender word": "male\nfemale",
         "wmgender word": "2:man\n2:woman\ngirl\nboy",
 		"female gender word": "2:woman\nyoung woman\nfemale\ngirl",
@@ -1238,7 +1302,7 @@
         "mood phrase": "<mood>\n<mood> <mood>\n<mood>, <mood>",
         "mood": "joyful\nserene\nplayful\nromantic\nmystical\nnostalgic\nwhimsical\ndramatic\nmelancholic\ncontemplative\ndreamy\nmysterious\nregal\npeaceful\nthoughtful\nwistful\nethereal\nbold\ntranquil\npowerful\nenergetic\nmoody\nsomber\noptimistic\nwhimsical\ncheerful\nintense\nbrooding\npassionate\nmeditative\nhopeful\ndark\nluminous\npensive\nreflective\nspiritual\nsensual\nfiery\ncontemplative\nnurturing\nangry\nevil\nfearful\nhumorous\nlonely\nsad\nmelancholic\ncyberpunk\ncyberpunk\ncyberpunk\nsteampunk\nsteampunk\nsteampunk",
         "style or artist": "by <artist>\n<art style> image\nby <artist> in <art style> style\na <art style> image by <artist>\nin <art media>\nby <artist> done with <art media>\n<art style> image done with <art media>\nby <artist> in <art style> style done with <art media>\na <art style> image by <artist> done with <art media>",
-        "artist": "studio ghibli\nhayao miyazaki\ndisney\npixar\na renaissance painter\ndonatello\nmichelangelo\nleonardo da vinci\nm.c. escher\nartgerm\ngreg rutkowski\nalphonse mucha\njordan grimmer\nneil blevins\nwayne barlowe\nvincent van gogh\nclaude monet\nrembrandt\nsalvadore dali\npablo picasso\njohannes vermeer\njackson pollock\ngeorges seurat\nnorman rockwell\nandy warhol\nsalomon van abbé\nesao andrews\nrolf armstrong\nlois van baarle\ntom bagshaw\nkarol bak\ncicely mary barker\naubrey beardsley\nzdzislaw beksinski\njulie bell\nsimon bisley\nwilliam blake\nenoch bolles\nwilliam-adolphe bouguereau\ncharlie bowater\naleksi briclot\ngerald brom\ngaston bussière\nfrank cho\nrichard corben\ncraig davison\npino daeni\nleo and diane dillon\nphilippe druillet\njeff easley\nles edwards\nroberto ferri\nfrank frazetta\njack gaughan\nstefan gesell\ncharles dana gibson\nwarwick goble\nedward gorey\ncarne griffiths\nrebecca guay\nryohei hase\nryan hewett\nstephen hickman\ngreg hildebrandt\nadam hughes\nhoward david johnson\njeffrey catherine jones\nken kelly\nbastien lecouffe-deharme\nj.c. leyendecker\nmilo manara\ndave mckean\nkelly mckernan\nian miller\nruss mills\nalphonso mucha\npatrick nagel\nterese nielsen\nmichael parkes\ncoles phillips\narthur rackham\nconrad roset\nluis royo\napollonia saintclair\njeff simpson\nanne stokes\nboris vallejo\nalberto vargas\ntillie walden\ngerda wegener\nmichael whelan\ncoby whitmore\ntakashi murakami\nhajime sorayama\nTamara de Lempicka\nloish\nwlop\nhokusai",
+        "artist": "studio ghibli\nhayao miyazaki\ndisney\npixar\na renaissance painter\ndonatello\nmichelangelo\nleonardo da vinci\nm.c. escher\nartgerm\ngreg rutkowski\nalphonse mucha\njordan grimmer\nneil blevins\nwayne barlowe\nvincent van gogh\nclaude monet\nrembrandt\nsalvadore dali\npablo picasso\njohannes vermeer\njackson pollock\ngeorges seurat\nnorman rockwell\nandy warhol\nsalomon van abbé\nesao andrews\nrolf armstrong\nlois van baarle\ntom bagshaw\nkarol bak\ncicely mary barker\naubrey beardsley\nzdzislaw beksinski\njulie bell\nsimon bisley\nwilliam blake\nenoch bolles\nwilliam-adolphe bouguereau\ncharlie bowater\naleksi briclot\ngerald brom\ngaston bussière\nfrank cho\nrichard corben\ncraig davison\npino daeni\nleo and diane dillon\nphilippe druillet\njeff easley\nles edwards\nroberto ferri\nfrank frazetta\njack gaughan\nstefan gesell\ncharles dana gibson\nwarwick goble\nedward gorey\ncarne griffiths\nrebecca guay\nryohei hase\nryan hewett\nstephen hickman\ngreg hildebrandt\nadam hughes\nhoward david johnson\njeffrey catherine jones\nken kelly\nbastien lecouffe-deharme\nj.c. leyendecker\nmilo manara\ndave mckean\nkelly mckernan\nian miller\nruss mills\nalphonso mucha\npatrick nagel\nterese nielsen\nmichael parkes\ncoles phillips\narthur rackham\nconrad roset\nluis royo\napollonia saintclair\njeff simpson\nanne stokes\nboris vallejo\nalberto vargas\ntillie walden\ngerda wegener\nmichael whelan\ncoby whitmore\ntakashi murakami\nhajime sorayama\nTamara de Lempicka\nloish\nwlop\nhokusai\nwes anderson\nmark ryden\nDan Mumford",
         "art style": "cel shaded\nchildren's drawing\ncrosshatch\ndoodle\ndot art\nline art\nsketch\n8-bit\n16-bit\npixel art\nanaglyph\nanime\nart nouveau\nbauhaus\nbaroke\ncgi\n3-d cgi\ncartoon\ncomic book\nconcept art\nconstructivist\ncubist\ndigital art\ndadaist\nexpressionist\nfantasy\nfauvist\nfigurative\ngraphic novel\ngeometric\nhard edge painting\nhydrodipped\nimpressionistic\nlithography\nmanga\nminimalist\nmodern art\nmosaic\nmural naive\nneoclassical\nphoto\nphotographic\nrococo\nromantic\nstreet art\ngraffiti art\nsymbolist\nstuckist\nsurrealist\nvisual novel\nwatercolor\npalette knife oil painting\npointillism",
         "art media": "chalk\ncolored pencil\npencil\ngraphite\ncharcoal\nink\npen\npaint\npaint\nacrylic paint\noil paint\noil paint\nwatercolor paint\npastel\netching\nlinocut\npaper model\npaper-mache\npapercutting\npyrography\nwood carving",
         "artist or style": "<art style> image\npainting by <artist>",
@@ -1268,7 +1332,8 @@
         "female athletes": "Serena Williams (Tennis)\nSimone Biles (Gymnastics)\nMegan Rapinoe (Soccer)\nAlex Morgan (Soccer)\nCarli Lloyd (Soccer)\nAbby Wambach (Soccer)\nLindsey Vonn (Skiing)\nMikaela Shiffrin (Skiing)\nChloe Kim (Snowboarding)\nRonda Rousey (Mixed Martial Arts)\nAmanda Nunes (Mixed Martial Arts)\nCris Cyborg (Mixed Martial Arts)\nDanica Patrick (Auto Racing)\nMaria Sharapova (Tennis)\nNaomi Osaka (Tennis)\nVenus Williams (Tennis)\nMia Hamm (Soccer)\nMarta Vieira da Silva (Soccer)\nHope Solo (Soccer)\nCat Osterman (Softball)\nJennie Finch (Softball)\nJackie Joyner-Kersee (Track and Field)\nAllyson Felix (Track and Field)\nFlorence Griffith Joyner (Track and Field)\nShelly-Ann Fraser-Pryce (Track and Field)\nCarmelita Jeter (Track and Field)\nAllison Schmitt (Swimming)\nKatie Ledecky (Swimming)\nMissy Franklin (Swimming)\nDara Torres (Swimming)\nMisty May-Treanor (Beach Volleyball)\nKerri Walsh Jennings (Beach Volleyball)\nApril Ross (Beach Volleyball)\nAbby Dahlkemper (Soccer)\nBecky Sauerbrunn (Soccer)\nJulie Ertz (Soccer)\nTobin Heath (Soccer)\nLindsey Horan (Soccer)\nCrystal Dunn (Soccer)\nJessica Ennis-Hill (Track and Field)\nKatarina Johnson-Thompson (Track and Field)\nNafissatou Thiam (Track and Field)\nSally Pearson (Track and Field)\nCarolina Marin (Badminton)\nPV Sindhu (Badminton)\nSaina Nehwal (Badminton)\nMary Kom (Boxing)\nClaressa Shields (Boxing)\nKatie Taylor (Boxing)\nNicola Adams (Boxing)\nDina Asher-Smith (Track and Field)\nElaine Thompson-Herah (Track and Field)\nShaunae Miller-Uibo (Track and Field)\nTori Bowie (Track and Field)\nYelena Isinbayeva (Pole Vault)\nStacy Lewis (Golf)\nAnnika Sörenstam (Golf)\nLexi Thompson (Golf)\nCheyenne Woods (Golf)\nDaniele Hantuchova (Tennis)\nMartina Navratilova (Tennis)\nBillie Jean King (Tennis)\nMonica Seles (Tennis)\nSteffi Graf (Tennis)\nLindsay Davenport (Tennis)\nMaria Mutola (Track and Field)\nPaula Radcliffe (Track and Field)\nHaile Gebrselassie (Track and Field)\nInge de Bruijn (Swimming)\nJanet Evans (Swimming)\nStephanie Rice (Swimming)\nSarah Sjöström (Swimming)\nBecky Downie (Gymnastics)",
         "male adult actor": "Aiden Shaw\nAnthony Crane\nBen Dover\nBilly Herrington\nBobby Vitale\nBradford Thomas Wagner\nBrandon Lee\nCole Tucker\nDale DaBone\nDarren James\nDave Cummings\nDavid Aaron Clark\nErik Everhard\nEvan Stone\nFlash Brown\nFlex-Deon Blake\nGreg Centauro\nHenry Saari\nHolly One\nIan Scott\nJack Napier\nJohnny Rahm\nJules Jordan\nKen Shimizu\nKurt Lockwood\nLukas Ridgeston\nManuel Ferrara\nMark Davis\nMatt Sanchez\nMax Hardcore\nMichael Brandon\nMichael Stefano\nMike John\nMike South\nMicky Yanai\nMiles Long\nMr. Marcus\nNacho Vidal\nPierre Woodman\nRamón Nomar\nRod Barry\nRodney Moore\nRon Hightower\nRyan Idol\nScott Schwartz\nSeymore Butts\nShigeo Tokuda\nSteve Holmes\nSteven St. Croix\nTiger Tyson\nTom Judson\nToni Ribas\nTony Tedeschi\nTorbe\nWesley Pipes\nWilde Oscar\nWill Clark\nAlexandre Frota\nBrent Corrigan\nCarlo Masi\nCharles Dera\nColton Ford\nDanny Wylde\nDerek Hay\nDerrick Pierce\nDick Smothers Jr.\nDillon Day\nErik Rhodes\nEvan Seinfeld\nFrançois Sagat\nFredrik Eklund\nJames Deen\nJay Grdina\nJean Val Jean\nJohnny Hazzard\nJohnny Sins\nJosh Weston\nJustin Slayer\nKeiran Lee\nKeni Styles\nLexington Steele\nLogan McCree\nMarco Banderas\nMarkus Dupree\nMick Blue\nMike Adriano\nNick Manning\nOmar Galanti\nPaul Baxendale-Walker\nPrince Yahshua\nRob Rotten\nRyan Driller\nStephen Clancy Hill\nThierry Schaffauser\nTommy Gunn\nTommy Pistol\nTony Ooki\nWar Machine\nZak Smith\nAlvin Tan\nArmond Rizzo\nBrendon Miller\nJordi El Niño Polla\nTy Mitchell",
         "female adult actress": "Ai Iijima\nAir Force Amy\nAlana Evans\nAlex Taylor\nAlexandra Silk\nAlexis Amore\nAlisha Klass\nAngelica Bella\nAnnabel Chong\nAsami Jō\nAshlyn Gere\nAsia Carrera\nBriana Banks\nBridget Powers\nBrittany Andrews\nBrittany O'Connell\nBunko Kanazawa\nCandy Apples\nCaressa Savage\nCathy Barry\nCéline Bara\nCharmane Star\nChelsea Charms\nCoCo Brown\nCoralie\nCrissy Moran\nDanni Ashe\nDevinn Lane\nDevon\nDolly Golden\nDomonique Simone\nDraghixa\nDyanna Lauren\nEmanuelle Cristaldi\nErin Brown\nEstelle Desanges\nÉva Henger\nEve Vorley\nFrancesca Petitjean\nGauge\nGina Wild\nHitomi Shiraishi\nHolly Ryder\nHolly Sampson\nHouston\nIndia\nJanine Lindemulder\nJasmin St. Claire\nJeanna Fine\nJenna Jameson\nJessica Drake\nJewel De'Nyle\nJill Kelly\nJuli Ashton\nJulia Ann\nJulia Channel\nJulie K. Smith\nJulie Meadows\nKaren Lancaume\nKatja K\nKei Mizutani\nKelly Jean Van Dyke\nKendra Jade Rossi\nKim Chambers\nKobe Tai\nKristi Myst\nKylie Ireland\nKyōko Kazama\nLaure Sainclair\nLea De Mae\nLeena\nLinsey Dawn McKenzie\nLisa Ann\nLizzy Borden\nLolo Ferrari\nLulu Devine\nMaria Yumeno\nMariko Kawana\nMay Ling Su\nMelissa Hill\nMichelle Thorne\nMidori\nMilly D'Abbraccio\nMimi Miyagi\nNikita Gross\nNikki Tyler\nOvidie\nPauline Chan\nRaffaëla Anderson\nRaylene\nRayVeness\nRebecca Lord\nRoxy\nSavannah\nSelen\nSerenity\nShakeela\nShane\nShayla LaVeaux\nSilvia Saint\nSinnamon Love\nStacy Valentine\nSunset Thomas\nSydnee Steele\nTabatha Cash\nTanya Hansen\nTera Patrick\nTeri Weigel\nTericka Dye\nTiffany Million\nTiffany Mynx\nToppsy Curvey\nTori Welles\nTricia Devereaux\nTristan Taormino\nVanessa Blue\nVenere Bianca\nVictoria Zdrok\nYuri Komuro\nZara Whites\nAino Kishi\nAkari Asahina\nAkiho Yoshizawa\nAlly Mac Tyana\nAleska Diamond\nAlexis Fire\nAlexis Texas\nAlia Janine\nAlina Plugaru\nAmber Rayne\nAmy Fisher\nAn Nanba\nAngelina Castro\nAnksa Kara\nAnette Dawn\nApril Flores\nApril O'Neil\nAria Giovanni\nAriana Jollee\nAsa Akira\nAsami Sugiura\nAshley Blue\nAudrey Hollander\nAurora Snow\nAylar Lie\nBelladonna\nBibian Norai\nBobbi Eden\nBobbi Starr\nBrandi Love\nBree Olson\nCalli Cox\nCapri Anderson\nCarmen Hart\nCelia Blanco\nChloe Jones\nClara Morgane\nCrave\nCytherea\nDana DeArmond\nDana Vespoli\nDanica Dillon\nDemi Delia\nDenice Klarskov\nDylan Ryan\nDylan Ryder\nEdelweiss\nElena Berkova\nEliska Cross\nElly Akira\nEva Angelina\nFelicia Tang\nGina Lynn\nHibiki Ōtsuki\nHillary Scott\nHonoka\nHotaru Akane\nIndia Summer\nJade Laroche\nJana Bach\nJazmin Chaudhry\nJelena Jensen\nJenna Haze\nJenna Presley\nJesse Jane\nJessica Jaymes\nJessica Kizaki\nJiz Lee\nJoanna Angel\nJudy Minx\nKagney Linn Karter\nKatie Morgan\nKatsuni\nKayden Kross\nKaylani Lei\nKelli McCarty\nKelly Shibari\nKimberly Kane\nKirsten Price\nKokomi Naruse\nLaly\nLara Roxx\nLemon Hanazawa\nLeonie\nLezley Zen\nLittle Caprice\nLiza del Sierra\nLollipop\nLorelei Lee\nLucía Lapiedra\nLupe Fuentes\nMadison Young\nMari Possa\nMaria Ozawa\nMarica Hase\nMary Carey\nMaxi Mounds\nMay Ling Su\nMélanie Coste\nMichelle Ferrari\nMichelle Maylene\nMichelle Wild\nMinako Komukai\nMinami Aoyama\nMisty Stone\nMonica Mattos\nMonica Mayhem\nMonique Alexander\nMya Diamond\nNana Natsume\nNao Oikawa\nNatsuki Ozawa\nNica Noelle\nNicki Hunter\nNicole Aniston\nNiki Belucci\nNikki Benz\nNina Roberts\nNozomi Momoi\nPatrícia Kimberly\nPenny Flame\nPoppy Morgan\nPrincess Donna\nPuma Swede\nRachel Starr\nRaven Riley\nRebeca Linares\nRiley Steele\nRin Aoki\nRinako Hirasawa\nRoberta Gemma\nSakurako Kaoru\nSaori Hara\nSasha Grey\nSatine Phoenix\nSavanna Samson\nSexy Cora\nShy Love\nShyla Stylez\nSibel Kekilli\nSkin Diamond\nSola Aoi\nStormy Daniels\nStoya\nSunny Lane\nSunny Leone\nSunrise Adams\nTabitha Stevens\nTanya Tate\nTarra White\nTaryn Thomas\nTatum Reed\nTera Wray\nTina Yuzuki\nTori Black\nTory Lane\nTylene Buck\nVicky Vette\nViolet Blue\nVirginie Gervais\nVittoria Risi\nWiska\nYasmine Lafitte\nYua Aida\nYui Hatano\nYuma Asami\nYurizan Beltran\nAimi Yoshikawa\nA.J. Applegate\nAmarna Miller\nAngela White\nAnikka Albrite\nAnna Polina\nAnri Okita\nAriana Marie\nAugust Ames\nAyu Sakurai\nBelle Knox\nBonnie Rotten\nBrett Rossi\nCarter Cruise\nCasey Calvert\nChanel Preston\nChloe Cherry\nChristy Mack\nDakota Skye\nEla Darling\nGinger Banks\nIori Kogawa\nJessie Andrews\nJessie Rogers\nJulia Alexandratou\nKaho Shibuya\nKendra Sunderland\nLana Rhoades\nLaSirena69\nLauren Phillips\nLizz Tayler\nMaitland Ward\nMana Sakura\nMelissa Bulanhagui\nMercedes Carrera\nMia Khalifa\nMia Magma\nMia Malkova\nNadia Ali\nPenny Pax\nRebecca More\nRemy LaCroix\nRenee Gracie\nRika Hoshimi\nRiley Reid\nSaki Hatsumi\nSamantha Bentley\nSara Tommasi\nScarlet Young\nSiouxsie Q\nSophie Anderson\nTasha Reign\nTsusaka Aoi\nValentina Nappi\nBelle Delphine\nProjekt Melody",
-        "person like fantasy creature": "<gender word> elf\n<gender word> high elf\n<gender word> forest elf\n<gender word> night elf\n<gender word> dark elf\n<gender word> dwarf\n<gender word> dwarf\n<gender word> dwarf\nwizard\nwitch\n<gender word> giant\n<gender word> cyclops\n<gender word> lilliputian\n<gender word> fairy\n<gender word> faun\n<gender word> sprite\n<gender word> goblin\n<gender word> ghost\n<gender word> zombie\nsuccubus\nsuccubus with bat wings\nincubus\n<gender word> vampire\n<gender word> werewolf\n<gender word> mummy\nking\nqueen\njester\nknight\nsquire\n<gender word> superhero\nanthropomorphic <animal>-<wmgender word>\n<animal>-<wmgender word>\nmermaid\nmerman\n<gender word> centaur\n<gender word> satyr\n<gender word> nymph\n<gender word> minotaur\n<gender word> harpy\n<gender word> gorgon\n<gender word> siren\n<gender word> valkyrie\n<gender word> orc\n<gender word> troll\n<gender word> demon\n<gender word> angel\n<gender word> warlock\n<gender word> unicorn\n<gender word> mage\n<gender word> pirate\ntalking tree\n<gender word> tree ent\n<gender word> phoenix\n<gender word> undead",
+        "person like fantasy creature": "<gender word> elf\n<gender word> high elf\n<gender word> forest elf\n<gender word> night elf\n<gender word> dark elf\n<gender word> dwarf\n<gender word> dwarf\n<gender word> dwarf\nwizard\nwitch\n<gender word> giant\n<gender word> cyclops\n<gender word> lilliputian\n<gender word> fairy\n<gender word> faun\n<gender word> sprite\n<gender word> goblin\n<gender word> ghost\n<gender word> skeleton\n<gender word> zombie\nsuccubus\nsuccubus with bat wings\nincubus\n<gender word> vampire\n<gender word> werewolf\n<gender word> mummy\nking\nqueen\njester\nknight\nsquire\n<gender word> superhero\nanthropomorphic <animal>-<wmgender word>\n<animal>-<wmgender word>\nmermaid\nmerman\n<gender word> centaur\n<gender word> satyr\n<gender word> nymph\n<gender word> minotaur\n<gender word> harpy\n<gender word> gorgon\n<gender word> siren\n<gender word> valkyrie\n<gender word> orc\n<gender word> troll\n<gender word> demon\n<gender word> angel\n<gender word> warlock\n<gender word> unicorn\n<gender word> mage\n<gender word> pirate\ntalking tree\n<gender word> tree ent\n<gender word> phoenix\n<gender word> undead\n<gender word>djinn\n<gender word> genie",
+		"fantasy monsters": "witch\n<gender word> giant\n<gender word> cyclops\n<gender word> goblin\n<gender word> ghost\n<gender word> skeleton\n<gender word> zombie\nsuccubus\nsuccubus with bat wings\nincubus\n<gender word> vampire\n<gender word> werewolf\n<gender word> mummy\n<gender word> minotaur\n<gender word> harpy\n<gender word> gorgon\n<gender word> siren\n<gender word> orc\n<gender word> troll\n<gender word> demon\n<gender word> warlock\n<gender word> mage\n<gender word> pirate\n<gender word> undead",
         "fantasy races": "elves\nhigh elves\nforest elves\nnight elves\ndark elves\ndwarfs\nmountain dwarves\ndeep dwarves\ndark dwarves\nrock dwarves\nwizards\nwarlocks\nwitchs\ngiants\ncyclops\nlilliputians\nfairies\nfaeries\nfauns\nsprites\ngoblins\nghosts\nzombies\nsuccubus\nincubus\nvampires\nwerewolves\nmummies\nkings\nqueens\njesters\nknights\nsuperheroes\n<animal>-<wmgender word>\nmermaids\nmermen\ncentaurs\nsatyrs\nnymphs\nminotaurs\nharpies\ngorgons\nsirens\nvalkyries\norcs\ntrolls\ndemons\nangels\nunicorns\nmages\npirates\ntalking trees\ntree ents\nphoenix\ndamned\ndead\nundead",
         "fantasy race": "elf\nhigh elf\nforest elf\nnight elf\ndark elf\ndwarf\nmountain dwarf\ndeep dwarf\ndark dwarf\nrock dwarf\nwizard\nwarlock\nwitch\ngiant\ncyclops\nlilliputian\nfairy\nfaery\nfaun\nsprite\ngoblin\nghost\nszombie\nsuccubus\nincubus\nvampire\nwerewolf\nmummy\nking\nqueen\njester\nknight\nsuperhero\n<animal>-<wmgender word>\nmermaid\nmerman\ncentaur\nsatyr\nnymph\nminotaur\nharpy\ngorgon\nsiren\nvalkyrie\norc\ntroll\ndemon\nangel\nunicorn\nmage\npirate\ntalking tree\ntree ent\nphoenix\ndamned\ndead\nundead",
         "city type": "modern\nturn of the century\nfuturistic\nfantasy\nmedieval\nold west\nsteampunk\ndeiselpunk\ncyberpunk\njet-age\nretro futuristic\nvirtual reality\ngangster run\nneon lit",
@@ -1369,7 +1434,7 @@
         "sports team logo item": "fighter jet\nmonster truck\nracecar\nhelicopter\nspeed boat\nwhatever gritty is",
         "sport": "baseball\nfootball\nbasketball\nhockey\nsoccer\nlacross\nvolleyball\ngolf\ncar racing\nbadmiten\npickleball\ncornhole\ntenis\ntrack and field\nrowing",
         "old image type": "picture\nimage\npainting\nmural\ncanvas",
-        "old image subject": "a great tree\na farmer plowing his field\na farmer tending his crops\na shepard tending to his flock\na fisherman on his fishing boat\na boat being tossed by waves in the ocean\na knight defending a castle\na king and queen in a throne room\ntwo women visiting a shrine\ntwo women vising a church\npeople shopping in an outdoor market\n<fantasy person subject> <fantasy person actions> <fantasy scenes>",
+        "old image subject": "a great tree\na farmer plowing his field\na farmer tending his crops\na shepherd tending to his flock\na fisherman on his fishing boat\na boat being tossed by waves in the ocean\na knight defending a castle\na king and queen in a throne room\ntwo women visiting a shrine\ntwo women vising a church\npeople shopping in an outdoor market\n<fantasy person subject> <fantasy person actions> <fantasy scenes>",
         "old image style": "in the style of a Ukiyo-e print\nin the style of a medieval illustrated scroll\nin the style of a medieval illustrated manuscript\nin the style of a medieval tapestry\nin the style of nihonga by Katsushika Hokusai\nin the stlye of a roman fresco\nin the style of a greek tile mosaic",
         "amusement park ride type": "feris wheel\nmerry-go-round\ncarousel\ntrain ride\nbumper cars\ntilt-a-whirl\npirate ship ride\nteacups ride\ncollider ride\nscrambler\nlog flume\nswan boats\nriver rapids\nsplash boats\nwooden coaster\njunior coaster\nroller coaster\nlooping coaster\ntwister coaster\ngigacoaster\nthemed ride\ncastle",
         "amusement park": "Disneyland\nWalt Disney World\nUniversal Studios Hollywood\nUniversal Studios Florida\nEpcot\nTokyo Disneyland\nTokyo DisneySea\nEuropa-Park\nSix Flags Magic Mountain\nCedar Point\nHersheypark\nKnott's Berry Farm\nAlton Towers\nPhantasialand\nPortAventura\nEverland\nLotte World\nSix Flags Over Texas\nSix Flags Great Adventure\nSix Flags\nthe State Fair",
@@ -1502,7 +1567,7 @@
         "mermaid bra": "seashell bra\nclamshell bra\nsand dollar bra\nstarfish bra",
         "alien creature type": "<animal>",
         "alien creature detail": "<specific animal feature>",
-        "star patrol location": "spaceport\ndesolate planet\nalien jungle\nspacerocket bridge\nspacerocket control room\nshadow filled crater",
+        "star patrol location": "spaceport\ndesolate planet\nalien jungle\nspaceship bridge\nspaceship control room\nspacerocket bridge\nspacerocket control room\nshadow filled crater\nlanded starship",
         "space marine type": "space marine\nstarship trooper\ncyborg bounty hunter\nspace bounty hunter\ndoomguy\nfuturistic marine",
         "space marine armor color": "black\nwhite\ngreen\ngrey\nbrown camouflage\ngreen camouflage\ngrey camouflage\ngreen digital camouflage\ngrey digital camouflage",
         "space marine trim color": "red\nyellow\nblue\norange\ndark grey\npurple\nwhite\ncyan\nlime green",
@@ -1521,7 +1586,7 @@
         "scifi space scene orbit planet extra details": "<scifi space scene space extra details>\n<scifi space scene space extra details>\n<scifi space scene space extra details>\ndeploying a satellite\nrepairing a space telescope\nrescuing a stranded space ship\ndocking with a space station",
         "scifi space scene battle extra details": "<scifi space scene battle extra details2>\n<scifi space scene battle extra details2>, <scifi space scene battle extra details2>\n<scifi space scene battle extra details2>, <scifi space scene battle location>\n<scifi space scene battle extra details2>, <scifi space scene battle extra details2>, <scifi space scene battle location>",
         "scifi space scene battle extra details2": "lasers shooting from the ships\nexplosions in the background\nmissiles flying past the ship\nfighter ships in the foreground",
-        "scifi space scene battle location": "with a colorful nebula in the background\n with a black hole in the background\nwith an asteroid field in the background\nin an asteroid field\nwith a <scifi space scene moon details> moon in the background\nwith a <scifi space scene planet details> planet in the background",
+        "scifi space scene battle location": "with a colorful nebula in the background\n with a black hole in the background\nwith an asteroid field in the background\nin an asteroid field\nwith a <scifi space scene moon details> moon in the background\nwith a <scifi space scene planet details> planet in the background\nwith a spiral galaxy in the background",
         "star wars ship": "millenium falcon\nmon calamari cruiser\nrebel cruiser\nrebel blockade runner\nstar destroyer\nx-wing\ny-wing\na-wing\nb-wing\ntie fighter\ntie bomber\ntie intercepter",
         "star trek ship": "enterprise 1701\nenterprise 1701-d\ndefiant\nborg cube\nklingon bird of prey\nuss voyager\nromulan warbird\ndeep space nine\nuss prometheus\nshuttlecraft",
         "rocky planet color": "dark grey\nlight grey\nlight red\nyellow\npale yellow\npale red\ngrey-green\npale purple\ngrey-white",
@@ -1589,12 +1654,13 @@
 		"science type": "Physics\nChemistry\nBiology\nEarth Science\nAstronomy\nEnvironmental Science\nEcology\nZoology\nBotany\nMicrobiology\nGenetics\nNeuroscience\nPsychology\nSociology\nAnthropology\nArchaeology\nLinguistics\nMathematics\nComputer Science\nEngineering\nMaterials Science\nBiomedical Science\nBiotechnology\nAgriculture\nForensic Science\nPharmacology\nImmunology\nVirology\nEpidemiology\nPublic Health\nPhysiology\nBiochemistry\nBiophysics\nNuclear Science\nAstronomy and Astrophysics\nPaleontology\nEntomology\nHerpetology\nOrnithology\nIchthyology\nMarine Biology\nBehavioral Science\nCognitive Science",
 		"cutaway building blueprints": "a two story house\nan appartment building\na steel mill\na hydroelectric dam\na natural gas power plant\na newspaper printing press\na nuclear power plant\na plastic toy factory\na computer factory\na cell phone factory\na car factory\nan automobile assembly line\na building\nan office building\na sky scraper\na train station\na subway station\na multilevel mall\na bank\na movie theater\na theater\na sports stadium\ncar\nmotorcycle\nsuv\ntrain\ncity block",
         "cyberpunk anime girl character": "Claire Russell\nDorio\nGloria Martinez\nKate\nKiwi\nlucy\nLucyna Kushinada\nRebecca\nRogue Amendiares\nSasha Yakovleva\nWakako Okada",
-		"members of the star patroll generator": "a futuristic 25 year old <nationality> space <wmgender word> age 25 in a <star patrol location>, from (mix of N.C. Wyeth and J.C. Leyendecker and Frederic Arthur Bridgman and Winslow Homer) comics, comic book, cartoon, drawing, comic, pores, 3/4 headshot\na futuristic <wmgender word> space (<animal>-headed <animal><wmgender word>) age 25 in a <star patrol location>, from (mix of N.C. Wyeth and J.C. Leyendecker and Frederic Arthur Bridgman and Winslow Homer) comics, comic book, cartoon, drawing, comic, pores, 3/4 headshot",
+		"members of the star patrol generator": "a futuristic 25 year old <nationality> space <wmgender word> age 25 in a <star patrol location>, from (mix of N.C. Wyeth and J.C. Leyendecker and Frederic Arthur Bridgman and Winslow Homer) comics, comic book, cartoon, drawing, comic, pores, 3/4 headshot\na futuristic <wmgender word> space (<animal>-headed <animal><wmgender word>) age 25 in a <star patrol location>, from (mix of N.C. Wyeth and J.C. Leyendecker and Frederic Arthur Bridgman and Winslow Homer) comics, comic book, cartoon, drawing, comic, pores, 3/4 headshot",
 		"paintings of a girl artist": "Agnes Cecile\nAlice Pasquini",
 		"paintings of a girl expression": "neutral\nsad\ndour\nfrowning\ncontempt\ndisgust\nfear\ndoubt\npain",
 		"ancient robots cover": "moss\nplants\nruins\ndust and debris\ntrees and bushes",
-		"vehicle infographic subject": "car\ntruck\nbus\ntrain\nplane\njet\nelevator\nescalator\nbicycle\nboat\ncruise ship\nsubway\n<cutaway building blueprints>",
-		"dnd classes": "barbarian berserker\nbarbarian totem warrior\nbard of lore\nbard of valor\ncleric of knowledge\ncleric of life\ncleric of light\ncleric of nature\ncleric of tempest\ncleric of trickery\ncleric of war\ndruid of the land\ndruid of the moon\nchampion fighter\nbattle master fighter\nmonk of the open hand\nmonk of the shadow\nmonk of the four elements\npaladin of devotion\npaladin of the ancients\npaladin of vengeance\nranger hunter\nranger beast master\nrogue thief\nrouge assassin\nrogue arcane trickster\ndraconic bloodline sorcerer\nwild magic sorcerer\narchfey warlock\nfiend warlock\ngreat old one warlock\nwizard of abjuration\nwizard of conjuration\nwizard of divination\nwizard of enchantment\nwizard of evocation\nwizard of illusion\nwizard of necromancy\nwizard of transmutation\nbarbarian battleranger\ncleric of arcana\npurple dragon knight fighter\nmonk of the long death\nmonk of the sun soul\npaladin of the crown\nrogue mastermind\nrogue swashbuckler\nstorm sorcery sorcerer\nundying warlock\nwizard of bladsinging\npyromancy sorcerer\ncleric of solidarity\ncleric of strength\ncleric of ambition\ncleric of zeal\nbarbarian ancestral guardion\nbarbarian storm herald\nbarbarian zealot\nbard of glamour\nbard of swords\nbard of whispers\ncleric of forge\ncleric of grave\ndruid of dreams\ndurid of the shephard\narcane archer fighter\nsamurai fighter\nmonk of the drunken master\nmonk of the kensei\npaladin of conquest\npaladin of redemption\nranger gloom stalker\nranger horizon walker\nranger monster slayer\nrogue inquisitive\nrogue scout\ndivine soul sorcerer\ncelestial warlock\nhexblade warlock\nwizard of war magic\ncleric of order\ndruid of spores\nartificer alchemist\nartificer artillerist\nartificer battle smith\necho knight fighter\nwizard of chronurgy\nwizard of graviturgy\nbard of eloquence\npaladin of glory\nartificer armor\nbarbarian of the beast\nbarbarian of wild magic\nbard of creation\ncleric of peace\ncleric of twilight\ndruid of stars\ndurid of wildfire\npsi warrior fighter\nrune knight fighter\nmonk of mercy\nmonk of the astral self\npaladin of the watchers\nranger fey wanderer\nranger swarmkeeper\nrogue phantom\nrogue soulknife\naberant mind sorcerer\nclockwork soul sorcerer\nfathomless warlock\ngene warlock\nwizard of scribes",
+		"vehicle": "car\ntruck\nbus\ntrain\nplane\njet\nelevator\nescalator\nbicycle\nboat\ncruise ship\nsubmarine\nsubway",
+		"vehicle infographic subject": "10:<vehicle>\n<cutaway building blueprints>",
+		"dnd classes": "barbarian berserker\nbarbarian totem warrior\nbard of lore\nbard of valor\ncleric of knowledge\ncleric of life\ncleric of light\ncleric of nature\ncleric of tempest\ncleric of trickery\ncleric of war\ndruid of the land\ndruid of the moon\nchampion fighter\nbattle master fighter\nmonk of the open hand\nmonk of the shadow\nmonk of the four elements\npaladin of devotion\npaladin of the ancients\npaladin of vengeance\nranger hunter\nranger beast master\nrogue thief\nrouge assassin\nrogue arcane trickster\ndraconic bloodline sorcerer\nwild magic sorcerer\narchfey warlock\nfiend warlock\ngreat old one warlock\nwizard of abjuration\nwizard of conjuration\nwizard of divination\nwizard of enchantment\nwizard of evocation\nwizard of illusion\nwizard of necromancy\nwizard of transmutation\nbarbarian battleranger\ncleric of arcana\npurple dragon knight fighter\nmonk of the long death\nmonk of the sun soul\npaladin of the crown\nrogue mastermind\nrogue swashbuckler\nstorm sorcery sorcerer\nundying warlock\nwizard of bladsinging\npyromancy sorcerer\ncleric of solidarity\ncleric of strength\ncleric of ambition\ncleric of zeal\nbarbarian ancestral guardion\nbarbarian storm herald\nbarbarian zealot\nbard of glamour\nbard of swords\nbard of whispers\ncleric of forge\ncleric of grave\ndruid of dreams\ndruid of the shepherd\narcane archer fighter\nsamurai fighter\nmonk of the drunken master\nmonk of the kensei\npaladin of conquest\npaladin of redemption\nranger gloom stalker\nranger horizon walker\nranger monster slayer\nrogue inquisitive\nrogue scout\ndivine soul sorcerer\ncelestial warlock\nhexblade warlock\nwizard of war magic\ncleric of order\ndruid of spores\nartificer alchemist\nartificer artillerist\nartificer battle smith\necho knight fighter\nwizard of chronurgy\nwizard of graviturgy\nbard of eloquence\npaladin of glory\nartificer armor\nbarbarian of the beast\nbarbarian of wild magic\nbard of creation\ncleric of peace\ncleric of twilight\ndruid of stars\ndruid of wildfire\npsi warrior fighter\nrune knight fighter\nmonk of mercy\nmonk of the astral self\npaladin of the watchers\nranger fey wanderer\nranger swarmkeeper\nrogue phantom\nrogue soulknife\naberant mind sorcerer\nclockwork soul sorcerer\nfathomless warlock\ngene warlock\nwizard of scribes",
 		"dnd armor type": "padded\nleather\nstudded leather\nhide\nchain shirt\nscale mail\nspiked\nbreastplate\nhalfplate\nring mail\nchain mail\nsplint\nplate",
 		"dnd background": "asian temple\nmedieval town\nmedieval tavern\nmedieval inn\nmedieval castle\nwizard's tower\ncastle\nvillage\nwalled town\nwalled city\ndungeon entrance\ncave entrance\ndesert temple\njungle temple\nmountain pass\n<specific fantasy location2>",
 		"ripple type": "<statue prompt gem>\n<sfl adjective2>\nfrost\ncrystals\nlight\nblood\nflowers\n<flower type>\nleaves\ngrass\nfireflies\nbutterflies\nmoths\ninsects\nbugs\nstatic\nglitches\nflames\nfire\nglass\nbutterfly wings\nmutlicolored smoke\nmutlicolored dust\nmutlicolored particles\nheart\nchrome\neerie\nchalk\nmoon\nsun\nplanet\ngalaxy\nice",
@@ -1632,13 +1698,13 @@
 		"space girls giger space movie": "star wars\nstar trek\naliens movie\ngalaxy quest\nbarbarella\nevent horizon\ndead space aftermath\nprometheus\ndistrict 9\nflash gordon\nlifeforce\nkiller klowns from outer space\npandorum",
 		"space girls giger idol": "kpop\njpop\njapanese\namerican\neuropean",
 		"space girls giger artist": "Thierry Mugler\ngreg rutkowski\nhr giger\nFrancis Bacon\nJoel Peter-Witkin\nDavid Cronenberg",
-		"chatgpt shot": "worm's eye view\nmedium shot\nlow angle shot\noverhead shot\nclose-up shot\ndistance shot\nwide angle shot",
+		"chatgpt shot": "worm's eye view\nmedium shot\nlow angle shot\noverhead shot\nclose-up shot\ndistance shot\nwide angle shot\ncinematic high angle shot from above",
 		"chatgpt style": "faerie\ncosmic horror\nsteampunk\nviking\nbyzantine\ncyberpunk\nold wild west\nancient greek\negyptian",
 		"chatgpt structure": "ancient ruin\nalien temple\nclockwork tower\nlongship dock\nornate chapel\nroyal throne room\nsailing ship\nbullet train\nwizards laboratory",
 		"chatgpt secondary structure": "above the canopy\nwithin a crater\namongst the roots\nbeneath a waterfall\ninside a hollow tree\ninside a crystal filled cave\nfloating on the clouds",
 		"chatgpt mood": "mysterious\notherworldly\nindustrial\nmagestic\ndivine\ncreepy\ndelapidated",
 		"chatgpt lighting": "dappled sunlight\neerie glow\ndimly lit\ngolden hour\ncandelight\ncinematic lighting\nmoonlight",
-		"chatgpt influence": "celtic\nlovcraftian\nvictorian\nnorse\nyzantine\ngreek\negyptian\nchinese\njapanese",
+		"chatgpt influence": "celtic\nlovcraftian\nvictorian\nnorse\nbyzantine\ngreek\negyptian\nchinese\njapanese",
 		"anime fashion style": "haute couture\nvintage style\nsporty style\nbohemian style\nstreet style\ngrunge style\npunk style\ngothic style\nelegant chic",
 		"anime fashion location": "inside a space ship\nposing with a mech\ninside a grand cathedral\ninside a royal throne room\non a stage at a fashion show\ninside a business board room meeting\non the deck of a cruise ship\nin the middle of a battle field",
 		"giant dragon type": "black\nbrown\nblue\ngreen\nfire\nice\nelectric\npurple",
@@ -1647,6 +1713,22 @@
 		"evil witch spell type": "Massive\nevil\ndeadly\nhypnotic\nlove\nfire\nposion",
 		"evil witch spell background": "Blocksberg\n<forest adj> forest\n<ripple type>\n<forest adj> cave",
 		"evil witch spell extra": "sparks\nflames\ndark clouds\nmist\nfog\nlightning\ncat familiar\nowl familiar",
+		"space background": "<scifi space scene battle location>",
+		"toy soldier type": "\nholding a riffle\naiming a pistol\nkneeling while aiming a bazooka\nlooking through binoculars\nholding a machine gun\nholding a riffle above its head\nthrowing a grenade\nwith a flamethrower on his back\nholding a metal detector\nlaying down firing a sniper riffle",
+		"toy soldier location": "in some grass\nin the dirt\nin the mud\non a bridges made of sticks above a small stream\nhiding in the trees\nin a foxhole\nin a trench\ntaking cover in a ditch\nin no mans land",
+		"middle earth mines location": "subterranean mineshaft\nundermountain grand forge\nunderground great hall\nhidden temple\ngrand throne room\nunderground workshop",
+		"architectural styles": "ancient greek\nroman\nbyzantine\ngothic\negyptian\nshinden-zukuri\nsongnic\nrenaissance\nbaroque\nneoclassical\nvictorian\nqueen anne\nindustrial\navant-garde\nfuturism\nart deco\nmodernism\nbrutalism\npostmodernism",
+		"new fashion trends designer": "old-english\nvictorian\nbyzantine\ngothic\njapanese\nchinese\nindian\nfrench\nitalian\namerican\nbrazilian\nafrican\nmiddle eastern\n10:<anime fashion style>",
+		"new fashion trends year": "2030\n2040\n2050\n2075\n2100",
+		"fashion brands": "Nike\nLouis Vuitton\nHermes\nGucci\nZalando\nAdidas\nTiffany & Co.\nZara\nH&M\nCartier\nLululemon\nMoncler\nChanel\nRolex\nPatek Philippe\nPrada\nUniqlo\nChow Tai Fook\nSwarovski\nBurberry\nPolo Ralph Lauren\nTom Ford\nThe North Face\nLevi's\nVictoria's Secret\nVera Wang\nCalvin Klein\nForever 21\nTommy Hilfiger",
+		"sci-fi armor type": "storm trooper\nhalo spartan\ngears of war\nstraship troopers\nspace marine\nstarcraft marine\nchozo power suit\npower suit\nvaria suit\nfusion suit",
+		"camera": "Cannon EOS\nNikon Z7\nPanasonic Luminx\nOlympus OM-D\nLeica Q2\nHasselblad X1D\nPorta 400\nPentax K1000",
+		"insectoid princess insect": "bee\nbutterfly\nmoth\nscarab\nant\ntermite\nwasp\nladybug\nscorpion\nfly\nmosquito",
+		"anime magical girl art style": "splash art\ncell shaded\nanime style\nanime <anime style>",
+		"anime skin tone": "translucent white\npale pink\n8:<skin tone>",
+		"anime magical girl power source": "moon\nmercury\nvenus\nearth\nmars\njupiter\nsaturn\nuranus\nneptune\npluto\nsun\ncomet\nfalling star\nlove\nnature\nspirit\nfaith\nhope\npurity",
+		"showdown weapons": "pistols\nriffles\nlong swords\nswords and shields\nlarge anime swords\ngun swords\nwhips\nblasters\nrocket launchers\nmagic\nmagic swords\nbows and arrows\nlaser swords\nlaser guns\npsychic powers",
+		"showdown location": "5:at a <landscape feature with>\n3:<specific fantasy location>\n<scifi space scene location>\n<scene>",
         "everyone": "<celebrity>\n<celebrity2>\n<male adult actor>\n<female adult actress>\n<crossover image dest>\n<vocaloid>\n<vtuber>\n<vtuber>\n<female anime character>\n<male anime character>\n<female asian idols>"
     }
 }
