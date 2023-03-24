@@ -421,7 +421,7 @@ function pm5MakePrompt(data,prompt){
 				
 				var outset = new Set();
 				for(const item of list){
-					outset.add(pm5MakePrompt(data, match[1] + item + ending));
+					outset.add( match[1] + pm5MakePrompt(data, item) + ending );
 				}
 				list = Array.from(outset);
 				prompt = outset.size + " Prompts:\n" + list.join("\n");
@@ -851,7 +851,7 @@ function pm5PromptChange(){
 	try{
 		pm5GetWordLists(pm5Data, prompt, wordlists);
 	}catch(e){
-		alert(e.message);
+		alert("No such  word list: "+e.message);
 		return;
 	}
 	
