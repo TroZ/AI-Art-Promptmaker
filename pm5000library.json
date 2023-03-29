@@ -1024,11 +1024,7 @@
 			"credit": "ThaBeeHivee @thabeehivee https://openart.ai/community/IImQZUfK1kNp7uXgv1pl",
 			"image": "https://cdn.openart.ai/uploads/image_YOTTH8xx_1679966197027_512.webp"
         },
-		
-		
-		
-		
-        {
+		{
             "name": "Food",
             "value": "",
             "neg": "",
@@ -1414,7 +1410,7 @@
         },
 		{
             "name": "Biomechanical Cyborg Woman2",
-            "value": "(beautiful organic biomechanical <biomechanical cyborg type> woman:1.1), exposed wiring, insect, anatomical, muscle fibers, blood vessels, nervous system, viscous gooey blood dripping, wireframe, fractal, demonic, alien, translucent skin, (<color> porcelain:0.8), sitting, full body, large breasts, cute girl, <mouth keywords> mouth, <eye keywords> <eye color> eyes, <hair color> <hair style> hair, photo, realistic, masterpiece, best quality, 4k, depth of field",
+            "value": "(beautiful organic biomechanical <biomechanical cyborg type> woman:1.1), exposed wiring, insect, anatomical, muscle fibers, blood vessels, nervous system, viscous gooey blood dripping, wireframe, demonic, alien, translucent skin, (<color> porcelain:0.8), sitting, full body, large breasts, cute girl, <mouth keywords> mouth, <eye keywords> <eye color> eyes, <hair color> <hair style> hair, photo, realistic, scientific illustration, masterpiece, best quality, 4k, depth of field",
             "neg": "paintings, sketches, (worst quality, low quality, normal quality:2), lowres, (monochrome, grayscale:1.21), skin spots, acne, skin blemishes, age spot, blurry, (ugly, morbid, mutilated, disfigured, bad anatomy, tranny, futa:1.331), (extra limbs, missing arms, extra legs, mutated hands, poorly drawn hands, missing fingers, extra digit, fused fingers:1.331),",
             "tips": "Steps: 28, Sampler: DPM++ SDE Karras, CFG scale: 7.5, Seed: 3881399626, Face restoration: CodeFormer, Size: 512x768, Model hash: fc2511737a, Model: chilloutmix_NiPrunedFp32Fix, Denoising strength: 0.3, Hires upscale: 2, Hires steps: 4, Hires upscaler: SwinIR_4x",
             "credit": "modified from luyaoting https://old.reddit.com/r/StableDiffusion/comments/122j4iw/organic_biomechanical_cyborg_woman/",
@@ -1871,7 +1867,7 @@
         "japanese foods": "Sushi\nRamen\nTempura\nUdon\nYakitori\nOkonomiyaki\nSoba\nMiso soup\nTonkatsu\nTakoyaki\nGyudon\nChawanmushi\nShabu-shabu\nSukiyaki\nOnigiri\nKatsu curry\nGyoza\nNikujaga\nYakisoba\nSashimi\nYakiniku\nAnpan\nDorayaki\nOden\nZaru soba\nOyakodon\nMonjayaki\nMochi\nMatcha\nDango\nKakiage\nTonjiru\nKarage\nNabe\nKatsudon\nOchazuke\nTaiyaki\nMitarashi dango\nKorokke\nWarabimochi",
 		"pink anime portrati subject": "<female scifi characters>\n<female fantasy characters>\n<female video game characters>\n<vocaloid>\n<vtuber>",
         "workout routine": "deadlifts\ncurls\nleg presses\ntredmill\nstairmaster\nstationary bicycle\nrowing machine\njumping jacks\njump rope\nstretches\nyoga",
-        "anime style": "studio ghibli style\nakira style\nvampire hunder d style\nSatoshi Kon style\nMakoto Shinkai style\nShinichirō Watanabe style\nFullmetal Alchemist style\nOne Piece style\nMob Psycho 100 style\nHunter x Hunter style\nNeon Genesis Evangelion style\nPokemon style\nPixar style\nDisney style\nWarner Brothers style",
+        "anime style": "studio ghibli style\nakira style\nvampire hunder d style\nSatoshi Kon style\nMakoto Shinkai style\nShinichirō Watanabe style\nFullmetal Alchemist style\nOne Piece style\nMob Psycho 100 style\nHunter x Hunter style\nNeon Genesis Evangelion style\nPokemon style\nPixar style\nDisney style\nWarner Brothers style\nKatsuhiro Otomo style\nMasashi Kishimoto style\nKentaro Miura style",
         "anime faction": "sky pirates\nreligious knights\npsychic hackers\ntelekenic schoolchildren\nspace yakuza\nanthropomorphic nazis\nandroid treasure hunters",
         "candy desert type": "cotton candy\nstrawberry shortcake\nblueberry muffins\nlemon meringue pie\nraspberry torte\nplum pudding\ncherry jam\nhuckleberry pie\nsweet and sour\napple pie\nvanilla ice-cream\nchocolate ice-cream\nstrawberry ice-cream\nflan\nchocolate chip cookies\nsugar cookies\noatmeal raisin cookies\ngingerbread cookies\nsnickerdoodle cookies\ndouble chocolate chip cookies\nshortbread cookies\nblack and white cookies\nfig newton cookies\noreo cookies\nvanilla cupcake\nchocolate cupcake\nstrawberry cupcake\nbrownie\ns'mores\ncheesecake\nfudge\ncarrot cake\nmilkshakes\nchocolate bars\njelly beans\npeppermint sticks\nlollipops\ngummy bears\ncotton candy\ntaffy\nbubble gum\nrock candy\ncandy corn\ncandy canes\nbon bons\nsprinkles\ncaramels\npop rocks\ngumballs\nlicorice\nmarshmallows\nmalt balls\nnonpareils\nribbon candy\ntoffee\nnougat\nchocolate ganache\njordan almonds\njawbreakers\nm&ms\nreese's pieces\nskittles\ntwizzlers\nmilk duds\njunior mints\nsweedish fish\nsno-caps\nraisinets\ngoobers\nstarburst\nmike and ike\nsour patch kids\nred vines",
         "desert shop": "bakery\nice-cream shoppe\ncandy shoppe",
@@ -1941,7 +1937,7 @@
 		"space girls giger start": "colorful epic space opera\ndark epic space opera\ncolorful lovcraftian space horror\n<punk type> space epic\ncolorful <punk type> space opera\ndark <punk type> space opera\ncolorful <punk type> space western\ndark <punk type> space western\ncolorful <punk type> space horror\ndark <punk type> space horror",
 		"space girls giger space movie": "star wars\nstar trek\naliens movie\ngalaxy quest\nbarbarella\nevent horizon\ndead space aftermath\nprometheus\ndistrict 9\nflash gordon\nlifeforce\nkiller klowns from outer space\npandorum",
 		"space girls giger idol": "kpop\njpop\njapanese\namerican\neuropean",
-		"space girls giger artist": "Thierry Mugler\ngreg rutkowski\nhr giger\nFrancis Bacon\nJoel Peter-Witkin\nDavid Cronenberg",
+		"space girls giger artist": "Thierry Mugler\ngreg rutkowski\nhr giger\nFrancis Bacon\nJoel Peter-Witkin\nDavid Cronenberg\nAndy Fairhurst\nZdzislaw Beksinski\nTim Burton",
 		"chatgpt shot": "worm's eye view\nmedium shot\nlow angle shot\noverhead shot\nclose-up shot\ndistance shot\nwide angle shot\ncinematic high angle shot from above",
 		"chatgpt style": "faerie\ncosmic horror\nsteampunk\nviking\nbyzantine\ncyberpunk\nold wild west\nancient greek\negyptian",
 		"chatgpt structure": "ancient ruin\nalien temple\nclockwork tower\nlongship dock\nornate chapel\nroyal throne room\nsailing ship\nbullet train\nwizards laboratory",
@@ -2012,7 +2008,7 @@
 		"samauri scene detail": "4:\ncherry blossom trees\nthrowing stars\npaper lanterns\nchopsticks\nsushi\nmoon",
 		"samauri scene color": "4:\nblack white orange\nblack white red\nnavy blue white orange\ngrey background, dark characters, colorful smoke",
 		"cute animal colors": "pink\nlight blue\ntan\nlavender\nblack\nblack and white\ntan and white\nspotted\nstriped",
-		"cute animal animals": "highland calf\nhighland cow\nbunny rabbit\nkitten\nkitty cat\npuppy\n<dog breed> puppy\nwolf puppy\nlamb\nsheep\goat\nkid goat\nchicken\nrooster\nbaby chick\nmoo cow\nhorse\npony",
+		"cute animal animals": "highland calf\nhighland cow\nbunny rabbit\nkitten\nkitty cat\npuppy\n<dog breed> puppy\nwolf puppy\nlamb\nsheep\ngoat\nkid goat\nchicken\nrooster\nbaby chick\nmoo cow\nhorse\npony",
 		"female famous": "<female celebrity>\n<female celebrity2>\n<vocaloid>\n<vtuber>\n<female asian idols>",
 		"celebrities": "<celebrity>\n<celebrity2>\n<female asian idols>",
 		"everyone": "<celebrity>\n<celebrity2>\n<male adult actor>\n<female adult actress>\n<crossover image dest>\n<vocaloid>\n<vtuber>\n<female anime character>\n<male anime character>\n<female asian idols>"
