@@ -85,8 +85,8 @@ function reqListenerpm5() {
 		var pm5Data = JSON.parse(this.responseText);
 	}catch(e){
 		console.error(e);
-		alert("Error parsing Prompt Maker Library: "+e.message);
-		return;
+		alert("Error parsing Prompt Maker Library (using default data): "+e.message);
+		pm5Data = PromptMakerLibraryBackup;
 	}
 	
 	pm5FillPrompts(pm5Data.prompts);
@@ -1085,7 +1085,7 @@ var PromptMakerLibraryBackup = `
 	"wordlists": {
 		"person like subject": "5:a man\\n5:a woman\\na <gender word> kitsune\\nan anthropomorphic <animal> <wmgender word>\\na kemonomimi <animal>-<wmgender word>\\na <gender word> ninja\\na <gender word> samurai",
 		"person action": "standing in the middle of the street\\nsitting in their living room\\nhaving a picnic in a forest\\nshopping in a convenience store\\nreading a book in a library\\npracticing fighting\\npetting a <animal>",
-		"animal": "dog\\ncat\\nrabbit\\nbunny\\ndeer\\nracoon\\nsquirl\\nfrog\\nfox\\nkitsune\\npanda\\nsloth\\nbadger\\nlion\\ntiger\\nox\\ncow\\nchicken\\ngoose\\nduck\\npig\\nsheep\\nllama\\nparrot\\npenguin\\nseal\\nbadger\\nlynx\\nboar\\nhippo\\nelephant\\nzebra\\nbear\\npanther\\ndragon",
+		"animal": "dog\\ncat\\nrabbit\\nbunny\\ndeer\\nracoon\\nsquirrel\\nfrog\\nfox\\nkitsune\\npanda\\nsloth\\nbadger\\nlion\\ntiger\\nox\\ncow\\nchicken\\ngoose\\nduck\\npig\\nsheep\\nllama\\nparrot\\npenguin\\nseal\\nbadger\\nlynx\\nboar\\nhippo\\nelephant\\nzebra\\nbear\\npanther\\ndragon",
 		"gender word": "male\\nfemale\\ngirl\\nboy",
 		"wmgender word": "man\\nwoman\\ngirl\\nboy"
 	}
