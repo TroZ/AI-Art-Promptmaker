@@ -1307,6 +1307,7 @@ function pm5PromptChange(){
 	var pm5ReplaceAll = document.getElementById("pm5replaceall");
 	
 	if(pm5Force != null){
+		//reset force replacement combo box
 		var sel = "";
 		//remember selected value
 		if(pm5Force.selectedIndex > -1){
@@ -1333,6 +1334,7 @@ function pm5PromptChange(){
 	}
 	
 	if(pm5ReplaceAll != null){
+		//reset replace with all options combo box
 		var sel = "";
 		//remember selected value
 		if(pm5ReplaceAll.selectedIndex > -1){
@@ -1389,8 +1391,7 @@ function pm5PromptChange(){
 
 function pm5GetWordLists(data, prompt, wordlists){
 	
-	var ep = data.EqualProbability;
-	data.EqualProbability = true;
+	data.NoDuplicates = true;
 
 	//find first replace list
 	var match = pm5GetMatch(prompt);
@@ -1400,23 +1401,27 @@ function pm5GetWordLists(data, prompt, wordlists){
 		
 			var listname = match[2];
 			
-			//add list if new
-			wordlists.add(listname);
+			if(!wordlist.has(listname){
 			
-			//find list
-			var list = pm5GetWordListWords(data,listname);
-			
-			//using a set to remove duplicates. duplicates are useful for getting some options more than others, but if we are making all, we just want all unique items.
-			var set = new Set(list);
-			
-			for(const item of set){
-				//replace next list
-				try{
-					pm5GetWordLists(data, item, wordlists);
-				}catch(e){
-					data.EqualProbability = ep;
-					throw e;
+				//add list if new
+				wordlists.add(listname);
+				
+				//find list
+				var list = pm5GetWordListWords(data,listname);
+				
+				//using a set to remove duplicates. duplicates are useful for getting some options more than others, but if we are making all, we just want all unique items.
+				var set = new Set(list);//actually shouldn't need to do this since we are now setting NoDuplicates, but it shouldn't take too much time.
+				
+				for(const item of set){
+					//replace next list
+					try{
+						pm5GetWordLists(data, item, wordlists);
+					}catch(e){
+						data.EqualProbability = ep;
+						throw e;
+					}
 				}
+			
 			}
 			
 			//next replace list at this level;
@@ -1424,7 +1429,7 @@ function pm5GetWordLists(data, prompt, wordlists){
 		}
 	}
 
-	data.EqualProbability = ep;
+	data.NoDuplicates = false;
 }
 
 function pm5WLSort(){
