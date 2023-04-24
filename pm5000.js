@@ -1401,7 +1401,7 @@ function pm5GetWordLists(data, prompt, wordlists){
 		
 			var listname = match[2];
 			
-			if(!wordlist.has(listname){
+			if(!wordlists.has(listname)){
 			
 				//add list if new
 				wordlists.add(listname);
