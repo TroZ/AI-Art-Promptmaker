@@ -7,7 +7,9 @@
 	
 	Prompt-O-matic prompts (the block of JSON below or the .json file loaded) are public domain and are mostly from https://publicprompts.art/ or from https://www.reddit.com/r/StableDiffusion
 	Support them if you find those prompts useful
--->	
+-->
+<link rel="stylesheet" href="tribute.css" />
+<script src="tribute.min.js"></script>
 <script src="pm5000.js"></script>
 <script>
 function load(){
@@ -32,6 +34,8 @@ function closeResults(){
 }
 </script>
 <style>
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
 html, body {
 	height: 100vh;
 	overflow: hidden;
@@ -59,6 +63,9 @@ h3 {
 button {
 	font-weight: bold;
 }
+textarea {
+  resize: none;
+}
 
 .spacer{
 	display: inline-block;
@@ -69,6 +76,7 @@ button {
 }
 
 #pm5makeprompt, 
+#pm5showpromptoptions,
 .results{
 	display: none;
 	position: absolute;
@@ -77,6 +85,7 @@ button {
 	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
 }
 body.darkmode #pm5makeprompt, 
+body.darkmode #pm5showpromptoptions,
 body.darkmode .results{
 	background: #444;
 }
@@ -90,12 +99,24 @@ body.darkmode .results{
 
 #pm5makeprompt{
 	top: 25vh;
-	bottom: 25vh;
+	bottom: 20vh;
 	left: 25vw;
 	right: 25vw;
 	padding: 3px;
 }
-.open, #pm5makeprompt.open {
+#pm5showpromptoptions{
+	top: 50vh;
+	bottom: 10vh;
+	left: 35vw;
+	right: 35vw;
+	padding: 3px;
+}
+#pm5promptoptionwordlist{
+	width: 95%;
+	height: 25vh;
+}
+
+.open, #pm5makeprompt.open, #pm5showpromptoptions.open {
 	display: block;
 }
 .results textarea#result {
@@ -171,13 +192,14 @@ body.darkmode .pm5wordlist.wlselected{
 	position: absolute;
 	top: 1px;
 	right: 3px;
-	font-weight:bold; 
+	font-weight: bold; 
 	font-weight: bolder;
 	cursor: pointer;
     border: 1px solid grey;
 }
 .pm5expander:hover{
 	font-weight: bold;
+	background: grey;
 }
 .expanded{
     position: absolute;
@@ -200,8 +222,8 @@ body.darkmode .pm5wordlist.wlselected{
 	margin: 2px;
 }
 #pm5results{
-flex: none;
-	height: 15em;
+	flex: none;
+	height: 13em;
 	width: 100%;
 }
 textarea#pm5result {
@@ -249,9 +271,12 @@ textarea#pm5result {
 }
 
 #pm5makeprompt select,
-#pm5makeprompt input,
+#pm5makeprompt input:not([type=checkbox]),
 #pm5makeprompt textarea {
 	width: 100%
+}
+#pm5makeprompt h4{
+	margin: 3px 0;
 }
 
 #pm5generate {
@@ -281,10 +306,67 @@ body.darkmode #pm5generate:hover {
 	display: none;
 }
 
+#pm5issue {
+	position: fixed;
+	right: 5px;
+	bottom: 3px;
+}
+
 label, .nowrap {
 	white-space: nowrap;
 }
 
+#pm5promptoptionsquit{
+	float: right;
+}
+
+select:disabled,  body.darkmode select:disabled {
+	color: #808080;
+}
+
+/* new prompt word highlight */
+.highlights, textarea, input {
+  padding: 3px;
+  font: 12px 'Open Sans', sans-serif;
+  letter-spacing: 1px;
+}
+.highlightcontainer {
+	background: #fff;
+}
+#pm5newprompt {
+	position: relative;
+	margin: 0;
+	border-radius: 0;
+	background-color: transparent;
+}
+.backdrop {
+	position: absolute;
+	overflow: auto;
+	background-color: transparent;
+	pointer-events: none;
+	padding-left: 1px;
+	padding-top: 2px;
+	scrollbar-width: none;
+}
+.backdrop::-webkit-scrollbar {
+    display: none;
+}
+.highlights {
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	color: transparent;
+}
+mark {
+	color: transparent;
+	background-color: #8080ff;
+	border-radius: 3px;
+}
+body.darkmode mark{
+background-color: #4040ff;
+}
+
+
+body.darkmode .highlightcontainer,
 body.darkmode textarea,
 body.darkmode input,
 body.darkmode select,
@@ -297,6 +379,14 @@ body.darkmode select:hover,
 body.darkmode button:hover {
 	background: #444;
 }
+body.darkmode select:disabled:hover{
+	background: #222;
+}
+
+.busy {
+	cursor: wait;
+}
+
 
 </style>
 </head>
@@ -307,7 +397,7 @@ body.darkmode button:hover {
 <div id="pm5darkmodediv"><input type=checkbox id="pm5darkmode"><label for="pm5darkmode">Dark Mode</label>
 <script>
 if(window.localStorage.getItem("darkmode")=="true"){
-	document.getElementById("pm5darkmode"),checked = true;
+	document.getElementById("pm5darkmode").checked = true;
 	document.body.classList.add("darkmode");
 }
 </script>
@@ -325,6 +415,7 @@ if(window.localStorage.getItem("darkmode")=="true"){
 <div id="pm5wlwrapper"><h4>Word Lists:</h4>
  <span class="nowrap"><label for="pm5newwl">Add New Word List:</label><input id="pm5newwl" size=25><button type="button" id="pm5addwl">Add</button> 
  <span class="info" title="Word Lists are lists of words or phrases separated by newlines that can be referenced in the prompts. The references are the word list name surrounded by angle brackets (<>). Word lists themselves can contain references to other word lists. A particular item in a word list can start with a number followed by a color (2:red), which will give a weight to that item. Normally, each item in a word list has an equal probability, but giving a weight will make that item more likely, as if it was in the list the number of times of it's weight (unless 'Equal Probability' is chosen).">❔</span></span> <span class="spacer"> </span>
+ <span class="nowrap"><label for="pm5replaceall">Word List Sort:</label><select id=pm5wlsort><option value="original">Original Order</option><option value="-original">Reverse Original</option><option value="alpha">Alphabetical Order</option><option value="-alpha">Reverse Alphabetical</option><option value="inprompt">In Current Prompt</option><option value="items">Items in List</option><option value="-items">Reverse Items in List</option><option value="itemsrecursive">Items Referenced</option><option value="-itemsrecursive">Reverse Items Referenced</option><option value="textlength">List Text Length</option><option value="-textlength">Reverse Text Length</option></select></span> <span class="spacer"> </span>
  <button type="button" id="pm5showcounts">Show Counts (hover titles)</button>
 </div>
 <div id="pm5wlcontainer">
@@ -367,6 +458,7 @@ if(window.localStorage.getItem("darkmode")=="true"){
 		<textarea id="pm5list-"></textarea>
 	</div>
 </div>
+<div id="pm5issue"><a href="https://github.com/TroZ/AI-Art-Promptmaker/issues">Submit issues or new prompt settings here</a></div>
 </div>
 
 <div id="pm5makeprompt">
@@ -379,7 +471,19 @@ if(window.localStorage.getItem("darkmode")=="true"){
 	Title:</td><td><input id="pm5newprompttitle" size=50>
 </td></tr>
 <tr><td>
-	Prompt:</td><td><textarea id="pm5newprompt" cols=50 rows=3></textarea>
+	Prompt:</td><td>
+	<div id="highlightcontainer" class="highlightcontainer">
+		<div id="backdrop" class="backdrop">
+			<div id="highlights" class="highlights">
+			</div>
+		</div>
+		<textarea id="pm5newprompt" cols=50 rows=3></textarea>
+	</div>
+	<button id="pm5addoptions" type="button">Add Options</button>
+	<span class="info" title="Clicking Add Options will search the wordlists to see if they have words or phrases in the prompt, and if any are found, suggests replacing the word / phrase of the prompt with a reference to the wordlist. This allows you to quickly make variations of the prompt.">❔</span>
+	<span class="spacer"> </span>
+	<input type="checkbox" checked id="pm5addoptionsrespectword">Respect Word Boundries 
+	<span class="info" title="When respect word boundries is checked, adding options will only match whole words, so it won't match the word 'cat' in 'catman' with the '<animal>' wordlist. With respect word boundries unchecked, 'cat' in 'catman' will be offered to be replaced by the '<animal>' wordlist.">❔</span>
 </td></tr>
 <tr><td>
 	Negative Prompt:</td><td><textarea id="pm5newpromptneg" cols=50 rows=3></textarea>
@@ -401,6 +505,18 @@ if(window.localStorage.getItem("darkmode")=="true"){
 </table>
 </div>
 
+
+<div id="pm5showpromptoptions">
+For '<span id="pm5promptoptionword"></span>', use the following list instead?<br>
+<select id="pm5promtoptionselect"></select><br>
+Example words/phrases:<br>
+<textarea id="pm5promptoptionwordlist"></textarea><br>
+<button type="button" id="pm5promptoptionsreplace">Replace</button>
+ <span class="spacer"> </span>
+<button type="button" id="pm5promptoptionsskip">Skip</button>
+<span class="spacer"> </span>
+<button type="button" id="pm5promptoptionsquit">Quit</button>
+</div>
 
 <div id="results" class="results">
 <span id=resultstitle>Result:</span>
