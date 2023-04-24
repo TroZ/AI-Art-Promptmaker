@@ -6,7 +6,16 @@ const pm5regexlh = /^([^<]*(?:<(?=lora:|hypernet:)[^<]+)*)<(?!lora:|hypernet:)([
 const pm5regex = /^([^<]*)<([^>]*)>(.*)$/;
 // old, not actually correct (only works if lora / hypernet is at the end  /^([^<]*)<(?!lora:|hypernet:)([^>]*)>(.*)$/;
 
+const pm5regexFindLH = /<((?:lora:|hypernet:)[^<]+)>/g;
+
 const pm5weightregex = /^(\d+):(.*)$/;
+
+const LIST_TOO_BIG = 250000;
+
+var wordlistcount = 0;
+
+var tributeData = {};
+var tribute = null;
 
 function pm5Open(){
 	var pm5 = document.getElementById("promptmaker");
@@ -41,6 +50,13 @@ function pm5Load(){
 	document.getElementById("pm5addpromptclose").addEventListener("click",pm5AddEditPromptClose);
 	document.getElementById("pm5addeditselect").addEventListener("change",pm5AddEditPromptChange);
 	document.getElementById("pm5darkmode").addEventListener("change",pm5DarkMode);
+	document.getElementById("pm5wlsort").addEventListener("change",pm5WLSort);
+	document.getElementById("pm5addoptions").addEventListener("click",pm5AddPromptOptions);
+	document.getElementById("pm5promptoptionsreplace").addEventListener("click",pm5PromptOptionReplace);
+	document.getElementById("pm5promptoptionsskip").addEventListener("click",pm5PromptOptionSkip);
+	document.getElementById("pm5promptoptionsquit").addEventListener("click",pm5PromptOptionQuit);
+	document.getElementById("pm5promtoptionselect").addEventListener("change",pm5PromptOptionSelectChange);
+	document.getElementById("pm5newprompt").addEventListener("scroll",pm5NewPromptScroll);
 	
 	
 	
@@ -50,6 +66,11 @@ function pm5Load(){
 	req.open("GET", "./pm5000library.json");
 	req.send();
 
+
+
+	
+	
+	pm5UpdateTribute();
 }
 
 function pm5DarkMode(){
@@ -94,6 +115,8 @@ function reqListenerpm5() {
 	pm5FillWordLists(pm5Data.wordlists);
 	
 	pm5PromptChange();
+	
+	pm5UpdateTribute();
 }
 
 function reqFailpm5(evt){
@@ -117,6 +140,7 @@ function pm5FillWordLists(wordlists){
 	var wlcont = document.getElementById("pm5wlcontainer");
 	var wltemplate = document.getElementById("pm5basewl");
 	if(wlcont!=null && wltemplate!=null){
+		wordlistcount = 0;
 		var children = document.createDocumentFragment();
 		for(var wlkey in wordlists){
 			children.appendChild(pm5AddWordList(wlkey,wordlists[wlkey]));
@@ -135,6 +159,10 @@ function pm5AddWordList(name, content){
 		allDescendants(ele,function(ele){ 
 			if(ele.id != null && ele.id.length > 0){
 				ele.id = ele.id + name;
+				if(ele.tagName.toLowerCase() != "textarea"){
+					ele.setAttribute("origorder",wordlistcount);
+					wordlistcount++;
+				}
 			}
 			if(ele.innerText == "Title"){
 				ele.innerText = name;
@@ -163,6 +191,8 @@ function pm5NewWordList(){
 		ele = pm5AddWordList(name,"");
 		wlcont.appendChild(ele);
 		ele.scrollIntoView();
+		
+		pm5UpdateTribute();
 	}
 }
 
@@ -185,6 +215,7 @@ function pm5AddEditPrompt(){
 	var sel = document.getElementById("pm5prompt");
 	var editsel = document.getElementById("pm5addeditselect");
 	if(sel!=null && editsel!=null){
+		editsel.options.length = 0;
 		var opt = document.createElement("option");
 		opt.name = opt.value = opt.innerText = "New Prompt";
 		editsel.appendChild(opt);
@@ -239,6 +270,8 @@ function pm5AddEditPromptClose(){
 			}
 			sel.appendChild(opt);
 		}
+		
+		pm5UpdateTribute();
 	}
 }
 
@@ -287,7 +320,11 @@ function pm5AddPrompt(){
 		newpromptcredit.value = "";
 		newpromptimage.value = "";
 	}else{
-		alert("Error adding prompt");
+		if(newprompttitle.value.trim().length > 0){
+			alert("Please specify a title");
+		}else{
+			alert("Error adding prompt");
+		}
 	}
 	
 }
@@ -339,6 +376,355 @@ function pm5AddEditPromptChange(){
 	newpromptimage.value = opt.getAttribute("image")=="null"?"":opt.getAttribute("image");
 }
 
+var promptoptions = null;
+function pm5AddPromptOptions(){
+	//disable button
+	document.getElementById("pm5addoptions").disabled = true;
+	
+	promptoptions = {};
+	promptoptions.allmatches = new Array();
+	//promptoptions.worddata = {};
+	promptoptions.wordlistregex = {};
+	promptoptions.current = 0;
+	promptoptions.curstart = 0;
+	
+	const pm5Data = pm5GetData();
+	//override user settings to get list we want no duplicates, immediate list only (we will go a level deep here making regex more efficient)
+	pm5Data.EqualProbability = false;
+	pm5Data.NoDuplicates = true;
+	//disable prompt textarea
+	const prompt = document.getElementById("pm5newprompt");
+	prompt.readOnly = true;
+	
+	//set up for highlighting
+	const highlightcontainer = document.getElementById("highlightcontainer");
+	const highlights = document.getElementById("highlights");
+	const backdrop = document.getElementById("backdrop");
+	highlightcontainer.style.width = (prompt.clientWidth + 17) +"px"; //not sure why the 17 is needed, but backdrop is visibly narrower if just client width is used (can see different background color on right edge (in dark mode))
+	backdrop.style.width = prompt.clientWidth +"px"; 
+	backdrop.style.height = prompt.clientHeight + "px";
+	highlights.innerHTML = applyHighlights(prompt.value,0,0);
+	pm5NewPromptScroll();
+	
+	//set busy
+	document.body.classList.add("busy");
+	
+	//ok, we are going to make a list of all words/phrases that are parts of word lists mapped to the word lists that contain them
+	for(const wlkey in pm5Data.wordlists){
+		var list = pm5GetWordListWords(pm5Data,wlkey);
+		var rex = "";
+
+		for(var word of list){
+			
+			//remove weight if there
+			var m = word.match(pm5weightregex);
+			if(m!=null){
+				word = m[2];
+			}
+			
+			if(word.length < 1)
+				continue; //skip empty words
+			if(word.indexOf("<") > -1){
+				//expand replacement, but only one level
+				var item = word;
+				var match = pm5GetMatch(item);
+				var result = "";
+				while(match !=null){
+					var sublistname = match[2];
+					var sublist = pm5Data.wordlists[sublistname].split("\n");
+					result += escapeRegExp(match[1])+"(?:";
+					var added = false;
+					for(var j = 0; j< sublist.length; j++){
+						//remove weight if there
+						m = sublist[j].match(pm5weightregex);
+						if(m!=null){
+							sublist[j] = m[2];
+						}
+						//add to regex OR
+						if(sublist[j].indexOf('<')== -1 && sublist[j].length>0){ //don't add further nested word list references or empty string
+							result += ((!added) ? "" : "|") + escapeRegExp(sublist[j]);
+							added = true;
+						}
+					}
+					if(!added){
+						//all sublists of this sub-wordlist references further word lists, so don't add it
+						result = "";
+						break;
+					}
+					result += ")";
+					if(pm5GetMatch(match[3])){
+						item = match[3];
+						match = pm5GetMatch(item);
+					}else{
+						result += escapeRegExp(match[3]);
+						match = null;
+					}
+				}
+				word = result.toLowerCase();
+
+			} else {
+				word = escapeRegExp(word);
+			}
+			
+			if(word.length>0){
+				rex += (rex.length>0 ? "|" : "") + word;
+			}
+
+		}
+		
+		if(rex.length > 0){
+			//don't add regexes for lists that are too nested to have any words
+			promptoptions.wordlistregex[wlkey] = rex;
+		}
+	}
+	
+	pm5FindNextPromptOption();
+}
+
+function makeMatchRecord(start, len, word){
+	var obj = {};
+	obj.start = start;
+	obj.len = len;
+	obj.word = word;
+	return obj;
+}
+
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
+//not used?
+function regexIndexOf(string, regex, startpos) {
+	//don't use a regex with capturing groups
+	var match = string.substring(startpos || 0).match(regex);
+	
+    var indexOf = string.substring(startpos || 0).search(regex);
+    return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
+}
+
+function stringSorterLength(a,b){
+	var val = b.length - a.length;
+	if(val == 0){
+		val = a.localeCompare(b);
+	}
+	return val;
+}
+
+function pm5FindNextPromptOption(){
+	const prompt = document.getElementById("pm5newprompt").value;
+	const pm5Data = pm5GetData();
+	const respectWordBoundries = document.getElementById("pm5addoptionsrespectword").checked;
+	
+	//set busy
+	document.body.classList.add("busy");
+	
+	while(promptoptions.current < pm5Data.wordlistcount){
+		
+		var wordlist = Object.keys(pm5Data.wordlists)[promptoptions.current];
+		var regexstr = promptoptions.wordlistregex[wordlist];
+		
+		//find words from this wordlist in prompt
+		if(respectWordBoundries){
+			regexstr = "\\b(?:" + regexstr + ")\\b";
+		}
+		var regex = new RegExp(regexstr,'gi');
+		regex.lastIndex = promptoptions.curstart;
+		var match = regex.exec(prompt);
+
+		if( match != null && match.length == 1){
+			var length = match[0].length;
+			var start = regex.lastIndex - length;
+						
+			//make sure not inside <>
+			var open = prompt.lastIndexOf("<",start);
+			var close = prompt.lastIndexOf(">",start);
+			if(open > close){
+				//don't look inside wordlist references
+				promptoptions.curstart = regex.lastIndex;
+				continue;
+			}
+			
+			//make sure match has at least 1 alphanum character
+			if(match[0].match(/\w|\d/) == null){
+				promptoptions.curstart = regex.lastIndex;
+				continue;
+			}
+			
+			if(length < 3){
+				//match must be at least three characters
+				promptoptions.curstart = regex.lastIndex;
+				continue;
+			}
+			
+			//make sure we haven't found this match already
+			var next = false;
+			for(i = 0; i < promptoptions.allmatches.length; i++){
+				var matchitem = promptoptions.allmatches[i];
+				if(matchitem.start == start && matchitem.len == length && matchitem.word == match[0]){
+					//found same match again, skip
+					promptoptions.curstart = regex.lastIndex;
+					next = true;
+					break;;
+				}
+			}
+			if(next) continue;
+			
+			//found matching word. Highlight in prompt. Open dialog asking to replace
+			promptoptions.curstart = start;
+			promptoptions.curlength = length;
+			promptoptions.curmatch = match[0];
+			promptoptions.allmatches.push(makeMatchRecord(start,length,match[0])); //add match record
+			
+			//var wordlists = [...promptoptions.worddata[word].lists.values()];
+			var wordlists = pm5FindWordlists(pm5Data, match[0]);
+			if(wordlists.length == 0){
+				console.log("That shouldn't happen!");
+			}
+			const textarea = document.getElementById("pm5promptoptionwordlist");
+			const select = document.getElementById("pm5promtoptionselect");
+			const prompttextarea = document.getElementById("pm5newprompt");
+			const promptoptionword = document.getElementById("pm5promptoptionword");
+			
+			//set up select
+			//remove current options
+			var i, L = select.options.length - 1;
+			for(i = L; i > -1; i--) {
+				select.remove(i);
+			}
+			//add new options
+			for(i=0;i<wordlists.length;i++){
+				var option = document.createElement("option");
+				option.innerText = option.value = wordlists[i];
+				select.appendChild(option);
+			}
+			select.disabled = wordlists.length < 2;
+			
+			//set up text area (pre-fill)
+			textarea.disabled = true;
+			pm5PromptOptionSelectChange();
+			
+			//show word to replace
+			promptoptionword.innerText = match[0];
+			
+			//show dialog
+			document.getElementById("pm5showpromptoptions").classList.add("open");
+						
+			//highlight words in prompt
+			//prompttextarea.setSelectionRange(start, start + length);
+			const highlights = document.getElementById("highlights");
+			highlights.innerHTML = applyHighlights(prompt, start, start + length);
+			
+			//set not busy
+			document.body.classList.remove("busy");
+			
+			//return, so we break out o fthis loop and let the user interact with the dialog (pressing a button will call this method again)
+			return;
+		}else{
+			if(match!=null && match.length > 0 ){
+				console.log("found match of bigger than 1: "+match);
+			}
+		}
+		promptoptions.current++;
+		promptoptions.curstart = 0;
+	}
+	
+	pm5PromptOptionQuit();
+	
+	alert("No more replacement options found");
+}
+
+function applyHighlights(text, start, end){
+	if(text==null) return "";
+	text = text.substring(0,start) + "\x01" + text.substring(start,end) + "\x02" + text.substring(end);
+	text = text.replace(/\n&/g, '\n\n');
+	text = text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+	text = text.replace("\x01","<mark>").replace("\x02","</mark>");
+	return text;
+}
+
+function pm5NewPromptScroll() {
+	const prompt = document.getElementById("pm5newprompt");
+	const backdrop = document.getElementById("backdrop");
+	backdrop.scrollTop = prompt.scrollTop;
+}
+
+function pm5PromptOptionSelectChange(){
+	const select = document.getElementById("pm5promtoptionselect");
+	const textarea = document.getElementById("pm5promptoptionwordlist");
+	const pm5Data = pm5GetData();
+	
+	const listname = select.options[select.selectedIndex].value;
+	//textarea.value = pm5Data.wordlists[listname];
+	textarea.value = pm5GetWordListWords(pm5Data,listname).join('\n');
+	
+}
+
+function pm5PromptOptionReplace(){
+	//replace word in prompt then continue search (continue as if we skipped)
+	const select = document.getElementById("pm5promtoptionselect");
+	var prompt = document.getElementById("pm5newprompt").value;
+	const wordlist = select.options[select.selectedIndex].value;
+	const start = promptoptions.curstart;
+	const len = promptoptions.curlength;
+	prompt = prompt.substring(0,start) + "<"+wordlist+">" + prompt.substring(start+len);
+	document.getElementById("pm5newprompt").value = prompt;
+	promptoptions.curstart += len + 1; //skip will add the additional 1 for the other angle bracket
+	
+	//adjust start position of matches found after start location of this match, as we adjusted the length of the string before the following matches
+	var resize = (wordlist.length+2) - len;
+	for(i = 0; i < promptoptions.allmatches.length; i++){
+		var match = promptoptions.allmatches[i];
+		if(match.start > start){
+			match.start += resize;
+		}
+	}
+	
+	//close dialog and look for next matching word
+	pm5PromptOptionSkip();
+}
+
+function pm5PromptOptionSkip(){
+	//close option dialog, remove highlights, continue search from end of last match
+	document.getElementById("pm5showpromptoptions").classList.remove("open");
+	const highlights = document.getElementById("highlights");
+	highlights.innerHTML = "";
+	promptoptions.curstart++;
+	pm5FindNextPromptOption();
+}
+
+function pm5PromptOptionQuit(){
+	document.getElementById("pm5showpromptoptions").classList.remove("open");
+	//remove highlights
+	const highlights = document.getElementById("highlights");
+	highlights.innerHTML = "";
+	//re-enable button
+	document.getElementById("pm5addoptions").disabled = false;
+	promptoptions = null;
+	//reset prompt text Area
+	const promptele = document.getElementById("pm5newprompt");
+	promptele.readOnly = false;
+	//set not busy
+	document.body.classList.remove("busy");
+}
+
+function pm5FindWordlists(pm5Data, word){
+	//return an array of the names of the wordlists the specified word is in.
+	var array = new Array();
+	
+	for(var i=0; i < pm5Data.wordlistcount; i++){
+		
+		var wordlist = Object.keys(pm5Data.wordlists)[i];
+		var regexstr = promptoptions.wordlistregex[wordlist];
+	
+		regexstr = "^(?:" + regexstr + ")$";
+		if(word.match(new RegExp(regexstr,"i")) != null){
+			array.push(wordlist);
+		}
+	}
+	return array;
+}
+	
+
 function pm5GetMatch(prompt){
 	if(prompt.indexOf("<lora:")>-1 || prompt.indexOf("<hypernet:")>-1){
 		return prompt.match(pm5regexlh);//slower by a *LOT*
@@ -372,27 +758,57 @@ function pm5Generate(){
 		
 		var pm5result = document.getElementById("pm5result");
 		
-		var neg = sel.options[sel.selectedIndex].getAttribute("neg");
-		var tips = sel.options[sel.selectedIndex].getAttribute("tips");
-		var credit = sel.options[sel.selectedIndex].getAttribute("credit");
-		if( (neg!=null && neg.length>0) || (tips!=null && tips.length>0) || (credit!=null && credit.length>0)){
-			prompts = "Prompts:\n"+prompts;
-			if(neg!=null && neg.length>0){
-				prompts = "Negative Prompt: "+neg+"\n\n"+prompts;
-			}
-			if(tips!=null && tips.length>0){
-				prompts = "Tips: "+tips+"\n\n"+prompts;
-			}
-			if(credit!=null && credit.length>0){
-				prompts = "Credit: "+credit+"\n\n"+prompts;
-			}
-		}
+		prompts = pm5MakeResultsString(prompts);
 		
 		pm5result.value = prompts;
 		pm5result.scrollTop=0;
 		pm5result.scrollLeft = 0;
 	}
 }
+
+function pm5MakeResultsString(prompts){
+	var sel = document.getElementById("pm5prompt");
+	var neg = sel.options[sel.selectedIndex].getAttribute("neg");
+	var tips = sel.options[sel.selectedIndex].getAttribute("tips");
+	var credit = sel.options[sel.selectedIndex].getAttribute("credit");
+	if( (neg!=null && neg.length>0) || (tips!=null && tips.length>0) || (credit!=null && credit.length>0)){
+		if(prompts != null && prompts.length > 0){
+			prompts = "Prompts:\n"+prompts;
+		}else{
+			prompts = "";
+		}
+		if(sel!=null){
+			var str = sel.options[sel.selectedIndex].value;
+			if( str.indexOf("<lora:")>-1 || str.indexOf("<hypernet:")>-1 ){
+				var matches = str.match(pm5regexFindLH);
+				var buf = "Loras / Hypernets used:\n";
+				for(var i=0;i<matches.length;i++){
+					var temp = matches[i].substring(1,matches[i].length-1)
+					var pos1 = temp.indexOf(":");
+					var pos2 = temp.indexOf(":",pos1+1);
+					if(pos2 > 0){
+						temp = temp.substring(0,pos2);
+					}
+					buf += temp + "\n";
+				}
+				prompts = buf +"\n"+prompts;
+			}
+		}
+		if(neg!=null && neg.length>0){
+			prompts = "Negative Prompt: "+neg+"\n\n"+prompts;
+		}
+		if(tips!=null && tips.length>0){
+			prompts = "Tips: "+tips+"\n\n"+prompts;
+		}
+		if(credit!=null && credit.length>0){
+			prompts = "Credit: "+credit+"\n\n"+prompts;
+		}
+	}
+	
+	return prompts;
+}
+
+
 
 function pm5MakePrompt(data,prompt){
 	
@@ -417,14 +833,14 @@ function pm5MakePrompt(data,prompt){
 						if(item.indexOf("<")>-1){
 							var replace = pm5MakePromptAll2(data,item);
 							for(const item2 of replace){
-								if(item2.indexOf("<")>-1){
-									list.push(item2);
+								if(item2.prompt.indexOf("<")>-1){
+									list.push(item2.prompt);
 								}else{
-									reallist.push(item2);
+									reallist.push(item2.prompt);
 								}
 							}
 						}else{
-							reallist.push(item2);
+							reallist.push(item);
 						}
 					}
 					//don't need to convert to set here, as we make a set below for the full string
@@ -449,14 +865,14 @@ function pm5MakePrompt(data,prompt){
 						if(item.indexOf("<")>-1){
 							var replace = pm5MakePromptAll2(data,item);
 							for(const item2 of replace){
-								if(item2.indexOf("<")>-1){
-									list.push(item2);
+								if(item2.prompt.indexOf("<")>-1){
+									list.push(item2.prompt);
 								}else{
-									reallist.push(item2);
+									reallist.push(item2.prompt);
 								}
 							}
 						}else{
-							reallist.push(item2);
+							reallist.push(item);
 						}
 					}
 					//make set to remove duplicates, then convert back to list for join below
@@ -497,6 +913,10 @@ function pm5GetWordListWords(data, listname){
 	}
 	list = list.split("\n");
 	
+	if(data.NoDuplicates == null){
+		data.NoDuplicates = false;
+	}
+	
 	//process weight, if any
 	var outlist = [...list];
 	for(var i=0;i<list.length;i++){
@@ -505,7 +925,7 @@ function pm5GetWordListWords(data, listname){
 		if(match!=null){
 			item = match[2];
 			outlist[i] = item;
-			if(data.EqualProbability == false){
+			if(data.EqualProbability == false && data.NoDuplicates == false){
 				//only make duplicates if not equal probability
 				var count = parseInt( match[1] );
 				if(count > 0 && count < 999){
@@ -579,7 +999,10 @@ function pm5GenerateAll(){
 		}
 		
 		var pm5result = document.getElementById("pm5result");
-		pm5result.value = prompts.join("\n");
+		
+		prompts = pm5MakeResultsString(prompts.join("\n"));
+		
+		pm5result.value = prompts;
 		pm5result.scrollTop=0;
 		pm5result.scrollLeft = 0;
 	}
@@ -642,7 +1065,10 @@ function pm5GenerateAll2(){
 		}
 		
 		var pm5result = document.getElementById("pm5result");
-		pm5result.value = doneprompts.join("\n");
+		
+		doneprompts = pm5MakeResultsString(doneprompts.join("\n"));
+		
+		pm5result.value = doneprompts;
 		pm5result.scrollTop=0;
 		pm5result.scrollLeft = 0;
 	}
@@ -780,6 +1206,9 @@ function pm5Insert(){
 }
 
 function pm5Save(){
+	//sort back into original order
+	pm5DoWLSort("original",true);
+	
 	var pm5Data = pm5GetData();
 	
 	delete pm5Data.PickOnce;
@@ -789,7 +1218,10 @@ function pm5Save(){
 	delete pm5Data.ReplaceAllSeparate;
 	delete pm5Data.ReplaceAllRecursive;
 	delete pm5Data.EqualProbability;
+	delete pm5Data.wordlistcount;
 	
+	//restore user sort
+	pm5WLSort()
 	
 	showResults(JSON.stringify(pm5Data,null,4));
 }
@@ -947,20 +1379,7 @@ function pm5PromptChange(){
 	
 	//put credit, etc. in results
 	var prompts = "";
-	var neg = select.options[select.selectedIndex].getAttribute("neg");
-	var tips = select.options[select.selectedIndex].getAttribute("tips");
-	var credit = select.options[select.selectedIndex].getAttribute("credit");
-	if( (neg!=null && neg.length>0) || (tips!=null && tips.length>0) || (credit!=null && credit.length>0)){
-		if(neg!=null && neg.length>0){
-			prompts = "Negative Prompt: "+neg+"\n\n"+prompts;
-		}
-		if(tips!=null && tips.length>0){
-			prompts = "Tips: "+tips+"\n\n"+prompts;
-		}
-		if(credit!=null && credit.length>0){
-			prompts = "Credit: "+credit+"\n\n"+prompts;
-		}
-	}
+	prompts = pm5MakeResultsString("");
 	
 	var pm5result = document.getElementById("pm5result");
 	pm5result.value = prompts;
@@ -969,6 +1388,9 @@ function pm5PromptChange(){
 }
 
 function pm5GetWordLists(data, prompt, wordlists){
+	
+	var ep = data.EqualProbability;
+	data.EqualProbability = true;
 
 	//find first replace list
 	var match = pm5GetMatch(prompt);
@@ -992,6 +1414,7 @@ function pm5GetWordLists(data, prompt, wordlists){
 				try{
 					pm5GetWordLists(data, item, wordlists);
 				}catch(e){
+					data.EqualProbability = ep;
 					throw e;
 				}
 			}
@@ -1000,6 +1423,236 @@ function pm5GetWordLists(data, prompt, wordlists){
 			match = pm5GetMatch(prompt);
 		}
 	}
+
+	data.EqualProbability = ep;
+}
+
+function pm5WLSort(){
+	var ele =document.getElementById("pm5wlsort");
+	var type = ele.options[ele.selectedIndex].value;
+	var asc = true;
+	if(type.startsWith("-")){
+		asc = false;
+		type = type.substring(1);
+	}
+	pm5DoWLSort(type, asc);
+	
+}
+
+function pm5DoWLSort(type,asc){
+	var wlcont = document.getElementById("pm5wlcontainer");
+	if(wlcont!=null){
+		//setup sorter
+		var sorter = pm5GetWordListSorter(type,asc);
+		//make arry of children
+		var eles = [...wlcont.children];
+		//sort children in array
+		eles = eles.sort(sorter);
+		
+		//remove children from display
+		while (wlcont.firstChild) {
+			wlcont.removeChild(wlcont.firstChild);
+		}
+		//add children back in new order
+		for(var i=0; i<eles.length;i++){
+			wlcont.appendChild(eles[i]);
+		}
+	}
+}
+
+function pm5GetWordListSorter(type,asc){
+	pm5CalcWordListOrder(type);
+	
+	return (function compare( a, b ) {
+				var aa = a.getAttribute("order");
+				var bb = b.getAttribute("order");
+				
+				if( isNaN(aa) === false && isNaN(bb) === false ){
+					aa = parseInt(aa);
+					bb = parseInt(bb);
+				}
+				
+				if ( aa < bb ){
+					return asc?-1:1;
+				}
+				if ( aa > bb ){
+					return asc?1:-1;
+				}
+				//split ties with id (name)
+				if ( a.id < b.id ){
+					return asc?-1:1;
+				}
+				if ( a.id > b.id ){
+					return asc?1:-1;
+				}
+				return 0;
+			});
+}
+
+function pm5CalcWordListOrder(type){
+	var pm5Data = pm5GetData();
+	var wlcont = document.getElementById("pm5wlcontainer");
+	if(wlcont!=null){
+		var ele = wlcont.firstElementChild;
+		while(ele != null){
+			var res = document.evaluate(".//h4",ele,null,XPathResult.FIRST_ORDERED_NODE_TYPE,null).singleNodeValue;
+			if(res != null){
+				var name = res.innerText;
+				
+				res = document.evaluate(".//textarea",ele,null,XPathResult.FIRST_ORDERED_NODE_TYPE,null).singleNodeValue;
+				if(res != null && res.value.trimEnd().length > 0){
+					var text = res.value.trimEnd();
+					
+					var order = "0";
+					switch(type){
+						case "original": order = ele.getAttribute("origorder"); break;
+						case "alpha": order = name; break;
+						case "items": order = text.split("\n").length; break;
+						case "itemsrecursive":
+							//using a set to remove duplicates. duplicates are useful for getting some option more than others, but if we are counting all unique, we just want all unique items.
+							var total = 0;
+							var set = new Set(text.split("\n"));
+							for(const item of set){
+								total += pm5CountAll2(pm5Data,item);
+							}
+							order = total;
+							break;
+						case "textlength": order = text.length; break;
+						case "inprompt": order = 1; if(ele.classList.contains("wlselected")) order = 0; break;
+						
+						
+					}
+					
+					ele.setAttribute("order",order);
+				}
+			}
+		
+			ele = ele.nextElementSibling;
+		}
+	}
+}
+
+function pm5GetTributeArray(){
+	var array = [];
+	
+	var pm5Data = pm5GetData();
+	
+	for(item in pm5Data.wordlists){
+		array.push({key: item});
+	}
+	for(item of pm5Data.prompts){
+		if( item.value.indexOf("<lora:")>-1 || item.value.indexOf("<hypernet:")>-1 ){
+			var matches = item.value.match(pm5regexFindLH);
+			for(var i=0;i<matches.length;i++){
+				var temp = matches[i].substring(1,matches[i].length-1)
+				var pos1 = temp.indexOf(":");
+				var pos2 = temp.indexOf(":",pos1+1);
+				if(pos2 > 0){
+					temp = temp.substring(0,pos2);
+				}
+				array.push({key: temp });
+			}
+		}
+	}
+	
+	return array;
+}
+
+function pm5UpdateTribute(){
+	
+	if(tribute != null){
+		tribute.detach(document.getElementById("pm5newprompt"));
+		tribute = null;
+	}
+	
+	
+	var values =  pm5GetTributeArray();
+	
+	tributeData = {
+		// symbol or string that starts the lookup
+		trigger: '<',
+
+		// element to target for @mentions
+		iframe: null,
+
+		// class added in the flyout menu for active item
+		selectClass: 'highlight',
+
+		// class added to the menu container
+		containerClass: 'tribute-container',
+
+		// class added to each list item
+		itemClass: '',
+
+		// function called on select that returns the content to insert
+		selectTemplate: function (item) {
+			return '<' + item.original.key + '>';
+		},
+
+		// template for displaying item in menu
+		menuItemTemplate: function (item) {
+			return item.string;
+		},
+
+		// template for when no match is found (optional),
+		// If no template is provided, menu is hidden.
+		noMatchTemplate: function () {
+			return '<span style:"visibility: hidden;"></span>';
+		},
+
+		// specify an alternative parent container for the menu
+		// container must be a positioned element for the menu to appear correctly ie. `position: relative;`
+		// default container is the body
+		menuContainer: document.body,
+
+		// column to search against in the object (accepts function or string)
+		lookup: 'key',
+
+		// column that contains the content to insert by default
+		fillAttr: 'key',
+
+		// REQUIRED: array of objects to match or a function that returns data (see 'Loading remote data' for an example)
+		values: values,
+
+		// When your values function is async, an optional loading template to show
+		loadingItemTemplate: null,
+
+		// specify whether a space is required before the trigger string
+		requireLeadingSpace: false,
+
+		// specify whether a space is allowed in the middle of mentions
+		allowSpaces: true,
+
+		// optionally specify a custom suffix for the replace text
+		// (defaults to empty space if undefined)
+		replaceTextSuffix: null,
+
+		// specify whether the menu should be positioned.  Set to false and use in conjuction with menuContainer to create an inline menu
+		// (defaults to true)
+		positionMenu: true,
+
+		// when the spacebar is hit, select the current match
+		spaceSelectsMatch: false,
+
+		// turn tribute into an autocomplete
+		autocompleteMode: false,
+
+		// Customize the elements used to wrap matched strings within the results list
+		// defaults to <span></span> if undefined
+		searchOpts: {
+			pre: '',
+			post: '',
+			skip: false // true will skip local search, useful if doing server-side search
+		},
+
+		// Limits the number of items in the menu
+		menuItemLimit: 25,
+
+		// specify the minimum number of characters that must be typed before menu appears
+		menuShowMinLength: 0
+	};
+	tribute = new Tribute(tributeData);
+	tribute.attach(document.getElementById("pm5newprompt"));
 
 }
 
@@ -1024,6 +1677,7 @@ function pm5GetData(){
 	}
 	
 	var wlcont = document.getElementById("pm5wlcontainer");
+	var wlcount = 0;
 	if(wlcont!=null){
 		var ele = wlcont.firstElementChild;
 		while(ele != null){
@@ -1034,6 +1688,7 @@ function pm5GetData(){
 				res = document.evaluate(".//textarea",ele,null,XPathResult.FIRST_ORDERED_NODE_TYPE,null).singleNodeValue;
 				if(res != null && res.value.trimEnd().length > 0){
 					pm5Data.wordlists[name] = res.value.trimEnd();
+					wlcount++;
 				}
 			}
 		
@@ -1041,6 +1696,7 @@ function pm5GetData(){
 		}
 	}
 	
+	pm5Data.wordlistcount = wlcount;
 	var pm5Force = document.getElementById("pm5force");
 	var pm5ForceReplace = document.getElementById("pm5forcereplace");
 	var pm5ReplaceAll = document.getElementById("pm5replaceall");
@@ -1070,6 +1726,7 @@ function pm5GetData(){
 	
 	return pm5Data;
 }
+
 
 
 var PromptMakerLibraryBackup = `
