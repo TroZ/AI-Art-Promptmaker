@@ -1417,7 +1417,7 @@ function pm5GetWordLists(data, prompt, wordlists){
 					try{
 						pm5GetWordLists(data, item, wordlists);
 					}catch(e){
-						data.EqualProbability = ep;
+						data.NoDuplicates = false;
 						throw e;
 					}
 				}
