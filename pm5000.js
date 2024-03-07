@@ -1,14 +1,16 @@
 // Prompt Maker 5000
 // Copyright (c) 2023 by Brian Risinger
 
-const pm5regexlh = /^([^<]*(?:<(?=lora:|hypernet:)[^<]+)*)<(?!lora:|hypernet:)([^>]*)>(.*)$/;
+const pm5regexlh = /^([^<]*(?:<(?=lora:|hypernet:)[^<]+)*)<(?!lora:|hypernet:|lyco:)([^>]*)>(.*)$/;
 // /^((?:[^<]+|<(?=lora:|hypernet:))*)<([^>]*)>(.*)$/;
 const pm5regex = /^([^<]*)<([^>]*)>(.*)$/;
 // old, not actually correct (only works if lora / hypernet is at the end  /^([^<]*)<(?!lora:|hypernet:)([^>]*)>(.*)$/;
 
-const pm5regexFindLH = /<((?:lora:|hypernet:)[^<]+)>/g;
+const pm5regexFindLH = /<((?:lora:|hypernet:|lyco:)[^>]+)>/g;
 
 const pm5weightregex = /^(\d+):(.*)$/;
+
+const pm5MultipromptSplit = /,|(?<=\D)\.(?=\D)/;
 
 const LIST_TOO_BIG = 250000;
 
@@ -54,11 +56,25 @@ function pm5Load(){
 	document.getElementById("pm5addoptions").addEventListener("click",pm5AddPromptOptions);
 	document.getElementById("pm5promptoptionsreplace").addEventListener("click",pm5PromptOptionReplace);
 	document.getElementById("pm5promptoptionsskip").addEventListener("click",pm5PromptOptionSkip);
+	document.getElementById("pm5promptoptionsskipword").addEventListener("click",pm5PromptOptionSkipWord);
+	document.getElementById("pm5promptoptionsskipwordlist").addEventListener("click",pm5PromptOptionSkipWordlist);
 	document.getElementById("pm5promptoptionsquit").addEventListener("click",pm5PromptOptionQuit);
 	document.getElementById("pm5promtoptionselect").addEventListener("change",pm5PromptOptionSelectChange);
 	document.getElementById("pm5newprompt").addEventListener("scroll",pm5NewPromptScroll);
+	document.getElementById("pm5Multiprompt").addEventListener("click",pm5DoMultiprompt);
+	document.getElementById("pm5Multiprompt2").addEventListener("click",pm5DoMultiprompt2);
+	document.getElementById("pm5Multiprompt3").addEventListener("click",pm5DoMultipromptSimple);
+	document.getElementById("pm5Dynamicprompt").addEventListener("click",pm5ParseDynamicPrompt);
+	document.getElementById("pm5promptoptionsdynamic").addEventListener("click",pm5PromptOptionReplaceDynamic);
+	document.getElementById("pm5generatedynamic").addEventListener("click",pm5GenerateDynamic);
 	
-	
+	document.getElementById("markovload").addEventListener("click",pm5MarkovLoad);
+	document.getElementById("markovsave").addEventListener("click",pm5MarkovSave);
+	document.getElementById("markovclear").addEventListener("click",pm5MarkovClear);
+	document.getElementById("markovmakeprompts").addEventListener("click",pm5MarkovMakeFromPrompts);
+	document.getElementById("markovmaketext").addEventListener("click",pm5MarkovMakeFromText);
+	document.getElementById("markovgen").addEventListener("click",pm5MarkovGen);
+	document.getElementById("markovcontinue").addEventListener("click",pm5MarkovContinue);
 	
 	const req = new XMLHttpRequest();
 	req.addEventListener("load", reqListenerpm5);
@@ -67,8 +83,6 @@ function pm5Load(){
 	req.send();
 
 
-
-	
 	
 	pm5UpdateTribute();
 }
@@ -211,6 +225,12 @@ function pm5AddEditPrompt(){
 		ele.classList.add("open");
 	}
 	
+	document.getElementById("pm5save").disabled = true;
+	document.getElementById("pm5loadshow").disabled = true;
+	document.getElementById("pm5addeditprompt").disabled = true;
+	document.getElementById("pm5generate").disabled = true;
+	
+	
 	//copy prompts to edit select
 	var sel = document.getElementById("pm5prompt");
 	var editsel = document.getElementById("pm5addeditselect");
@@ -241,6 +261,11 @@ function pm5AddEditPromptClose(){
 	if(ele != null){
 		ele.classList.remove("open");
 	}
+	
+	document.getElementById("pm5save").disabled = false;
+	document.getElementById("pm5loadshow").disabled = false;
+	document.getElementById("pm5addeditprompt").disabled = false;
+	document.getElementById("pm5generate").disabled = false;
 	
 	//copy prompts back to main select
 	var sel = document.getElementById("pm5prompt");
@@ -276,6 +301,7 @@ function pm5AddEditPromptClose(){
 }
 
 function pm5AddPrompt(){
+	const pm5Data = pm5GetData();
 	var editsel = document.getElementById("pm5addeditselect");
 	var newprompt = document.getElementById("pm5newprompt");
 	var newprompttitle = document.getElementById("pm5newprompttitle");
@@ -299,6 +325,14 @@ function pm5AddPrompt(){
 		var image = newpromptimage.value.trim();
 
 		if(editsel.selectedIndex == 0) {
+			//check for unique title
+			for(item of pm5Data.prompts){
+				if(item.name == name){
+					alert("a prompt with that name already exists");
+					return;
+				}
+			}
+			
 			editsel.appendChild(pm5PromptOption(name,value,neg,tips,credit,image));
 			editsel.options[editsel.options.length-1].disabled = false;
 		} else {
@@ -376,6 +410,44 @@ function pm5AddEditPromptChange(){
 	newpromptimage.value = opt.getAttribute("image")=="null"?"":opt.getAttribute("image");
 }
 
+function setUpHighlight(prompt,start,end){
+	//set up for highlighting
+	const highlightcontainer = document.getElementById("highlightcontainer");
+	const highlights = document.getElementById("highlights");
+	const backdrop = document.getElementById("backdrop");
+	if(highlightcontainer.style.width == null || highlightcontainer.style.width.length < 3){
+		highlightcontainer.style.width = (prompt.clientWidth + 17) +"px"; //not sure why the 17 is needed, but backdrop is visibly narrower if just client width is used (can see different background color on right edge (in dark mode))
+		backdrop.style.width = prompt.clientWidth +"px"; 
+		backdrop.style.height = prompt.clientHeight + "px";
+	}
+	highlights.innerHTML = applyHighlights(prompt.value,start,end);
+	highlightcontainer.classList.add("highlight");
+	const mark = document.getElementById("thismark");
+	mark.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+}
+
+function removeHighlight(){
+	const highlightcontainer = document.getElementById("highlightcontainer");
+	highlightcontainer.classList.remove("highlight");
+	const highlights = document.getElementById("highlights");
+	highlights.innerHTML = "";
+}
+
+function applyHighlights(text, start, end){
+	if(text==null) return "";
+	text = text.substring(0,start) + "\x01" + text.substring(start,end) + "\x02" + text.substring(end);
+	text = text.replace(/\n&/g, '\n\n');
+	text = text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+	text = text.replace("\x01","<mark id='thismark'>").replace("\x02","</mark>");
+	return text;
+}
+
+function pm5NewPromptScroll() {
+	const prompt = document.getElementById("pm5newprompt");
+	const backdrop = document.getElementById("backdrop");
+	backdrop.scrollTop = prompt.scrollTop;
+}
+
 var promptoptions = null;
 function pm5AddPromptOptions(){
 	//disable button
@@ -387,6 +459,7 @@ function pm5AddPromptOptions(){
 	promptoptions.wordlistregex = {};
 	promptoptions.current = 0;
 	promptoptions.curstart = 0;
+	promptoptions.skipwords = new Array();
 	
 	const pm5Data = pm5GetData();
 	//override user settings to get list we want no duplicates, immediate list only (we will go a level deep here making regex more efficient)
@@ -395,16 +468,6 @@ function pm5AddPromptOptions(){
 	//disable prompt textarea
 	const prompt = document.getElementById("pm5newprompt");
 	prompt.readOnly = true;
-	
-	//set up for highlighting
-	const highlightcontainer = document.getElementById("highlightcontainer");
-	const highlights = document.getElementById("highlights");
-	const backdrop = document.getElementById("backdrop");
-	highlightcontainer.style.width = (prompt.clientWidth + 17) +"px"; //not sure why the 17 is needed, but backdrop is visibly narrower if just client width is used (can see different background color on right edge (in dark mode))
-	backdrop.style.width = prompt.clientWidth +"px"; 
-	backdrop.style.height = prompt.clientHeight + "px";
-	highlights.innerHTML = applyHighlights(prompt.value,0,0);
-	pm5NewPromptScroll();
 	
 	//set busy
 	document.body.classList.add("busy");
@@ -569,6 +632,12 @@ function pm5FindNextPromptOption(){
 			}
 			if(next) continue;
 			
+			//make sure user hasn't skipped word
+			if(promptoptions.skipwords.includes(match[0])){
+				promptoptions.curstart = regex.lastIndex;
+				continue;
+			}
+			
 			//found matching word. Highlight in prompt. Open dialog asking to replace
 			promptoptions.curstart = start;
 			promptoptions.curlength = length;
@@ -584,9 +653,11 @@ function pm5FindNextPromptOption(){
 			const select = document.getElementById("pm5promtoptionselect");
 			const prompttextarea = document.getElementById("pm5newprompt");
 			const promptoptionword = document.getElementById("pm5promptoptionword");
+			const promptoptionwordlist = document.getElementById("pm5promptoptionwordlistname");
 			
 			//set up select
 			//remove current options
+			var selected = select.selectedIndex > -1 ? select.options[select.selectedIndex].value : "";
 			var i, L = select.options.length - 1;
 			for(i = L; i > -1; i--) {
 				select.remove(i);
@@ -595,6 +666,9 @@ function pm5FindNextPromptOption(){
 			for(i=0;i<wordlists.length;i++){
 				var option = document.createElement("option");
 				option.innerText = option.value = wordlists[i];
+				if(option.value == selected){
+					option.selected = true; //re-select last selection if possible
+				}
 				select.appendChild(option);
 			}
 			select.disabled = wordlists.length < 2;
@@ -605,19 +679,21 @@ function pm5FindNextPromptOption(){
 			
 			//show word to replace
 			promptoptionword.innerText = match[0];
+			promptoptionwordlist.innerText = wordlist;
 			
 			//show dialog
+			document.getElementById("pm5showpromptoptionsaddoptions").classList.remove("hidden");
+			document.getElementById("pm5showpromptoptionsdynamic").classList.add("hidden");
+			document.getElementById("pm5promptoptionwordlistnameshow").classList.remove("hidden");
 			document.getElementById("pm5showpromptoptions").classList.add("open");
 						
 			//highlight words in prompt
-			//prompttextarea.setSelectionRange(start, start + length);
-			const highlights = document.getElementById("highlights");
-			highlights.innerHTML = applyHighlights(prompt, start, start + length);
+			setUpHighlight(prompttextarea, start, start + length);
 			
 			//set not busy
 			document.body.classList.remove("busy");
 			
-			//return, so we break out o fthis loop and let the user interact with the dialog (pressing a button will call this method again)
+			//return, so we break out of this loop and let the user interact with the dialog (pressing a button will call this method again)
 			return;
 		}else{
 			if(match!=null && match.length > 0 ){
@@ -633,20 +709,6 @@ function pm5FindNextPromptOption(){
 	alert("No more replacement options found");
 }
 
-function applyHighlights(text, start, end){
-	if(text==null) return "";
-	text = text.substring(0,start) + "\x01" + text.substring(start,end) + "\x02" + text.substring(end);
-	text = text.replace(/\n&/g, '\n\n');
-	text = text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-	text = text.replace("\x01","<mark>").replace("\x02","</mark>");
-	return text;
-}
-
-function pm5NewPromptScroll() {
-	const prompt = document.getElementById("pm5newprompt");
-	const backdrop = document.getElementById("backdrop");
-	backdrop.scrollTop = prompt.scrollTop;
-}
 
 function pm5PromptOptionSelectChange(){
 	const select = document.getElementById("pm5promtoptionselect");
@@ -686,17 +748,35 @@ function pm5PromptOptionReplace(){
 function pm5PromptOptionSkip(){
 	//close option dialog, remove highlights, continue search from end of last match
 	document.getElementById("pm5showpromptoptions").classList.remove("open");
-	const highlights = document.getElementById("highlights");
-	highlights.innerHTML = "";
+	removeHighlight();
 	promptoptions.curstart++;
+	pm5FindNextPromptOption();
+}
+
+function pm5PromptOptionSkipWord(){
+	//close option dialog, remove highlights, continue search from end of last match
+	document.getElementById("pm5showpromptoptions").classList.remove("open");
+	removeHighlight();
+	promptoptions.skipwords.push(promptoptions.curmatch);
+	promptoptions.curstart++;
+	pm5FindNextPromptOption();
+}
+
+function pm5PromptOptionSkipWordlist(){
+	//close option dialog, remove highlights, continue search from next word list
+	document.getElementById("pm5showpromptoptions").classList.remove("open");
+	removeHighlight();
+	
+	promptoptions.current++;
+	promptoptions.curstart = 0;
+	
 	pm5FindNextPromptOption();
 }
 
 function pm5PromptOptionQuit(){
 	document.getElementById("pm5showpromptoptions").classList.remove("open");
 	//remove highlights
-	const highlights = document.getElementById("highlights");
-	highlights.innerHTML = "";
+	removeHighlight();
 	//re-enable button
 	document.getElementById("pm5addoptions").disabled = false;
 	promptoptions = null;
@@ -705,6 +785,1080 @@ function pm5PromptOptionQuit(){
 	promptele.readOnly = false;
 	//set not busy
 	document.body.classList.remove("busy");
+}
+
+function pm5DoMultiprompt(){
+	//takes multiple prompts entered into new prompt text field, and combines them into one prompt
+	//requires a name to be entered
+	//will make word lists for variations of the prompt (using prompt name as base)
+	const pm5Data = pm5GetData();
+	
+	const wlcont = document.getElementById("pm5wlcontainer");
+	const title = document.getElementById("pm5newprompttitle").value;
+	if(title == null || title.length < 2){
+		alert("Please enter a title before using Multiprompt");
+		return;
+	}
+	const wordlistbase = title+" ";
+	var ok = true;
+	for(var i=1;i<25;i++){
+		if(pm5Data.wordlists[wordlistbase+i] != null){
+			ok = false;
+		}
+	}
+	if(!ok){
+		alert("The title '"+title+"' is already being used as a wordlist name. Please choose another.");
+		return;
+	}
+	
+	var prompt = document.getElementById("pm5newprompt").value.trim();
+
+	prompt = prompt.split("\r\n");
+	if(prompt.length == 1){
+		prompt = prompt[0].split("\n");
+	}
+	if(prompt.length < 2){
+		alert("Please enter multiple prompts separated by new lines (enter).");
+		return;
+	}
+	if(prompt.length < 5){
+		alert("This feature works best with 5 or more prompts, however, we'll try with these.");
+	}
+	
+	//ok we have a good name for wordlists, and we have an array of the prompts
+	//make arrays for each position of first prompt, and the match up other prompts
+	
+	//make basic setup with first prompt
+	var curparts = prompt[0].split(pm5MultipromptSplit);
+	var pieces = new Array();
+	var outparts = new Array();
+	outparts[0] = new Array();
+	if(curparts.length < 3){
+		alert("The prompt '"+prompt[0]+"' is too short. It need to have at least three sections (two commas or periods).");
+		return;
+	}
+	for(var i=0;i<curparts.length;i++){
+		pieces[i] = new Array();
+		pieces[i].push(curparts[i].trim());
+		outparts[0].push(i);
+	}
+	
+	//now add in other prompts, searching for matching phrases
+	for(var i = 1; i < prompt.length; i++){
+		curparts = prompt[i].split(pm5MultipromptSplit);
+		if(curparts.length < 3){
+			alert("The prompt '"+prompt[i]+"' is too short. It need to have at least three sections (two commas or periods).");
+			return;
+		}
+		var outpart = new Array();
+		
+		//now find matches for this prompt - iterate through each part
+		for(var j=0;j < curparts.length; j++){
+			var phrase = curparts[j].trim();
+			var found = -1;
+			//try to find phrase in existing lists
+			for(var k=0; k<pieces.length;k++){
+				if(pieces[k].includes(phrase)){
+					found = k;
+					break;
+				}
+			}
+			if(found > -1){
+				//found phrase - set up outpart
+				outpart.push(found);
+			}else{
+				//no matching phrase, wait for now
+				outpart.push(-1);
+				/*
+				found = pieces.length;
+				pieces.push(new Array());
+				pieces[found].push(phrase);
+				outpart.push(found);
+				*/
+			}
+		}
+		
+		//ok, above found all matching parts
+		//now try to fit in non matching parts
+		//TODO - add a loop to these sections so that not only the first outparts is checked against, and only add a new piece if none of the current outparts match
+		//first part
+		if(outpart[0] == -1){
+			var phrase = curparts[0].trim();
+			var found = false;
+			for(var k=0;k<outparts.length&&!found;k++){
+				if(outpart[1] == outparts[k][1] && !outpart.includes(outparts[k][0])){
+					//part 0 seems to be alternate first part, add it to the first part options
+					pieces[outparts[k][0]].push(phrase);
+					outpart[0] = outparts[k][0];
+					found = true;
+				}
+			}
+			if(!found){
+				//this part seems to be a new part, make a new list
+				var pos = pieces.length;
+				pieces.push(new Array());
+				pieces[pos].push(phrase);
+				outpart[0] = pos;
+			}
+		}
+		//last part
+		var last = outpart.length-1
+		if(outpart[last] == -1){
+			var phrase = curparts[last].trim();
+			var found = false;
+			for(var k=0;k<outparts.length&&!found;k++){
+				var klast = outparts[k].length-1;
+				if(outpart[last-1] == outparts[k][klast-1] && !outpart.includes(outparts[k][klast])){
+					//part last seems to be alternate last part, add it to the last part options
+					pieces[outparts[k][klast]].push(phrase);
+					outpart[last] = outparts[k][klast];
+					found = true;
+				}
+			}
+			if(!found){
+				//this part seems to be a new part, make a new list
+				var pos = pieces.length;
+				pieces.push(new Array());
+				pieces[pos].push(phrase);
+				outpart[last] = pos;
+			}
+		}
+		//middle parts
+		for(var j = 1; j < last; j++){
+			if(outpart[j] == -1){
+				var phrase = curparts[j].trim();
+				var found = false;
+				for(var k=0;k<outparts.length&&!found;k++){
+					var p1 = outparts[k].indexOf(outpart[j-1]);
+					var p2 = outparts[k].indexOf(outpart[j+1]);
+					if(p1>-1 && p2>-1 && p1+2 == p2 && !outpart.includes(outparts[k][p1+1])){
+						//part j seems to fit between parts j-1 and j+1 (of outparts[k], add it to the outparts[k][p1+1] part options
+						pieces[outparts[k][p1+1]].push(phrase);
+						outpart[j] = outparts[k][p1+1];
+						found = true;
+					}
+				}
+				if(!found){
+					//this part seems to be a new part, make a new list
+					var pos = pieces.length;
+					pieces.push(new Array());
+					pieces[pos].push(phrase);
+					outpart[j] = pos;
+				}
+			}
+		}
+		
+		
+		//now find out if this phrase set already exist, and if it doesn't, add it to outparts
+		/* apparently includes doesn't work for objects or arrays
+		if(!outparts.includes(outpart)){
+			outparts.push(outpart);
+		}
+		*/
+		found = false;
+		for(var j=0;j<outparts.length && found == false;j++){
+			if(outparts[j].length == outpart.length){
+				var ok = true;
+				for(var k=0;k<outpart.length;k++){
+					if(outpart[k] != outparts[j][k]){
+						ok = false;
+						break; //different
+					}
+				}
+				found = ok;
+			}
+		}
+		if(!found){
+			outparts.push(outpart);
+		}
+	}
+	
+	//all done, have determine all variations
+	//now make word lists, and a generator word list
+	for(var i=0; i < pieces.length; i++){
+		if(pieces[i].length > 1){
+			//need to make word list from this list
+			wlcont.appendChild(pm5AddWordList(wordlistbase+(i+1),pieces[i].join("\n")));
+		}
+	}
+	
+	//make variations of outparts if possible
+	outparts = pm5MakeOutpartsVariations(outparts);
+	
+	//TODO - Better idea - 
+	/*
+	modify above method to just return the mappings
+	then generate new word lists 'linkers' that for each part calls that part, 
+	then calls a word list that links to the next possible parts, one of which will be picked
+	this will greatly reduce duplication.  
+	also, try to join parts that always follower each other instead of having a useless linker between them
+	
+	could loops be a problem?
+	
+	*/
+	
+	
+	//now make the generator word list (if needed (will usually be needed unless only one outparts)
+	var outstring = "";
+	for(var i=0;i < outparts.length ; i++){
+		outstring += "\n";
+		var outpart = outparts[i];
+		for(var j=0;j < outpart.length;j++){
+			var part = pieces[outpart[j]];
+			if(j>0){
+				outstring += ", ";
+			}
+			if(part.length == 1){
+				outstring += part[0];
+			}else{
+				outstring += "<" + wordlistbase + (outpart[j] + 1) + ">";
+			}
+		}
+	}
+	outstring = outstring.trim();
+	if(outparts.length > 1){
+		wlcont.appendChild(pm5AddWordList(wordlistbase+"generator",outstring));
+		outstring = "<"+wordlistbase+"generator>";
+	}
+	document.getElementById("pm5newprompt").value = outstring;
+}
+
+function pm5MakeOutpartsVariations(outparts){
+	/* What this does: Suppose we have outparts that looks like:
+		[	[1,2,3,4]
+			[1,2,5,4]
+			[1,2,4,6]	]
+	These orderings should imply a few other orderings such as
+			[1,2,3,4,6]
+			[1,2,5,4,6]
+			[1,2,4]
+	So this function should take the first array of arrays, and add in the implied arrays,
+	so that we will have maximum variation
+	*/
+	
+	var outstrings = new Set();
+	var mappings = new Array();//maps one phrase id to the phrase ids that can follow it (-1=start or end);
+	
+	//make mappings
+	for(var i=0;i<outparts.length;i++){
+		var previous = -1;
+		var outpart = outparts[i];
+		for(var j=0;j<=outpart.length;j++){
+			var cur = (j < outpart.length)? outpart[j] : -1;
+			var mapping = mappings[previous];
+			if(mapping == null){
+				mapping = new Set();
+				mappings[previous] = mapping;
+			}
+			mapping.add(cur);
+			previous = cur;
+		}
+	}
+	
+	//now make all paths through the mappings
+	function makeMappingPaths(curstring,next){
+		var mapping = [...mappings[next]];
+		for(var k=0;k<mapping.length;k++){
+			var newnext = mapping[k];
+			if(newnext < 0){
+				outstrings.add(curstring);
+			} else{
+				//prevent recursion
+				if(curstring.split(",").indexOf(""+newnext) < 0){
+					var nextstring = ((curstring.length > 0) ? curstring + "," : "") + newnext;
+					makeMappingPaths(nextstring,newnext);
+				}
+			}
+		}
+	}
+	makeMappingPaths("",-1);
+	
+	//ok now outstrings has all possible path string, convert back into correct format (array of array of int)
+	var output = new Array();
+	for (const item of outstrings.values()) {
+		var arr = item.split(",");
+		for(var k=0;k<arr.length;k++){
+			arr[k] = parseInt(arr[k]);
+		}
+		output.push(arr);
+	}
+	return output;
+}
+
+function pm5DoMultiprompt2(){
+	//takes multiple prompts entered into new prompt text field, and combines them into one prompt
+	//requires a name to be entered
+	//will make word lists for variations of the prompt (using prompt name as base)
+	//
+	//This makes the generator differently that DoMultiprompts()
+	//Instead of a single generator wordlist that contains all the prompt templates
+	//this creats a generator that includes the first section of the prompt and then 
+	//calls one of the word lists for the second section, with each section linking to the sections that can follow it
+	//this should result in much smaller data to represent the same possibility space.
+	//
+	//so first half of this code is the same, but then we figure out possibility of linking one section to the next
+	//and build the word lists differently.
+	const pm5Data = pm5GetData();
+	
+	const wlcont = document.getElementById("pm5wlcontainer");
+	const title = document.getElementById("pm5newprompttitle").value;
+	if(title == null || title.length < 2){
+		alert("Please enter a title before using Multiprompt");
+		return;
+	}
+	const wordlistbase = title+" ";
+	var ok = true;
+	for(var i=1;i<25;i++){
+		if(pm5Data.wordlists[wordlistbase+i] != null){
+			ok = false;
+		}
+	}
+	if(!ok){
+		alert("The title '"+title+"' is already being used as a wordlist name. Please choose another.");
+		return;
+	}
+	
+	var prompt = document.getElementById("pm5newprompt").value.trim();
+
+	prompt = prompt.split("\r\n");
+	if(prompt.length == 1){
+		prompt = prompt[0].split("\n");
+	}
+	if(prompt.length < 2){
+		alert("Please enter multiple prompts separated by new lines (enter).");
+		return;
+	}
+	if(prompt.length < 5){
+		alert("This feature works best with 5 or more prompts, however, we'll try with these.");
+	}
+	
+	//ok we have a good name for wordlists, and we have an array of the prompts
+	//make arrays for each position of first prompt, and the match up other prompts
+	
+	//make basic setup with first prompt
+	var curparts = prompt[0].split(pm5MultipromptSplit);
+	var pieces = new Array();
+	var outparts = new Array();
+	outparts[0] = new Array();
+	if(curparts.length < 3){
+		alert("The prompt '"+prompt[0]+"' is too short. It need to have at least three sections (two commas or periods).");
+		return;
+	}
+	for(var i=0;i<curparts.length;i++){
+		pieces[i] = new Array();
+		pieces[i].push(curparts[i].trim());
+		outparts[0].push(i);
+	}
+	
+	//now add in other prompts, searching for matching phrases
+	for(var i = 1; i < prompt.length; i++){
+		curparts = prompt[i].split(pm5MultipromptSplit);
+		if(curparts.length < 3){
+			alert("The prompt '"+prompt[i]+"' is too short. It need to have at least three sections (two commas or periods).");
+			return;
+		}
+		var outpart = new Array();
+		
+		//now find matches for this prompt - iterate through each part
+		for(var j=0;j < curparts.length; j++){
+			var phrase = curparts[j].trim();
+			var found = -1;
+			//try to find phrase in existing lists
+			for(var k=0; k<pieces.length;k++){
+				if(pieces[k].includes(phrase)){
+					found = k;
+					break;
+				}
+			}
+			if(found > -1){
+				//found phrase - set up outpart
+				outpart.push(found);
+			}else{
+				//no matching phrase, wait for now
+				outpart.push(-1);
+				/*
+				found = pieces.length;
+				pieces.push(new Array());
+				pieces[found].push(phrase);
+				outpart.push(found);
+				*/
+			}
+		}
+		
+		//ok, above found all matching parts
+		//now try to fit in non matching parts
+		//TODO - add a loop to these sections so that not only the first outparts is checked against, and only add a new piece if none of the current outparts match
+		//first part
+		if(outpart[0] == -1){
+			var phrase = curparts[0].trim();
+			var found = false;
+			for(var k=0;k<outparts.length&&!found;k++){
+				if(outpart[1] == outparts[k][1] && !outpart.includes(outparts[k][0])){
+					//part 0 seems to be alternate first part, add it to the first part options
+					pieces[outparts[k][0]].push(phrase);
+					outpart[0] = outparts[k][0];
+					found = true;
+				}
+			}
+			if(!found){
+				//this part seems to be a new part, make a new list
+				var pos = pieces.length;
+				pieces.push(new Array());
+				pieces[pos].push(phrase);
+				outpart[0] = pos;
+			}
+		}
+		//last part
+		var last = outpart.length-1
+		if(outpart[last] == -1){
+			var phrase = curparts[last].trim();
+			var found = false;
+			for(var k=0;k<outparts.length&&!found;k++){
+				var klast = outparts[k].length-1;
+				if(outpart[last-1] == outparts[k][klast-1] && !outpart.includes(outparts[k][klast])){
+					//part last seems to be alternate last part, add it to the last part options
+					pieces[outparts[k][klast]].push(phrase);
+					outpart[last] = outparts[k][klast];
+					found = true;
+				}
+			}
+			if(!found){
+				//this part seems to be a new part, make a new list
+				var pos = pieces.length;
+				pieces.push(new Array());
+				pieces[pos].push(phrase);
+				outpart[last] = pos;
+			}
+		}
+		//middle parts
+		for(var j = 1; j < last; j++){
+			if(outpart[j] == -1){
+				var phrase = curparts[j].trim();
+				var found = false;
+				for(var k=0;k<outparts.length&&!found;k++){
+					var p1 = outparts[k].indexOf(outpart[j-1]);
+					var p2 = outparts[k].indexOf(outpart[j+1]);
+					if(p1>-1 && p2>-1 && p1+2 == p2 && !outpart.includes(outparts[k][p1+1])){
+						//part j seems to fit between parts j-1 and j+1 (of outparts[k], add it to the outparts[k][p1+1] part options
+						pieces[outparts[k][p1+1]].push(phrase);
+						outpart[j] = outparts[k][p1+1];
+						found = true;
+					}
+				}
+				if(!found){
+					//this part seems to be a new part, make a new list
+					var pos = pieces.length;
+					pieces.push(new Array());
+					pieces[pos].push(phrase);
+					outpart[j] = pos;
+				}
+			}
+		}
+		
+		
+		//now find out if this phrase set already exist, and if it doesn't, add it to outparts
+		found = false;
+		for(var j=0;j<outparts.length && found == false;j++){
+			if(outparts[j].length == outpart.length){
+				var ok = true;
+				for(var k=0;k<outpart.length;k++){
+					if(outpart[k] != outparts[j][k]){
+						ok = false;
+						break; //different
+					}
+				}
+				found = ok;
+			}
+		}
+		if(!found){
+			outparts.push(outpart);
+		}
+	}
+	
+	//all done, have determine all variations
+	//now make word lists, and a generator word list
+	for(var i=0; i < pieces.length; i++){
+		if(pieces[i].length > 1){
+			//need to make word list from this list
+			wlcont.appendChild(pm5AddWordList(wordlistbase+(i+1),pieces[i].join("\n")));
+		}
+	}
+	
+		//difference from DoMultiprompt starts here
+	
+	//make variations of outparts if possible
+	var mappings = pm5MakeOutpartsVariations2(outparts);
+	
+	//Better idea - 
+	/*
+	modify above method to just return the mappings
+	then generate new word lists 'linkers' that for each part calls that part, 
+	then calls a word list that links to the next possible parts, one of which will be picked
+	this will greatly reduce duplication.  
+	also, try to join parts that always follower each other instead of having a useless linker between them
+	
+	could loops be a problem?
+	
+	*/
+	
+	//now make generator word listStyleType
+	//for(var i=0;i < mappings.keys().length ; i++){
+	//	var key = mappings.keys()[i];
+	for(var key of Object.getOwnPropertyNames( mappings )){ //mappings.keys() doesn't like my "-1" array parameter
+		//console.log("doing key "+key);
+		if(key != parseInt(key)){
+			continue;
+		}
+		key = parseInt(key);
+		var name = wordlistbase +"gen";
+		name += (key == -1) ? "erator" : ""+key;
+		var wl = "";
+		
+		//check if this mapping only comes from ones that only have one possibility, and skip if so (as it will be automatically included in those
+		if(multipromptOnlyIncluded(mappings,key)){
+			continue;
+		}
+		
+		var includeNext = true;
+		//generate string for this word list
+		while( includeNext ){
+			includeNext = false;
+			
+			var set = mappings[key];
+			if(key>-1){
+				//add either the one phrase or the word list of phrases
+				wl += pieces[key].length > 1 ? "<"+wordlistbase+(key+1)+">" : pieces[key][0];
+				wl += ", ";
+			}
+			
+			if(set.size==1){
+				//this piece is always followed by the next, so combine
+				//unless the next piece is always the end
+				if(!set.has(-1)){
+					includeNext = true;
+					key = set.values().next().value;
+				}
+			}else{
+				//make links to next pieces into a word list - if needed (may have already created it)
+				var linkwl = "";
+				var linkname = wordlistbase+"link"+(key+1);
+				if(document.getElementById("pm5wl-"+linkname) == null){
+					for (const item of set) {
+						if(item == -1){ //handle end of prompt template
+							linkwl = "\n" + linkwl;
+						}else{
+							linkwl += ((linkwl.length > 1) ? "\n":"");
+							linkwl += "<"+wordlistbase +"gen"+ item + ">";
+						}
+					}
+					// now add this word list
+					wlcont.appendChild(pm5AddWordList(linkname,linkwl));
+				}
+				
+				wl+="<" + linkname +">";
+			}
+			
+		}
+		//ok, now add this word list
+		wlcont.appendChild(pm5AddWordList(name,wl));
+	}
+
+	outstring = "<"+wordlistbase+"generator>";
+	
+	document.getElementById("pm5newprompt").value = outstring;
+}
+
+
+function multipromptOnlyIncluded(mappings,findkey){
+//check if findkey only comes from mappings that only have one possibility (unless it is -1, then we always need it)
+	if(findkey == -1){
+		return false;
+	}
+	
+	for(var key of Object.getOwnPropertyNames( mappings )){ //mappings.keys() doesn't like my "-1" array parameter
+		//console.log("doing key "+key);
+		if(key != parseInt(key)){
+			continue;
+		}
+		key = parseInt(key);
+		if(mappings[key].has(findkey) && mappings[key].size > 1){
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+function pm5MakeOutpartsVariations2(outparts){
+	/* What this does: Suppose we have outparts that looks like:
+		[	[1,2,3,4]
+			[1,2,5,4]
+			[1,2,4,6]	]
+	These orderings should imply a few other orderings such as
+			[1,2,3,4,6]
+			[1,2,5,4,6]
+			[1,2,4]
+	So this function should take the first array of arrays, and add in the implied arrays,
+	so that we will have maximum variation
+	
+	This version returns the mappings array.
+	*/
+	
+	var outstrings = new Set();
+	var mappings = new Array();//maps one phrase id to the phrase ids that can follow it (-1=start or end);
+	
+	//make mappings
+	for(var i=0;i<outparts.length;i++){
+		var previous = -1;
+		var outpart = outparts[i];
+		for(var j=0;j<=outpart.length;j++){
+			var cur = (j < outpart.length)? outpart[j] : -1;
+			var mapping = mappings[previous];
+			if(mapping == null){
+				mapping = new Set();
+				mappings[previous] = mapping;
+			}
+			mapping.add(cur);
+			previous = cur;
+		}
+	}
+	
+	return mappings;
+}
+
+
+function pm5DoMultipromptSimple(){
+	//this does a simple multiprompt.
+	//break the prompts up into sections by comman and period
+	//make prompts by picking one of the possible first sections, then one of the possible second sections, etc.
+	
+	const pm5Data = pm5GetData();
+	
+	const wlcont = document.getElementById("pm5wlcontainer");
+	const title = document.getElementById("pm5newprompttitle").value;
+	if(title == null || title.length < 2){
+		alert("Please enter a title before using Multiprompt");
+		return;
+	}
+	const wordlistbase = title+" ";
+	var ok = true;
+	for(var i=1;i<25;i++){
+		if(pm5Data.wordlists[wordlistbase+i] != null){
+			ok = false;
+		}
+	}
+	if(!ok){
+		alert("The title '"+title+"' is already being used as a wordlist name. Please choose another.");
+		return;
+	}
+	
+	var prompt = document.getElementById("pm5newprompt").value.trim();
+
+	prompt = prompt.split("\r\n");
+	if(prompt.length == 1){
+		prompt = prompt[0].split("\n");
+	}
+	if(prompt.length < 2){
+		alert("Please enter multiple prompts separated by new lines (enter).");
+		return;
+	}
+	if(prompt.length < 5){
+		alert("This feature works best with 5 or more prompts, however, we'll try with these.");
+	}
+	
+	//ok we have a good name for wordlists, and we have an array of the prompts
+	//make arrays for each position of prompts
+	var promptpos = new Array();
+	var maxlen = 0;
+	//find maxlen
+	for(var i = 0; i < prompt.length; i++){
+		curparts = prompt[i].split(pm5MultipromptSplit);
+		maxlen = curparts.length > maxlen ? curparts.length : maxlen;
+	}
+	//expand promptpos to maxlen
+	for(var i = 0; i < maxlen; i++){
+		promptpos[i] = new Array();
+	}
+	
+	//now add parts from each string to propmtpos
+	for(var i = 0; i < prompt.length; i++){
+		curparts = prompt[i].split(pm5MultipromptSplit);
+	
+		for(var j = 0; j < curparts.length; j++){
+
+			promptpos[j].push(curparts[j]);
+		}
+		for(var j = curparts.length; j < promptpos.length; j++){
+			//fill any leftover arrays with blanks
+			promptpos[j].push("");
+		}
+	}
+	
+	//make wordlists
+	var outstring = ""
+	for(var i = 0; i < promptpos.length; i++){
+		var name = wordlistbase +"part "+i;
+		var wl = "";
+		outstring += "<"+name+">"
+		
+		//add each phrase from this part of all prompts
+		promptpos[i].sort();
+		for(var j = 0; j < promptpos[i].length; j++){
+			if(j>0) wl += "\n";
+			wl += promptpos[i][j].length > 0 ? promptpos[i][j].trim() + ", " : "";
+		}
+		
+		//ok, now add this word list
+		wlcont.appendChild(pm5AddWordList(name,wl));
+	}
+	
+	//make prompt
+	document.getElementById("pm5newprompt").value = outstring;
+}
+
+function pm5ParseDynamicPrompt(){
+	// parses a prompt designed for the Automatic1111 plugin 'Dynamic Prompts' into a form PM5000 understands
+	// https://github.com/adieyal/sd-dynamic-prompts
+	
+	const pm5Data = pm5GetData();
+	
+	const wlcont = document.getElementById("pm5wlcontainer");
+	const title = document.getElementById("pm5newprompttitle").value;
+	if(title == null || title.length < 2){
+		alert("Please enter a title before using Parse Dynamic");
+		return;
+	}
+	const wordlistbase = title+" ";
+	var ok = true;
+	for(var i=1;i<25;i++){
+		if(pm5Data.wordlists[wordlistbase+i] != null){
+			ok = false;
+		}
+	}
+	if(!ok){
+		alert("The title '"+title+"' is already being used as a wordlist name. Please choose another.");
+		return;
+	}
+	
+	const promptele = document.getElementById("pm5newprompt");
+	var prompt = promptele.value.trim();
+	
+	//step 1 - find and convert file references
+	var match = prompt.match(/__(\S*)__/i);
+	if(match != null){
+		var str = "__"+match[1]+"__";
+		
+		const textarea = document.getElementById("pm5promptoptionwordlist");
+		const select = document.getElementById("pm5promtoptionselect");
+		
+		//set up select
+		//remove current options
+		var selected = select.selectedIndex > -1 ? select.options[select.selectedIndex].value : "";
+		var i, L = select.options.length - 1;
+		for(i = L; i > -1; i--) {
+			select.remove(i);
+		}
+		//add new options
+		for(i=0;i<pm5Data.wordlistcount;i++){
+			var option = document.createElement("option");
+			option.innerText = option.value = Object.keys(pm5Data.wordlists)[i];
+			if(option.value == match[1]){
+				option.selected = true;
+			}
+			select.appendChild(option);
+		}
+		select.disabled = pm5Data.wordlists.length < 2;
+		
+		//set up text area (pre-fill)
+		textarea.disabled = true;
+		pm5PromptOptionSelectChange();
+		
+		//show word to replace
+		const promptoptionword = document.getElementById("pm5promptoptionword");
+		promptoptionword.innerText = str;
+		
+		//highlight
+		const start = prompt.indexOf(str);
+		setUpHighlight(promptele, start, start + str.length);
+			
+		//show dialog
+		document.getElementById("pm5showpromptoptionsaddoptions").classList.add("hidden");
+		document.getElementById("pm5promptoptionwordlistnameshow").classList.add("hidden")
+		document.getElementById("pm5showpromptoptionsdynamic").classList.remove("hidden");
+		document.getElementById("pm5showpromptoptions").classList.add("open");
+		return;
+	}
+	
+	pm5ParseDynamicPrompt2();
+}
+
+function pm5PromptOptionReplaceDynamic(){
+	//replace word in prompt then continue search (continue as if we skipped)
+	const select = document.getElementById("pm5promtoptionselect");
+	const promptele = document.getElementById("pm5newprompt");
+	var prompt = promptele.value;
+	const promptoptionword = document.getElementById("pm5promptoptionword");
+	var word = promptoptionword.innerText;
+	const wordlist = select.options[select.selectedIndex].value;
+	prompt = prompt.replaceAll(word,"<"+wordlist+">");
+	promptele.value = prompt;
+	
+	//close dialog and look for next matching word
+	document.getElementById("pm5showpromptoptions").classList.remove("open");
+	removeHighlight();
+	pm5ParseDynamicPrompt()
+}
+
+
+function pm5ParseDynamicPrompt2(){
+	// parses a prompt designed for the Automatic1111 plugin 'Dynamic Prompts' into a form PM5000 understands
+	// https://github.com/adieyal/sd-dynamic-prompts
+	
+	const pm5Data = pm5GetData();
+	const weightMulti = 10;
+	var wlid = 1;
+	var usename = null;
+	
+	const wlcont = document.getElementById("pm5wlcontainer");
+	const title = document.getElementById("pm5newprompttitle").value;
+	if(title == null || title.length < 2){
+		alert("Please enter a title before using Multiprompt");
+		return;
+	}
+	const wordlistbase = title+" ";
+	var ok = true;
+	for(var i=1;i<25;i++){
+		if(pm5Data.wordlists[wordlistbase+i] != null){
+			ok = false;
+		}
+	}
+	if(!ok){
+		alert("The title '"+title+"' is already being used as a wordlist name. Please choose another.");
+		return;
+	}
+	
+	var prompt = document.getElementById("pm5newprompt").value.trim();
+	
+	//step 2 - convert the inline word lists to pm5000 word lists and update prompt
+	function ParseDynamicPrompt3(prompt){
+		var outprompt = "";
+		var pos=-1;
+		while( (pos = prompt.indexOf("{")) > -1){
+			
+			if(pos>0 && prompt.charAt(pos-1) == '$'){
+				//this is either a variable diffinition or variable use
+				outprompt += prompt.substring(0,pos-1);
+				var end = findCloseBracket(prompt,pos,"{}");
+				var options = prompt.substring(pos+1,end);
+				prompt = prompt.substring(end+1);
+				var eq = options.indexOf("=");
+				var bracket = options.indexOf("{");
+				
+				if(eq!=-1 && (bracket == -1 || eq < bracket)){
+					//variable defination, turn into word list
+					var name = options.substring(0,eq);
+					eq++;
+					if(options.charAt(eq) == '!'){
+						eq++;
+					}
+					var body = options.substring(eq);
+					if(body.charAt(0) == "{" && findCloseBracket(body,0,"{}") == body.length-1){
+						//this variable is just one big option list, so use the variable name instead of making a sublist with a numbered name
+						usename = name;
+						ParseDynamicPrompt3(body);
+						usename = null;
+					}else{
+						var wlstr = ParseDynamicPrompt3(body);
+						wlcont.appendChild(pm5AddWordList(wordlistbase+name,wlstr));
+					}
+					//don't add anything to outprompt
+				}else{
+					//add reference to word list generate by variable
+					var name = options;
+					outprompt += "<"+wordlistbase+name+">";
+				}
+			}else{
+			
+				//find start and end of this word option string
+				outprompt += prompt.substring(0,pos);
+				var end = findCloseBracket(prompt,pos,"{}");
+				var options = prompt.substring(pos+1,end);
+				prompt = prompt.substring(end+1);
+				
+				
+				function pm5ParseDynamicOptions(options){
+					var listwlid = wlid;
+					var outprompt = "<" + wordlistbase+listwlid + ">";
+					
+					//deal with multitple picks
+					var pos = options.indexOf("$$");
+					var posopen = options.indexOf("{");
+					if(pos > 0 && (posopen == -1 || pos < posopen)){
+						var countstr = options.substring(0,pos);
+						var end = options.indexOf("$$",pos+1);
+						var sep = ", ";
+						if(end > 0 && (posopen == -1 || end < posopen)){
+							sep = options.substring(pos+2,end);
+						}else{
+							end = pos;
+						}
+						options = options.substring(end+2);
+						
+						//deal with range of counts
+						countstr = countstr.split("-");
+						if(countstr[0].length == 0) countstr[0] = "1";
+						var x = parseInt(countstr[0]);
+						if(countstr.length > 1){
+							if(countstr[1].length==0) countstr[1] = ""+(x+1); //this differs from the way
+							var y = parseInt(countstr[1]);
+							var min = Math.min(x,y);
+							var max = Math.max(x,y);
+							var wlstr = "";
+							for(var i=min;i<max+1;i++){
+								wlstr += "\n";
+								for(var j=0;j<i;j++){
+									
+									wlstr += ((j>0)?sep:"") + "<" + wordlistbase + (wlid+1) + ">";
+									
+								}
+							}
+							wlstr = wlstr.trim();
+							wlcont.appendChild(pm5AddWordList(wordlistbase+wlid,wlstr));
+							wlid++;
+							listwlid++;
+						}else{
+							//only a constant number of picks, don't need a sublist.
+							//already have one pick set up, add more if needed
+							for(var j=1;j<x;j++){
+								
+								outprompt += sep + "<" + wordlistbase + wlid + ">";
+								
+							}
+						}
+					}
+					
+					wlid++;
+					if(options.indexOf("{") > -1){
+						//deal with sub lists
+						while( (pos = options.indexOf("{")) > -1){
+							//this can be a option list or a variable
+							if(pos>0 && options.charAt(pos-1)=="$"){
+								//variable
+								pos--;
+								var end = findCloseBracket(options,pos+1,"{}");
+								var innerOptions = options.substring(pos,end+1);
+								var res = ParseDynamicPrompt3( innerOptions );
+								options = options.substring(0,pos) + res + options.substring(end+1);
+							}else{
+								//find start and end of this word option string
+								var str = options.substring(0,pos);
+								var end = findCloseBracket(options,pos,"{}");
+								var innerOptions = options.substring(pos+1,end);
+								
+								str += pm5ParseDynamicOptions(innerOptions);
+								str += options.substring(end+1);
+								options = str;
+							}
+						}
+					}
+						
+					//now make actual word list
+					options = options.split("|");
+					var values = new Array(2); //[0] is weight, [1] is actual string
+					values[0] = new Array(options.length); 
+					values[1] = new Array(options.length); 
+					var needWeights = false;
+					for(var i=0;i<options.length;i++){
+						var option = options[i];
+						pos = option.indexOf("::");
+						if(pos > 0){
+							values[0][i] = parseFloat(option.substring(0,pos)) * weightMulti;
+							option = option.substring(pos+2);
+							if(values[0][i] != weightMulti) needWeights = true;
+						}else{
+							values[0][i] = weightMulti;
+						}
+						
+						values[1][i] = option;
+					}
+					if(needWeights){
+						//reduce the weights
+						var gcd = findGCD(values[0]);
+						for(i=0;i<values[0].length;i++){
+							values[0][i] = values[0][i] / gcd;
+						}
+					}
+					//now make word list string
+					var wlstr = "";
+					for(var i=0;i<options.length;i++){
+						if(values[1][i].length == 0 && i>0){
+							//blank entries need to be at the beginning the way we handle strings (as blank entries at the end can't be seen in the lists, so we automatically trim the end, but not the beginning) 
+							//(they can go in the middle, but the beginning makes it obvious that there is a blank entry in the word list)
+							wlstr = (needWeights)?values[0][i]+":\n":"\n" + wlstr;
+						}else{
+							wlstr += (i>0)?"\n":"";
+							wlstr += (needWeights && values[0][i] > 1)?values[0][i]+":":"";
+							wlstr += values[1][i];
+						}
+					}
+					
+					//add word list
+					var listname = (usename != null) ? wordlistbase+usename : wordlistbase+listwlid ;
+					wlcont.appendChild(pm5AddWordList(listname,wlstr));
+					
+					return outprompt;
+					
+				}
+				
+				outprompt += pm5ParseDynamicOptions(options);
+			}
+		}
+		
+		outprompt += prompt;
+		return outprompt;
+	}
+	
+	var outprompt = ParseDynamicPrompt3(prompt);
+	
+	const promptele = document.getElementById("pm5newprompt");
+	promptele.value = outprompt;
+	
+}
+
+// Function to return gcd of a and b
+    function gcd(a, b) {
+        if (a == 0)
+            return b;
+        return gcd(b % a, a);
+    }
+      
+    // Function to find gcd of array of numbers
+    function findGCD(arr) {
+        let result = arr[0];
+        for (let i = 1; i < arr.length; i++) {
+            result = gcd(arr[i], result);
+      
+            if (result == 1) {
+                return 1;
+            }
+        }
+        return result;
+    }
+
+
+function findCloseBracket(text, openPos, openclose) {
+    var closePos = openPos;
+    var counter = 1;
+    while (counter > 0 && closePos < text.length) {
+        var c = text.charAt(++closePos);
+        if (c == openclose[0]) {
+            counter++;
+        }
+        else if (c == openclose[1]) {
+            counter--;
+        }
+    }
+    return closePos;
 }
 
 function pm5FindWordlists(pm5Data, word){
@@ -817,7 +1971,18 @@ function pm5MakePrompt(data,prompt){
 	while(match !=null){
 		var listname = match[2];
 		//find list
-		var list = pm5GetWordListWords(data,listname);
+		var list = null;
+		if(data.listcache != null){
+			if(data.listcache[listname] != null){
+				list = data.listcache[listname];
+			}
+		} else {
+			data.listcache = {};
+		}
+		if(list == null){
+			list = pm5GetWordListWords(data,listname);
+			data.listcache[listname] = list;
+		}
 		
 		if(data.Force != null && data.Force == listname && data.ForceReplace != null){
 			//replace this list with item specified by user
@@ -860,6 +2025,7 @@ function pm5MakePrompt(data,prompt){
 			}else{
 				//if recursive, get the full list without duplicates
 				if(data.ReplaceAllRecursive){
+					data.NoDuplicates = true;
 					var reallist = [];
 					for(const item of list){
 						if(item.indexOf("<")>-1){
@@ -914,23 +2080,28 @@ function pm5GetWordListWords(data, listname){
 	list = list.split("\n");
 	
 	if(data.NoDuplicates == null){
-		data.NoDuplicates = false;
+		data.NoDuplicates = false; //if true, this returns only unique entries (at least it doesn't make duplicates due to weight)
+	}
+	if(data.DontProcessWeight == null){
+		data.DontProcessWeight = false; //if true, this doesn't remove the weight from entries with weight
 	}
 	
 	//process weight, if any
 	var outlist = [...list];
-	for(var i=0;i<list.length;i++){
-		var item = list[i];
-		var match = item.match(pm5weightregex);
-		if(match!=null){
-			item = match[2];
-			outlist[i] = item;
-			if(data.EqualProbability == false && data.NoDuplicates == false){
-				//only make duplicates if not equal probability
-				var count = parseInt( match[1] );
-				if(count > 0 && count < 999){
-					for(var j=0;j<count-1;j++){
-						outlist.push(item);
+	if(!data.DontProcessWeight){
+		for(var i=0;i<list.length;i++){
+			var item = list[i];
+			var match = item.match(pm5weightregex);
+			if(match!=null){
+				item = match[2];
+				outlist[i] = item;
+				if(data.EqualProbability == false && data.NoDuplicates == false){
+					//only make duplicates if not equal probability
+					var count = parseInt( match[1] );
+					if(count > 0 && count < 999){
+						for(var j=0;j<count-1;j++){
+							outlist.push(item);
+						}
 					}
 				}
 			}
@@ -952,7 +2123,7 @@ function pm5GetWordListWords(data, listname){
 				var match = pm5GetMatch(item);
 				while(match !=null){
 					var sublistname = match[2];
-					var sublist = data.wordlists[sublistname].split("\n");
+					var sublist =  pm5GetWordListWords(data, sublistname);
 					for(var i = 0; i< toadd.length; i++){
 						for(var j = 0; j< sublist.length; j++){
 							toadd2.push(toadd[i] + match[1] + sublist[j]);
@@ -1144,8 +2315,11 @@ function pm5CountAll(){
 	}
 }
 
-function pm5CountAll2(data,prompt){
+function pm5CountAll2(data,prompt, depth){
+	depth = depth || 1;
+	
 	var counts = 1;
+	if(depth>25) return counts;
 
 	//find first replace list
 	var match = pm5GetMatch(prompt);
@@ -1164,7 +2338,7 @@ function pm5CountAll2(data,prompt){
 			for(const item of set){
 				//replace next list
 				try{
-					count += pm5CountAll2(data,item);
+					count += pm5CountAll2(data,item, depth+1);
 				}catch(e){
 					throw e;
 				}
@@ -1177,6 +2351,165 @@ function pm5CountAll2(data,prompt){
 	}
 
 	return counts;
+}
+
+
+function pm5GenerateDynamic(){
+	
+	const pm5Data = pm5GetData();
+	
+	var prompt = "";
+	var promptout = "";
+	var sel = document.getElementById("pm5prompt");
+	if(sel!=null){
+		prompt = sel.options[sel.selectedIndex].value;
+		pm5Data.data = {};
+		if(pm5Data.EqualProbability){
+			pm5Data.DontProcessWeight = false;//don't want weight if equal probability
+		}else{
+			pm5Data.DontProcessWeight = true;//this will leave the weight in for Dynamic Prompt
+		}
+		
+		try{
+			
+			//generate a string that should make an equivelent prompt for Dynamic Prompts A1111 plugin
+			//support Pick Once and Equal Probability and Force Replacement
+			//will use Dynamic Prompts variable feature to limit prompt length to reasonable length (and make pick once easy)
+			
+			//part 1 - set up variables
+			var wordlists = new Set();
+			pm5GetWordLists(pm5Data, prompt, wordlists);
+			var equals = "=";
+			if(pm5Data.PickOnce){
+				equals += "!";
+			}
+			
+			wordlists = [...wordlists];
+			for(var j=wordlists.length-1;j>-1;j--){
+				//define variables in reverse order, which should define variables before they are used
+				var listname = wordlists[j];
+				promptout += pm5GenerateDynamicWordlist(pm5Data, listname, equals);
+			}
+		
+			//now replace pm5000 word list references with variables
+			prompt = promptout+prompt;
+			prompt = pm5GenerateDynamicReplaceWLReferences(prompt);
+					
+		
+		}catch(e){
+			alert("No such  word list: "+e.message);
+			return;
+		}
+		
+		promptout = prompt;
+			
+		var pm5result = document.getElementById("pm5result");
+		
+		promptout = pm5MakeResultsString(promptout);
+		
+		pm5result.value = promptout;
+		pm5result.scrollTop=0;
+		pm5result.scrollLeft = 0;
+	}
+}
+
+function pm5GenerateDynamicReplaceWLReferences(prompt){
+	var match = pm5GetMatch(prompt);
+	while(match !=null){
+		var listname = match[2];
+		listname = listname.replaceAll(" ","_");
+
+		prompt = match[1] + "${" + listname + "}" + match[3];
+		
+		match = pm5GetMatch(prompt);
+	}
+	return prompt;
+}
+
+function pm5GenerateDynamicWordlist(pm5Data, listname, equals){
+	var promptout = "";
+	equals = equals || "=";
+	
+	var listnameU = listname.replaceAll(" ","_");
+	promptout += "${" + listnameU + equals + "{";
+
+	if(pm5Data.Force != null && pm5Data.Force == listname && pm5Data.ForceReplace != null){
+		promptout += pm5Data.ForceReplace;
+	}else{
+		//find list
+		var list = pm5GetWordListWords(pm5Data,listname);
+		var outlist = [];
+		var outweights = []; 
+		for(var i=0;i<list.length;i++){
+			var item = list[i];
+			var weight = "";
+			var match3 = item.match(pm5weightregex);
+			if(match3!=null){
+				outlist.push( match3[2] );
+				if(!pm5Data.EqualProbability){
+					outweights.push( match3[1] + "::" );
+				}else{
+					outweights.push("");
+				}
+			}else{
+				outlist.push( item );
+				outweights.push("");
+			}
+		}
+		
+		for(var i=0;i<outlist.length;i++){
+			outlist[i] = outweights[i] + outlist[i];
+		}
+
+		promptout += outlist.join("|");
+	}
+	promptout += "}}";
+	return promptout;
+}
+
+
+function pm5GenerateDynamicOneWithEverything(){
+	const pm5Data = pm5GetData();
+	
+	var promptout = "";
+	var equals = "=";
+	if(pm5Data.PickOnce){
+		equals += "!";
+	}
+	
+	//add word lists
+	for(const wlkey in pm5Data.wordlists){
+		promptout += pm5GenerateDynamicWordlist(pm5Data, wlkey, equals) + "\n";
+	}
+	//add prompts definitions and generate all prompts string
+	var allPrompts = "{";
+	for(item of pm5Data.prompts){
+		if(item.value != null && item.value.length > 0){
+			var name = item.name.replaceAll(" ","_");
+			promptout += "${"+name+"="+item.value+"}\n";
+			allPrompts += (allPrompts.length>2 ? "|" :"") + "${" + name +"}";
+		}
+	}
+	allPrompts += "}";
+	
+	//replace word list references
+	var arr = promptout.split("\n");
+	for(var i=0;i<arr.length;i++){
+		arr[i] = pm5GenerateDynamicReplaceWLReferences(arr[i]);
+	}
+	promptout = arr.join("\n");
+	
+	//add actual prompt list to pick one of
+	promptout += allPrompts;
+	
+	//do output
+	var pm5result = document.getElementById("pm5result");
+		
+	promptout = pm5MakeResultsString(promptout);
+	
+	pm5result.value = promptout;
+	pm5result.scrollTop=0;
+	pm5result.scrollLeft = 0;
 }
 
 
@@ -1297,7 +2630,9 @@ function pm5PromptChange(){
 	}
 	
 	try{
-		pm5GetWordLists(pm5Data, prompt, wordlists);
+		var dataClone = Object.assign({}, pm5Data);
+		dataClone.EqualProbability = false;
+		pm5GetWordLists(dataClone, prompt, wordlists);
 	}catch(e){
 		alert("No such  word list: "+e.message);
 		return;
@@ -1422,6 +2757,11 @@ function pm5GetWordLists(data, prompt, wordlists){
 					}
 				}
 			
+			}else{
+				//we already added this word list, but move it to end of set(list) so we keep list in dependecy order 
+				//(dependent items come before items they depend on (so going back to front defined things in correct order)
+				wordlists.delete(listname);
+				wordlists.add(listname);
 			}
 			
 			//next replace list at this level;
@@ -1732,6 +3072,671 @@ function pm5GetData(){
 	return pm5Data;
 }
 
+
+function pm5OneWithEverything(){
+	
+	var pm5Data = pm5GetData();
+	
+	var prompt = "";
+	var prompts = "";
+	var sel = document.getElementById("pm5prompt");
+
+	if(sel!=null){
+		
+		for(var p = 0; p < sel.options.length; p++){
+		
+			prompt = sel.options[p].value;
+
+			try{
+				pm5Data.data = {};
+				prompts += pm5MakePrompt(pm5Data,prompt) + "\n";
+			}catch(e){
+				alert("No such  word list: "+e.message);
+				return;
+			}
+		}
+		
+		var pm5result = document.getElementById("pm5result");
+		
+		prompts = pm5MakeResultsString(prompts);
+		
+		pm5result.value = prompts;
+		pm5result.scrollTop=0;
+		pm5result.scrollLeft = 0;
+	}
+}
+
+function pm5OpenArtParseOld(){
+	
+	var ele = document.getElementById("pm5result");
+	var full = ele.value;
+	var lines = full.split('\n');
+	var len = lines.length;
+	var set = new Set();
+	var out = "";
+	for(var i=0;i<len;i++){
+		
+		if(lines[i].startsWith("Prompt: ")){
+			var prompt = lines[i].substring(8);
+			if(prompt.length <2) continue;
+			
+			for(var j=i+1;j<len-1;j++,i++){
+				if(lines[j].endsWith("[more]") || lines[j].startsWith("Model:"))
+					break;
+				if(lines[j+1].length < 2)
+					break;
+				if(prompt.startsWith(lines[j]))
+					break;
+				
+				if(!prompt.endsWith(" ")){
+					if(!prompt.endsWith(",")){
+						prompt += ",";
+					}
+					prompt += " ";
+				}
+				prompt += lines[j];
+			}
+			
+			if(prompt.length >4){
+				set.add(prompt.trim());
+			}
+		}
+	}
+	
+	for (const item of set) {
+		out += item+"\n";
+	}
+	ele.value = out;
+}
+
+function pm5OpenArtParse(){
+	
+	var ele = document.getElementById("pm5result");
+	var full = ele.value;
+	var lines = full.split('\n');
+	var len = lines.length;
+	var set = new Set();
+	var out = "";
+	for(var i=0;i<len;i++){
+		
+		if(lines[i].startsWith("Prompt: ")){
+			var prompt = lines[i].substring(8);
+			if(prompt.length <2) continue;
+			
+			for(var j=i+1;j<len-1;j++,i++){
+				if(lines[j].startsWith("Prompt:") || lines[j].endsWith("[more]") || lines[j].startsWith("Model:"))
+					break;
+				
+				if(!prompt.endsWith(" ")){
+					//if(!prompt.endsWith(",")){
+					//	prompt += ",";
+					//}
+					prompt += " ";
+				}
+				prompt += lines[j].trim();
+			}
+			
+			if(prompt.length >4){
+				set.add(prompt.replaceAll("“","\"").replaceAll("”","\"").replaceAll(",,,",",").replaceAll(",,",",").replaceAll("   "," ").replaceAll("  "," ").replaceAll("\r","").replaceAll("\n","").trim());
+			}
+		}
+	}
+	
+	for (const item of set) {
+		out += item+"\n";
+	}
+	ele.value = out;
+}
+
+function pm5OpenArtParseUser(){
+	
+	var ele = document.getElementById("pm5result");
+	var full = ele.value;
+	var lines = full.split('\n');
+	var len = lines.length;
+	var set = new Set();
+	var out = "";
+	for(var i=0;i<len;i++){
+		
+		if(lines[i].startsWith("Prompt: ")){
+			var prompt = lines[i].substring(8);
+			if(prompt.length <2) continue;
+			
+			for(var j=i+1;j<len-1;j++,i++){
+				if(lines[j].endsWith("[more]") || lines[j].startsWith("Model:"))
+					break;
+				if(prompt.startsWith(lines[j]))
+					break;
+				
+				if(!prompt.endsWith(" ")){
+					if(!prompt.endsWith(",")){
+						prompt += ",";
+					}
+					prompt += " ";
+				}
+				prompt += lines[j];
+			}
+			
+			if(prompt.length >4){
+				set.add(prompt.trim());
+			}
+		}
+	}
+	
+	for (const item of set) {
+		out += item+"\n";
+	}
+	ele.value = out;
+}
+
+function parseMidjourneyStyleList(onelist){
+	var ele = document.getElementById("pm5result");
+	var full = ele.value;
+	var lines = full.split('\n');
+	var len = lines.length;
+	var out = {};
+	var line = "";
+	
+	for(var i=0;i<len;i++){
+		
+		if(onelist){
+			line = lines[i];
+			var firstChar = line[0];
+			if(firstChar != "\t") continue;
+			line = line.trim();
+		} else {
+			line = lines[i].trim();
+			if(line.indexOf('\t') < 1) continue;
+		}
+		
+		//handle unicode escapes
+		line = line.replace( /\\u([\d\w]{4})/g , function (match, grp) { 
+			return String.fromCharCode(parseInt(grp, 16)); 
+		} );
+		line = line.replace( /\\U([\d\w]{4})/g , function (match, grp) { 
+			return String.fromCharCode(parseInt(grp, 16)); 
+		} );
+		
+		var data = line.split("\t");
+		if(onelist){
+			data = [data[0],"one list name"];
+		}else{
+			if(data.length != 2 || data[0].length < 2 || data[1].length < 2){
+				console.log("unknown line:" +lines[i]);
+				continue;
+			}
+		}
+		
+		if(out[data[1]] == null){
+			out[data[1]] = ""+data[0];
+		}else{
+			out[data[1]] = out[data[1]]+"\n"+data[0];
+		}
+	}
+	
+	showResults(JSON.stringify(out).replaceAll('","','",\n"').replaceAll('{"','{\n"').replaceAll('"}','"\n}'));
+}
+
+
+//markov prompt generator
+markov = new Map(); //this will be a map of string (pair of words) to map of string to integer (possible next word mapped to weight)
+function pm5MarkovClear(){
+	markov = new Map();
+	var size = document.getElementById("markovsize");
+	if (size!=null){
+		size.innerText = markov.size;
+	}
+}
+function pm5MarkovMakeFromPrompts(num){
+	var ele = document.getElementById("markovpromptcount");
+	if(ele){
+		num = num | ele.value;
+	}else{
+		num = num | 100;
+	}
+	pm5MarkovMakeFromPromptsCore(num);
+}
+function pm5MarkovMakeFromPromptsCore(num){
+	//will generate num prompts from each prompt template and make the markov chain from them
+	var ele = document.getElementById("pm5result");
+	ele.value = "";
+	
+	var pm5Data = pm5GetData();
+	
+	var promptCnt = 0
+	function MarkovMakeFromPromptsCoreHelper(){
+		var prompt = pm5Data.prompts[promptCnt].value;
+		
+		pm5MarkovMakeFromPromptCore(pm5Data, prompt, num);
+		
+		if(promptCnt % 10 == 0){
+			ele.value = ele.value + promptCnt;
+		} else {
+			ele.value = ele.value + ".";
+		}
+		promptCnt++;
+		if(promptCnt < pm5Data.prompts.length){
+			//using set timeout as many prompts or large num will make this take long, and to give browser chance to update display.
+			setTimeout(MarkovMakeFromPromptsCoreHelper,10);
+		} else {
+			ele.value = ele.value + "\nDone!";
+		}
+	}
+	MarkovMakeFromPromptsCoreHelper();
+	
+	return markov.size;
+}
+function pm5MarkovMakeFromPrompt(num){
+	var ele = document.getElementById("markovpromptcount");
+	if(ele){
+		num = num | ele.value;
+	}else{
+		num = num | 100;
+	}
+	var sel = document.getElementById("pm5prompt");
+	if(sel!=null && num!=null){
+		prompt = sel.options[sel.selectedIndex].value;
+		if (prompt.length > 4){
+			var pm5Data = pm5GetData();
+			pm5MarkovMakeFromPromptCore(pm5Data, prompt, num);
+		} else {
+			alert("Please select a prompt at the top of the page");
+		}
+	}
+}
+function pm5MarkovMakeFromPromptCore(pm5Data, prompt, num){
+	var prompts = "";
+	for(var i=0;i<num;i++){
+		try{
+			pm5Data.data = {};
+			prompts += pm5MakePrompt(pm5Data,prompt) + "\n";
+		}catch(e){
+			alert("No such  word list: "+e.message);
+			return;
+		}
+	}
+	
+	pm5MarkovMakeFromString(prompts);
+	
+}
+
+function pm5MarkovMakeFromText(str){
+	var ele = document.getElementById("pm5result");
+	pm5MarkovMakeFromString(ele.value);
+}
+
+
+function pm5MarkovMakeFromStory(str){
+	//like make from string, but combines lines into one string, stopping at a blank line, or a line that starts with a tab (taking an entire paragraph as a prompt example)
+	var ele = document.getElementById("pm5result");
+	var str = ele.value;
+	var prompt = "";
+	var strs = str.split("\n")
+	for(line of strs){
+		var l = line.trim();
+		if(l.length == 0 || line.charAt(0) == '\t'){
+			pm5MarkovMakeFromString(prompt);
+			prompt = "";
+		}
+		
+		if(prompt.length > 0){
+			prompt += " ";
+		}
+		prompt += l;
+	}
+	
+	if(prompt.length > 0){
+		pm5MarkovMakeFromString(prompt);
+	}
+	
+}
+
+
+function pm5MarkovMakeFromString(str){
+	//step 1 break string into separate prompts
+	var prompts = str.toLowerCase().replaceAll("|",",").replaceAll("“","\"").replaceAll("”","\"").replaceAll("  "," ").replaceAll(" ,",",").replaceAll(",,,",",").replaceAll(",,",",").replaceAll(/,(?! )/gm,", ").replaceAll("\r","").split("\n");
+	for(prompt of prompts){
+		prompt = prompt.trim();
+		if(prompt.length <1) continue;
+		
+		if(prompt.startsWith("\"") && prompt.endsWith("\"")){
+			prompt = prompt.substring(1,prompt.length-1);
+		}
+		
+		//split prompt into 'words'
+		var words = pm5MarkovSplitString(prompt);
+		
+		if(words.length > 1){
+			var w1 = words[0];
+			var w2 = words[1];
+			//remember prompt start
+			pm5MarkovAddMapping("", w1+" "+w2);
+			
+			//encode pairs of words to next word
+			for(var i=2; i<words.length; i++){
+				var key = w1+" "+w2;
+				var w3 = words[i];
+				pm5MarkovAddMapping(key, w3)
+				w1=w2;
+				w2=w3;
+			}
+			//add end of chain
+			var key = w1+" "+w2;
+			pm5MarkovAddMapping(key, "\n");
+		}
+	}
+	var ele = document.getElementById("markovsize");
+	if(ele != null){
+		ele.innerText = markov.size;
+	}
+	return markov.size;
+}
+function pm5MarkovAddMapping(key, word){
+	//maps a key (pair of words) to the next word (or increases weight if already exists)
+	if(markov.has(key)){
+		var wordlist = markov.get(key);
+		if(wordlist.has(word)){
+			wordlist.set(word,wordlist.get(word)+1);
+		}else{
+			wordlist.set(word,1);
+		}
+	} else {
+		var wordlist = new Map();
+		wordlist.set(word,1);
+		markov.set(key,wordlist);
+	}
+}
+function pm5MarkovSplitString(prompt){
+	//todo keep phrases in quotes, parens, square or curly or angle brackets together, otherwise split on spaces
+	var array = [];
+	
+	while(prompt.length > 0){
+		switch(prompt.charAt(0)){
+			case '"': 
+				var result = pm5getUntil(prompt.substring(1),'"');
+				array.push('"'+result.until);
+				prompt = result.remain.trim();
+				break;
+			case '(': 
+			case '[': 
+			case '{': 
+			case '<': 
+				var result = pm5getUntilMatchingbracket(prompt);
+				var result2 = pm5getUntil(result.remain," ");
+				array.push(result.until+result2.until.trim());
+				prompt = result2.remain.trim();
+				break;
+			default:
+				var result = pm5getUntil(prompt," ");
+				array.push(result.until.trim());
+				prompt = result.remain.trim();
+				break;
+		}
+	}
+	
+	return array;
+}
+function pm5getUntil(str, chr){
+	//gets string up to and including character chr, if character doesn't exist, entire string is return in until
+	//return object {until: <beginning of string until character>, remain: <remainder of string>}
+	var pos = str.indexOf(chr);
+	if(pos < 0){
+		return {until: str, remain: ""};
+	}
+	return {until: str.substring(0,pos+1), remain: str.substring(pos+1)};
+}
+function pm5getUntilMatchingbracket(str){
+	var closePos = openPos = 0;
+	var counter = 1;
+	var open = str.charAt(0);
+	var close = "";
+	switch(open){
+		case "(": close = ")"; break;
+		case "[": close = "]"; break;
+		case "{": close = "}"; break;
+		case "<": close = ">"; break;
+		default: return {until: str, remain: ""};
+	}
+    while (counter > 0 && closePos < str.length) {
+		closePos++;
+        var c = str.charAt(closePos);
+        if (c == open) {
+            counter++;
+        }
+        else if (c == close) {
+            counter--;
+        }
+    }
+    return {until: str.substring(openPos,closePos+1), remain: str.substring(closePos+1)};;
+
+}
+function pm5MarkovGen(){
+	var ele = document.getElementById("markovgencount");
+	var ele2 = document.getElementById("markovgenmaxwords");
+	var ele3 = document.getElementById("markovgenminwords");
+	var ele4 = document.getElementById("markovgenweight");
+	var ele5 = document.getElementById("markovgenstartany");
+	if(ele!=null && ele2!=null && ele3!=null && ele4!=null && ele5!=null){
+		var num = ele.value;
+		var maxwords = ele2.value;
+		var minwords = ele3.value;
+		var weight = ele4.checked;
+		var startany = ele5.checked;
+		pm5MarkovGeneratePrompts(num,maxwords,minwords,weight, startany);
+	}
+}
+function pm5MarkovGeneratePrompts(num,maxlen,minlen,weight, startany){
+	var ele = document.getElementById("pm5result");
+	
+	var prompts = "";
+	for(var i=0;i<num;i++){
+		prompts += pm5MarkovGeneratePrompt(maxlen,minlen,weight, startany) +"\n";
+	}
+	ele.value = prompts;
+	
+}
+function pm5MarkovContinue(){
+	var ele = document.getElementById("markovgencount");
+	var ele2 = document.getElementById("markovgenmaxwords");
+	var ele3 = document.getElementById("markovgenminwords");
+	var ele4 = document.getElementById("markovgenweight");
+	var result = document.getElementById("pm5result");
+	if(ele!=null && ele2!=null && ele3!=null && ele4!=null && result!=null){
+		var num = ele.value;
+		var maxwords = ele2.value;
+		var minwords = ele3.value;
+		var weight = ele4.checked;
+		var prompts = result.value;
+		pm5MarkovContinuePrompts(num,maxwords,minwords,weight, prompts);
+	}
+}
+function pm5MarkovContinuePrompts(num,maxlen,minlen,weight, inprompts){
+	var ele = document.getElementById("pm5result");
+	
+	var prompts = "";
+	var promptarray = inprompts.split("\n");
+	for(var j=0;j<promptarray.length;j++){
+		var p = promptarray[j].trim();
+		if(p.length > 1){
+			for(var i=0;i<num;i++){
+				prompts += pm5MarkovGeneratePrompt(maxlen,minlen,weight,false, p) +"\n";
+			}
+		}
+	}
+	ele.value = prompts;
+	
+}
+function pm5MarkovGeneratePrompt(maxlen, minlen, weight, startany, str){
+	maxlen = maxlen | 150;
+	minlen = minlen | 4;
+	if(str == null){
+		str = "";
+	}
+	
+	while(true){
+		var words = pm5MarkovSplitString(str);
+		var w1 = "";
+		var w2 = "";
+		var prompt = "";
+		var rand = 0;
+		if(words.length > 1){
+			//continue prompt from string
+			prompt = str;
+			w1 = words[words.length-2];
+			w2 = words[words.length-1];
+		} else {
+			//generate new prompt start
+			if(startany){
+				//start with any pair of words
+				var keylen = markov.size;
+				rand = Math.floor( Math.random() * keylen );
+				prompt = get_nth_key(markov, rand);
+			} else {
+				//start only with word pair that have started a prompt
+				var wordlist = markov.get("");
+				if(weight){
+					//use weight
+					//iterate over entries and calc total weight
+					var weight = 0;
+					for (let value of wordlist.values()){
+						weight += value;
+					}
+					//pick random less than total weight
+					rand = Math.floor( Math.random() * weight );
+					//get word at weight
+					prompt = "\n";
+					weight = 0;
+					for (let [word, value] of  wordlist.entries()) {
+						weight += value;
+						if(weight > rand){
+							prompt = word;
+							break;
+						}
+					}
+				} else {
+					//ignoring weight
+					var entries = wordlist.size;
+					//pick random less than total entries
+					rand = Math.floor( Math.random() * entries );
+					//get word at random entry
+					prompt = get_nth_key(wordlist,rand);
+					if(prompt==undefined) prompt = "\n";
+				}
+			}
+			words = pm5MarkovSplitString(prompt);
+			if(words.length != 2){
+				return "Picked '"+words+"' to start, but not length 2!";
+			}
+			w1 = words[0];
+			w2 = words[1];
+		}
+		
+		for(var j=2;j<maxlen;j++){
+			var key = w1+" "+w2;
+			var wordlist = markov.get(key);
+			if(wordlist == null){
+				return "Could not continue from '"+key+"'!";
+			}
+			if(weight){
+				//iterate over entries and calc total weight
+				var weight = 0;
+				for (let value of wordlist.values()){
+					weight += value;
+				}
+				//pick random less than total weight
+				rand = Math.floor( Math.random() * weight );
+				//get word at weight
+				var w3 = "\n";
+				weight = 0;
+				for (let [word, value] of  wordlist.entries()) {
+					weight += value;
+					if(weight > rand){
+						w3 = word;
+						break;
+					}
+				}
+			} else {
+				//ignoring weight
+				var entries = wordlist.size;
+				//pick random less than total entries
+				rand = Math.floor( Math.random() * entries );
+				//get word at random entry
+				var w3 = get_nth_key(wordlist,rand);
+				if(w3==undefined) w3 = "\n";
+			}
+			if(w3 == "\n"){
+				break;
+			}
+			prompt += " " + w3;
+			w1 = w2;
+			w2 = w3;
+		}
+		
+		if(prompt.split(" ").length >= minlen){
+			return prompt;
+		}
+	}
+}
+function pm5MarkovLookupWord(word){
+	var phrases = "";
+	for(let phrase of markov.keys()){
+		var words = pm5MarkovSplitString(phrase);
+		if(words.length == 2){
+			if(words[0] == word || words[1] == word){
+				phrases += phrase +"\n";
+			}
+		}
+	}
+	var ele = document.getElementById("pm5result");
+	ele.value = phrases;
+}
+//function get_nth_key<K, V>(m: Map<K, V>, n: number): K | undefined {
+function get_nth_key(m, n){
+  if (n < 0) {
+    return undefined;
+  }
+  const it = m.keys();
+  for (;;) {
+    const res = it.next();
+    if (res.done) {
+      return undefined;
+    }
+    if (n <= 0) {
+      return res.value;
+    }
+    --n;
+  }
+}
+function pm5MarkovSave(){
+	var ele = document.getElementById("pm5result");
+	ele.value = JSON.stringify(markov, mapreplacer).replaceAll("]]}],","]]}],\n");
+}
+function pm5MarkovLoad(){
+	var ele = document.getElementById("pm5result");
+	markov = JSON.parse(ele.value,mapreviver);
+	var size = document.getElementById("markovsize");
+	if (size!=null){
+		size.innerText = markov.size;
+	}
+}
+function mapreplacer(key, value) {
+  if(value instanceof Map) {
+    return {
+      dataType: 'Map',
+      value: Array.from(value.entries()), // or with spread: value: [...value]
+    };
+  } else {
+    return value;
+  }
+}
+function mapreviver(key, value) {
+  if(typeof value === 'object' && value !== null) {
+    if (value.dataType === 'Map') {
+      return new Map(value.value);
+    }
+  }
+  return value;
+}
 
 
 var PromptMakerLibraryBackup = `
