@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Prompt Maker 5000</title>
 <!-- 
-	Code: Copyright (c) 2023 by Brian Risinger
+	Code: Copyright (c) 2023-2024 by Brian Risinger
 	
-	Prompt-O-matic prompts (the block of JSON below or the .json file loaded) are public domain and are mostly from https://publicprompts.art/ or from https://www.reddit.com/r/StableDiffusion
-	Support them if you find those prompts useful
 -->
 <link rel="stylesheet" href="tribute.css" />
 <script src="tribute.min.js"></script>
@@ -99,16 +98,14 @@ body.darkmode .results{
 
 #pm5makeprompt{
 	top: 25vh;
-	bottom: 20vh;
 	left: 25vw;
 	right: 25vw;
 	padding: 3px;
 }
 #pm5showpromptoptions{
 	top: 50vh;
-	bottom: 10vh;
-	left: 35vw;
-	right: 35vw;
+	left: 30vw;
+	right: 30vw;
 	padding: 3px;
 }
 #pm5promptoptionwordlist{
@@ -137,7 +134,10 @@ body.darkmode .results{
 }
 
 #pm5prompt{
-	max-width: calc(85vw - 200px);
+	max-width: calc(85vw - 550px);
+}
+#pm5prompt option.filtered {
+	display: none;
 }
 #pm5basewl{
 	display:none;
@@ -181,11 +181,19 @@ body.darkmode .pm5wordlist{
 }
 
 .pm5wordlist.wlselected{
-	background: #ddf;
+	background: #aaf;
+}
+
+.pm5wordlist.wlhighlight, .pm5wordlist.wlselected.wlhighlight{
+	background: #afa;
 }
 
 body.darkmode .pm5wordlist.wlselected{
-	background: #448;
+	background: #44a;
+}
+
+body.darkmode .pm5wordlist.wlhighlight, body.darkmode .pm5wordlist.wlselected.wlhighlight{
+	background: #4a4;
 }
 
 .pm5expander{
@@ -227,12 +235,25 @@ body.darkmode .pm5wordlist.wlselected{
 	width: 100%;
 }
 textarea#pm5result {
-	width: 93vw;
+	width: 75vw;
 	height: 13em;
 	padding-top: 2px;
 }
 #pm5save{
 	display: inline;
+}
+
+#markov {
+	float:right;
+	width: 23vw;
+	background: grey;
+	font-size: 90%;
+}
+#markov hr {
+	margin: 2px;
+}
+#markov input[type=number]{
+	width: 3vw;
 }
 
 #pm5showcounts {
@@ -312,6 +333,7 @@ body.darkmode #pm5generate:hover {
 	bottom: 3px;
 }
 
+
 label, .nowrap {
 	white-space: nowrap;
 }
@@ -341,12 +363,12 @@ select:disabled,  body.darkmode select:disabled {
 }
 .backdrop {
 	position: absolute;
-	overflow: auto;
+	overflow-y: scroll;
 	background-color: transparent;
-	pointer-events: none;
 	padding-left: 1px;
 	padding-top: 2px;
 	scrollbar-width: none;
+	width: 100%;
 }
 .backdrop::-webkit-scrollbar {
     display: none;
@@ -354,15 +376,28 @@ select:disabled,  body.darkmode select:disabled {
 .highlights {
 	white-space: pre-wrap;
 	word-wrap: break-word;
-	color: transparent;
+	visibility: hidden;
 }
 mark {
-	color: transparent;
 	background-color: #8080ff;
 	border-radius: 3px;
 }
 body.darkmode mark{
-background-color: #4040ff;
+	background-color: #4040ff;
+	color: white;
+}
+
+#highlightcontainer.highlight div.backdrop{
+	scrollbar-width: initial;
+}
+#highlightcontainer.highlight div.backdrop::-webkit-scrollbar {
+    display: initial;
+}
+#highlightcontainer.highlight div.highlights{
+	visibility: visible;
+}
+#highlightcontainer.highlight textarea{
+	visibility: hidden;
 }
 
 
@@ -383,8 +418,19 @@ body.darkmode select:disabled:hover{
 	background: #222;
 }
 
+pm5promptoptionword{
+	font-weight: bold;
+}
+pm5promptoptionwordlistname{
+	font-style: italic;
+}
+
 .busy {
 	cursor: wait;
+}
+
+.smaller {
+	font-size: 75%;
 }
 
 
@@ -403,20 +449,24 @@ if(window.localStorage.getItem("darkmode")=="true"){
 </script>
 </div>
 <div id="pm5promptarea">
- <span class="nowrap"><label id="pm5promptlabel" for="pm5prompt">Prompt Type: </label><select id="pm5prompt"></select></span><br>
+ <span class="nowrap"><label id="pm5promptlabel" for="pm5prompt">Prompt Type: </label><select id="pm5prompt" tabindex=1></select></span>
+ <span class="nowrap"><label id="pm5promptfilterlabel" for="pm5promptfilter">Filter Prompt: </label><input id="pm5promptfilter"><select id="pm5promptfiltertype"><option value=3 selected>Name or Prompt</option><option value=1>Name</option><option value=2>Prompt</option></select><button id="pm5promptfilterclear">Clear</button></span><br>
  <span class="nowrap"><label for="pm5count">Number:</label><input id=pm5count type=number min=1 max=100 value=5 size=4></span> <span class="spacer"> </span>
- <span class="nowrap"><input type="checkbox" id="pm5pickonce"><label for="pm5pickonce">Pick Once Per Prompt</label> <span class="info" title="If checked, if a word list appears twice in a prompt, will use the same value both times.  If unchecked, will randomly pick a value from the wordlist each time it appears in the prompt.">❔</span></span>  <span class="spacer"> </span> 
- <span class="nowrap"><input type=checkbox id="pm5equalprobability"><label for="pm5equalprobability">Equal Probability</label> <span class="info" title="If checked, all items in the word list will be given equal probability. This includes the items in word lists referenced by this word list (but only for one level).">❔</span></span> <span class="spacer"> </span>
+ <span class="nowrap"><input type="checkbox" id="pm5pickonce"><label for="pm5pickonce">Pick Once Per Prompt (depricated)</label> <span class="info" title="If checked, if a word list appears twice in a prompt, will use the same value both times.  If unchecked, will randomly pick a value from the wordlist each time it appears in the prompt.">❔</span></span>  <span class="spacer"> </span> 
+ <span class="nowrap"><input type=checkbox id="pm5equalprobability"><label for="pm5equalprobability">Equal Probability (depricated)</label> <span class="info" title="If checked, all items in the word list will be given equal probability. This includes the items in word lists referenced by this word list (but only for one level).">❔</span></span> <span class="spacer"> </span>
  <span class="nowrap"><label for="pm5force">Force Replacement <select id=pm5force></select> <label for="pm5forcereplace">with</label> <input id=pm5forcereplace size=25> <span class="info" title="Replace the selected word list reference with the specified text">❔</span></span> <span class="spacer"> </span>
  <span class="nowrap"><label for="pm5replaceall">Replace with all options:</label><select id=pm5replaceall></select> <input type=checkbox id="pm5replaceallseparate" checked><label for="pm5replaceallseparate">Separate Prompts</label> <span class=hidden><input type=checkbox id="pm5replaceallrecursive">Recursive</span> <span class="info"  title="Replace the selected word list reference with all possible options (makes a separate prompt for each option when Separate Promots is selected). It is strongly recommended to only generate 1 prompt at a time with this setting on. When Separate Promots is not selected, it makes one prompt that is automatically expanded into many prompts by some AI Art software (CMDR2 / Easy Diffusion)), however this won't work correctly if the items in the word list contain commas, or expand into text that contains commas (flat lists of words recommended).">❔</span></span><br>
  <span class="nowrap"><button id="pm5generate" type="button">Make Prompts</button> <span id="pm5possibilities"></span></span> <button id="pm5generateall" type="button" title="DO NOT USE">Make All Prompts</button>  <span class="spacer"> </span>  <span class="spacer"> </span>  <span class="spacer"> </span> 
+ <span class="nowrap"><button id="pm5generatedynamic" type="button">Make Dynamic Prompt</button><span class="info" title="This will generate a single prompt that will be able to make all variations of this prompt template when used with the Dynamic Prompts plugin for Automatic1111 (and other compatible software). This will respect the Pick Once, Equal Probability and Force Replacement options.">❔</span>  <span class="spacer"> </span>  <span class="spacer"> </span>  <span class="spacer"> </span> 
  <button id="pm5addeditprompt" type="button">Add / Edit Prompts</button>
 </div>
 <div id="pm5wlwrapper"><h4>Word Lists:</h4>
  <span class="nowrap"><label for="pm5newwl">Add New Word List:</label><input id="pm5newwl" size=25><button type="button" id="pm5addwl">Add</button> 
- <span class="info" title="Word Lists are lists of words or phrases separated by newlines that can be referenced in the prompts. The references are the word list name surrounded by angle brackets (<>). Word lists themselves can contain references to other word lists. A particular item in a word list can start with a number followed by a color (2:red), which will give a weight to that item. Normally, each item in a word list has an equal probability, but giving a weight will make that item more likely, as if it was in the list the number of times of it's weight (unless 'Equal Probability' is chosen).">❔</span></span> <span class="spacer"> </span>
+ <span class="info" title="Word Lists are lists of words or phrases separated by newlines that can be referenced in the prompts. The references are the word list name surrounded by angle brackets (<>). Word lists themselves can contain references to other word lists. A particular item in a word list can start with a number followed by a word/phrase (2:red), which will give a weight to that item. Normally, each item in a word list has an equal probability, but giving a weight will make that item more likely, as if it was in the list the number of times of it's weight (unless 'Equal Probability' is chosen). If a blank item is wanted in the word list, make sure it isn't last (having it first is a good option, as it makes it obvious the wordlist contains a blank item), as a blank line at the end of the wordlist isn't visible and so will be automatically removed.\nWhen referencing other word lists, with in a prompt or in a word list, you can put a few special characters before the word list name inside the anngle brackets to modify how words are picked. Starting the name with '!' will cause the word picked from this word list to be used in other places in the prompt where this word list is also referenced with a starting exclaimation mark. for example 'The <!color> car raced past the <!color> house with a <color> roof' would always have the car and house be the same color, but the roof would be a different color. This works across differennt levels of word list embedding (when a prompt is being created and a wordlist with an exclaimation point is encountered, the word picked is saved for the rest of that prompt and uses if that worklist is used again in that prompt, but the stored values are cleared before the next prompt is generated).\n If the wordlist name starts with '=', then all words are given equal probability (weight is ignored). This includes if a wordlist is referennced, then all words in that word list are also given equal probability to the words directly in the word list (but only for the word list initially referenced, not any wordlists that list may reference). '!' and '=' cann be used together in either order before the wordlist name.\n Mostly for prompts, but can be used in word list referennces, you can specify that multiple words can be picked and used together such as 'red and green and blue' by specifying the wordlist name as <[count]{|[separator]}$$[wordlist name]> where < > and the normal angle brackets, [ ] are the variables, and { } are optional components. The wordlist name variable is the word list to pick the multiple items from, but you can use the equal probability '=' before the list name if you wannt that.  The variable count is the number of words to pick from the list. This can be a single number, or a range such as '2-4'. The optional separator section is inndicated by a pipe (|) charagter, and if it exists specifies how to separate the sections. If not specified, it defaults to ', '. specifying '| and ' would put the word 'and with spaces around it between each option. The '$$' form of choose multiple will prevent the same word from being picked twice, however you can unstead use '@@' if you would like the possibility of a word showing up twice.">❔</span></span> <span class="spacer"> </span>
  <span class="nowrap"><label for="pm5replaceall">Word List Sort:</label><select id=pm5wlsort><option value="original">Original Order</option><option value="-original">Reverse Original</option><option value="alpha">Alphabetical Order</option><option value="-alpha">Reverse Alphabetical</option><option value="inprompt">In Current Prompt</option><option value="items">Items in List</option><option value="-items">Reverse Items in List</option><option value="itemsrecursive">Items Referenced</option><option value="-itemsrecursive">Reverse Items Referenced</option><option value="textlength">List Text Length</option><option value="-textlength">Reverse Text Length</option></select></span> <span class="spacer"> </span>
- <button type="button" id="pm5showcounts">Show Counts (hover titles)</button>
+ <button type="button" id="pm5showcounts">Show Counts (hover titles)</button><span class="spacer"> </span>
+ <span class="nowrap"><label id="pm5findWordListlabel" for="pm5findWordList">Find Word Lists:</label><input id="pm5findWordList" size=20><button id=pm5findWordListTitle>Find Title</button><button id=pm5findWordListWords>Find in Words</button>
+ <span class="info" title="Use this to search for word lists by the word list title (first button) or to search for word lists by the words in the word list. Matching word lists will have a green title, and the first match will be scrolled to, although other matching word lists may exist. Matches are cleared when a new search is performed or a new prompt is selected.">❔</span></span>
 </div>
 <div id="pm5wlcontainer">
 	<div>
@@ -445,10 +495,29 @@ if(window.localStorage.getItem("darkmode")=="true"){
 	</div>
 </div>
 
-
 <div id="pm5results">
-<textarea id="pm5result"></textarea><br>
-<button type="button" id="pm5save">Save Settings</button>
+	<div id="markov" title="Tool for creating prompts based off of markov chains from example text">
+		Markov - Size:<span id=markovsize></span><br>
+		<hr>
+		<button id=markovload title="Put data to load in textarea to the left">Markov Load</button>
+		<button id=markovsave title="Puts markov data in textarea to the left - copy and save to file">Markov Save</button>
+		<button id=markovclear title="Clears current markov data">Markov Clear</button>
+		<hr>
+		<button id=markovmakeprompts title="Generates markov data from chosen examples of each prompt">Make data from prompts</button>
+		<button id=markovmakeprompt title="Generates markov data from chosen examples of selected prompt">Make data from chosen prompt</button>
+		Prompts: <input id=markovpromptcount type=number min=10 max=1000 value=100><br>
+		<button id=markovmaketext title="Generates markov data from text in textarea to the left (should only have prompt text)">Make data from text</button>
+		<hr>
+		Number: <input id=markovgencount type=number min=1 max=500 value=100>
+		Min Words: <input id=markovgenminwords type=number min=3 max=25 value=5>
+		Max Words: <input id=markovgenmaxwords type=number min=50 max=500 step=25 value=150><br>
+		<input id=markovgenweight type=checkbox checked title="If checked, next word probablity depends on weight. Unchecked all next word posibilities have same chance.">Weight
+		<input id=markovgenstartany type=checkbox checked title="For Generate Prompts: If checked, any word pair can start a prompt. Unchecked, only actual prompt starts can start a prompt.">Start Anywhere<br>
+		<button id=markovgen title="Puts generated prompts in textarea to the left">Generate Prompts</button>
+		<button id=markovcontinue title="Takes the beginning of prompts in the textarea to the left and continues them (must be at least two words). Makes <number> versions of each prompt.">Continue Prompts</button>
+	</div>
+	<textarea id="pm5result"></textarea><br>
+	<button type="button" id="pm5save">Save Settings</button>
 <button type="button" id="pm5loadshow">Load Settings</button>
 </div>
 <div id="pm5basewl">
@@ -467,11 +536,11 @@ if(window.localStorage.getItem("darkmode")=="true"){
 <tr><td colspan=2>
 	<select id="pm5addeditselect"></select>
 </td></tr>
-<tr><td>
-	Title:</td><td><input id="pm5newprompttitle" size=50>
+<tr><td style="width: 19%">
+	Title:</td><td  style="width: 80%"><input id="pm5newprompttitle" size=50>
 </td></tr>
 <tr><td>
-	Prompt:</td><td>
+	Prompt:<br><span class="smaller">Single prompt only (no new lines), unless using Multiprompt</span></td><td>
 	<div id="highlightcontainer" class="highlightcontainer">
 		<div id="backdrop" class="backdrop">
 			<div id="highlights" class="highlights">
@@ -479,11 +548,24 @@ if(window.localStorage.getItem("darkmode")=="true"){
 		</div>
 		<textarea id="pm5newprompt" cols=50 rows=3></textarea>
 	</div>
+	<span class="nowrap">
 	<button id="pm5addoptions" type="button">Add Options</button>
 	<span class="info" title="Clicking Add Options will search the wordlists to see if they have words or phrases in the prompt, and if any are found, suggests replacing the word / phrase of the prompt with a reference to the wordlist. This allows you to quickly make variations of the prompt.">❔</span>
-	<span class="spacer"> </span>
 	<input type="checkbox" checked id="pm5addoptionsrespectword">Respect Word Boundries 
 	<span class="info" title="When respect word boundries is checked, adding options will only match whole words, so it won't match the word 'cat' in 'catman' with the '<animal>' wordlist. With respect word boundries unchecked, 'cat' in 'catman' will be offered to be replaced by the '<animal>' wordlist.">❔</span>
+	<span>
+	<br>
+	<span class="nowrap">
+	<button id="pm5Multiprompt" type="button">Multiprompt</button>
+	<button id="pm5Multiprompt2" type="button">Multiprompt Alt.</button>
+	<button id="pm5Multiprompt3" type="button">Multiprompt Simple</button>
+	<span class="info" title="If you have multiple variations of the same prompt, you can paste all the variations in the prompt field, separated by new lines, and then click this Multiprompt button. Prompt Maker 5000 will figure out how to generate a superset of all the prompts as one prompt template. Word lists will be automatically added as needed for the words / phrases in the prompt, but you need to click the Add Prompt to actually add the prompt to the prompts list. Requires a title to be entered to be used as the name for the word lists created. Works best if the prompt has many comma separated phrases.&#013;&#010;&#013;&#010;Multiprompt Alternate uses a slightly different algorithm which can have more variation in the generated prompt and represent prompts in a more consice maner than the normal Multiprompt method, but can also cause reference loops (wordlist A includes wordlist B which includes wordlist C which includes wordlist A...). This can result in some of the generated prompts to be unexpectedly longer than intended, but otherwise shouldn't cause issues (you can just skip using any generated prompt that are unacceptedly long).&#013;&#010;&#013;&#010;Multiprompt Simple is somewhat of the opposite. Takes all they promots you have entered, breaks them up at commas and periods, and them makes a combined prompt that is one of the first parts of the prompts, then one of the seconds parts, etc., basically mixing and matching the parts of the prompts. Prompts don't need to have the same number of parts.">❔</span>
+	</span>
+	<span class="spacer"> </span>
+	<span class="nowrap">
+	<button id="pm5Dynamicprompt" type="button">Parse Dynamic Prompt</button>
+	<span class="info" title="This button will attempt to parse a prompt for the Automatic1111 Dynamic Prompts plugin to the Prompt Maker 5000 format. Most options are supported (at least in a modified format. The basic syntax with weights, choosing multiple values and custom separators are supported, although when choosing multiple values, they aren't guareteed to be unique (the same value may be chosen twice after conversion). File wildcards ask you to pick an existing word list to use. Variables are not supported and annything using them like Parameterized Templates also don't work. Samplers also aren't supported, so neither the ! or @ sampler specifiers will work (Prompt Maker 5000 always uses a random sampler).  To use, paste the dynamic prompt into the Prompt field and click this button. You will be asked to pick word lists for the file references. Then word lists will be created for the variant options, and they will replaced with a reference to the created word lists. Remember to click Add Prompt once conversion is complete. Make sure you enter a title before clicking Parse Dynamic Prompt as the title is used as the word list names for created lists.">❔</span>
+	</span>
 </td></tr>
 <tr><td>
 	Negative Prompt:</td><td><textarea id="pm5newpromptneg" cols=50 rows=3></textarea>
@@ -507,15 +589,25 @@ if(window.localStorage.getItem("darkmode")=="true"){
 
 
 <div id="pm5showpromptoptions">
+<span id="pm5promptoptionwordlistnameshow">Searching for words / phrases in wordlist "<span id="pm5promptoptionwordlistname"></span>":<br></span>
 For '<span id="pm5promptoptionword"></span>', use the following list instead?<br>
 <select id="pm5promtoptionselect"></select><br>
 Example words/phrases:<br>
 <textarea id="pm5promptoptionwordlist"></textarea><br>
-<button type="button" id="pm5promptoptionsreplace">Replace</button>
+<span id="pm5showpromptoptionsaddoptions">
+<button type="button" id="pm5promptoptionsreplace" title="Replaces highlighted word/phrase with the currently selected word list reference">Replace</button>
  <span class="spacer"> </span>
-<button type="button" id="pm5promptoptionsskip">Skip</button>
+<button type="button" id="pm5promptoptionsskip" title="Doesn't replace the highlighted word/phrase, checks form more words from the curent word list in the prompt">Skip Instance</button>
 <span class="spacer"> </span>
-<button type="button" id="pm5promptoptionsquit">Quit</button>
+<button type="button" id="pm5promptoptionsskipword" title="Doesn't replace the highlighted word/phrase, skips this word if it appears again, checks form more words from the curent word list in the prompt">Skip Word</button>
+<span class="spacer"> </span>
+<button type="button" id="pm5promptoptionsskipwordlist" title="Skips continuing to check for words/phrases from the current word list and moves on to the next word list (This wordlist may be shown again if words from this wordlist appear in other word lists)">Skip Wordlist</button>
+<span class="spacer"> </span>
+<button type="button" id="pm5promptoptionsquit" title="Stops looking for words/phrase to replace">Quit</button>
+</span>
+<span id="pm5showpromptoptionsdynamic" class="hidden">
+<button type="button" id="pm5promptoptionsdynamic">Replace</button>
+</span>
 </div>
 
 <div id="results" class="results">
