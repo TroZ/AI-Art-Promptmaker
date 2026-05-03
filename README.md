@@ -34,21 +34,45 @@ any are found, it will suggest you replace that word or phrase with a reference 
 generate a larger range of prompts. When a potential replacement is found, you are shown a combo box with the names of the potential
 word lists that contain this word or phrase, and will be show the list of word and phrases in the selected word list. Selecting a 
 different word list in the combo box will show it's list of words (and if only one word list contains the word of phrase, the combo box
-will be disabled). You can click the 'replace' button to replace the word or phrase with the suggested word, you can use the 'skip' button
+will be disabled). You can click the 'replace' button to replace the word or phrase with the suggested word, you can use the 'skip' button 
 to skip replacing this word and move on to the next word found, or you can press the 'quit' button to stop the search for word or phrases
 to replace.
 
 You can use the 'Add Word List' text field and 'Add' button to add a new word list. Just type a name for the new word list and click the 
 'Add' button. This will add the word list to the end of the current word lists. There you and type the word or phrases you want to have
-in the word list. Remember to to have each word or phrase on it's own line (press enter after each word or phrase). If you have long 
-phrases, it may be easier to expand the word list size by clicking on the double arrow in the top right corner of the word list. Click
-it again to return the word list to it's original size. You can also use the sort combo box to sort the order of the word lists. Clicking
-the 'Show Counts' will cause hovering your mouse over the word list titles to show how many items are directly in each word list and 
-the total number of items that are in the word list when all references to other word lists are expanded.
+in the word list. You can weight words in a word list by adding a number and colon (:) before the word or phrase, and this is equivalent 
+to the word appearing in nthe list that many times (example '5:red'). Remember to to have each word or phrase on it's own line (press 
+enter after each word or phrase). If you want a blank or empty item in the list, have it first in the list, or at least not last, as the 
+end of the list is trimmed, as empty lines at the end would normally be seen. If you have long phrases, it may be easier to expand the 
+word list size by clicking on the double arrow in the top right corner of the word list. Click it again to return the word list to it's 
+original size. You can also use the sort combo box to sort the order of the word lists. Clicking the 'Show Counts' will cause hovering 
+your mouse over the word list titles to show how many items are directly in each word list and the total number of items that are in the 
+word list when all references to other word lists are expanded.
 
 When creating word list with references, please avoid having a word list reference itself or creating a circular references of word list
 (list A referencing list B which references list C with references list A). The code is not designed to handle this and will likely 
 results in javascript recursion exceptions.
+
+Word list references in prompts or other word list can have a few different things pre-pennded (before) the word list name which will 
+effect how words are chosen from the list:
+- Starting the name with '!' will cause the word picked from this word list to be used in other places in the prompt where this word list 
+is also referenced with a starting exclaimation mark. for example 'The <!color> car raced past the <!color> house with a <color> roof' 
+would always have the car and house be the same color, but the roof would/could be a different color. This works across different levels 
+of word list embedding (when a prompt is being created and a wordlist with an exclaimation point is encountered, the word picked is saved 
+for use in the rest of that prompt and is used if that worklist is used again in that prompt, but the stored values are cleared before 
+the next prompt is generated).
+- If the wordlist name starts with '=', then all words are given equal probability (weight is ignored). This includes if a wordlist is 
+referennced, then all words in that word list are also given equal probability to the words directly in the word list (but only for the 
+word list initially referenced, not any wordlists that list may reference). '!' and '=' can be used together in either order before the 
+wordlist name.
+- Mostly for prompts, but can be used in word list referennces, you can specify that multiple words can be picked and used together such 
+as 'red and green and blue' by specifying the wordlist name as <[count]{|[separator]}$$[wordlist name]> where < > and the normal angle 
+brackets for a wordlist, [ ] are the variables, and { } are optional components. The wordlist name variable is the word list to pick the 
+multiple items from, but you can use the equal probability '=' before the list name if you want that.  The variable count is the number 
+of words to pick from the list. This can be a single number, or a range such as '2-4'. The optional separator section is inndicated by a 
+pipe (|) charagter, and if it exists specifies how to separate the sections. If not specified, it defaults to ', '. specifying '| and ' 
+would put the word 'and 'with spaces around it between each option. The '$$' form of choose multiple will prevent the same word from 
+being picked twice, however you can instead use '@@' if you would like the possibility of a word showing up twice.
 
 After editing prompts, make sure to click the 'Save Settings' button at the bottom, and copy and paste the text shown into either a new
 file, or update the existing 'pm5000library.json' file.
